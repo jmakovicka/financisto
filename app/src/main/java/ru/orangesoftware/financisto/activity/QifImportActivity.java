@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.View;
 import android.widget.*;
 import ru.orangesoftware.financisto.R;
@@ -22,6 +23,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
 
     public static final String QIF_IMPORT_DATE_FORMAT = "QIF_IMPORT_DATE_FORMAT";
     public static final String QIF_IMPORT_FILENAME = "QIF_IMPORT_FILENAME";
+    public static final String QIF_IMPORT_URI = "QIF_IMPORT_URI";
     public static final String QIF_IMPORT_CURRENCY = "QIF_IMPORT_CURRENCY";
 
     private DatabaseAdapter db;
@@ -46,7 +48,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         Button bOk = (Button) findViewById(R.id.bOK);
         bOk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (edFilename.getText().toString().equals("")) {
+                if (fileUri == null) {
                     Toast.makeText(QifImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -93,6 +95,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
         Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
         data.putExtra(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
+        data.putExtra(QIF_IMPORT_URI, fileUri.toString());
         data.putExtra(QIF_IMPORT_FILENAME, edFilename.getText().toString());
         data.putExtra(QIF_IMPORT_CURRENCY, currencySpinner.getSelectedItemId());
     }
@@ -103,7 +106,6 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
         Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
         editor.putInt(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
-        editor.putString(QIF_IMPORT_FILENAME, edFilename.getText().toString());
         editor.putLong(QIF_IMPORT_CURRENCY, currencySpinner.getSelectedItemId());
 		editor.apply();
 	}
@@ -113,8 +115,6 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
 		SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
         dateFormats.setSelection(preferences.getInt(QIF_IMPORT_DATE_FORMAT, 0));
-        edFilename = (EditText) findViewById(R.id.edFilename);
-        edFilename.setText(preferences.getString(QIF_IMPORT_FILENAME, ""));
         long currencyId = preferences.getLong(QIF_IMPORT_CURRENCY, 0);
         Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
         int count = currencySpinner.getCount();

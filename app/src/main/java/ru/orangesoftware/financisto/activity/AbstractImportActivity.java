@@ -11,10 +11,13 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -29,7 +32,8 @@ public abstract class AbstractImportActivity extends Activity {
 
     private final int layoutId;
     protected ImageButton bBrowse;
-    protected EditText edFilename;
+    protected TextView edFilename;
+    protected Uri fileUri;
 
     public AbstractImportActivity(int layoutId) {
         this.layoutId = layoutId;
@@ -53,12 +57,10 @@ public abstract class AbstractImportActivity extends Activity {
     }
 
     protected void openFile() {
-        String filePath = edFilename.getText().toString();
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        intent.setData(Uri.parse(filePath));
+        intent.setData(fileUri);
         intent.setType("*/*");
 
         try {
@@ -70,6 +72,19 @@ public abstract class AbstractImportActivity extends Activity {
 
     }
 
+    protected void uriToDisplay() {
+        Cursor fileCursor =
+                getContentResolver().query(fileUri, null, null, null, null);
+        if (fileCursor != null) {
+            int nameIndex = fileCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            fileCursor.moveToFirst();
+            String filePath = fileCursor.getString(nameIndex);
+            if (filePath != null) {
+                edFilename.setText(filePath);
+            }
+        }
+    }
+
     protected abstract void internalOnCreate();
 
     protected abstract void updateResultIntentFromUi(Intent data);
@@ -78,13 +93,10 @@ public abstract class AbstractImportActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
             if (resultCode == RESULT_OK && data != null) {
-                Uri fileUri = data.getData();
+                fileUri = data.getData();
                 if (fileUri != null) {
-                    String filePath = fileUri.toString();
-                    if (filePath != null) {
-                        edFilename.setText(filePath);
-                        savePreferences();
-                    }
+                    uriToDisplay();
+                    savePreferences();
                 }
             }
         }

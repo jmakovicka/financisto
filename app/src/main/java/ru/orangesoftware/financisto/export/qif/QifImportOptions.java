@@ -33,7 +33,7 @@ public class QifImportOptions {
     }
 
     public static QifImportOptions fromIntent(Intent data) {
-        String filename = data.getStringExtra(QifImportActivity.QIF_IMPORT_FILENAME);
+        String filename = data.getStringExtra(QifImportActivity.QIF_IMPORT_URI);
         int f = data.getIntExtra(QifImportActivity.QIF_IMPORT_DATE_FORMAT, 0);
         long currencyId = data.getLongExtra(QifImportActivity.QIF_IMPORT_CURRENCY, 1);
         Currency currency = CurrencyCache.getCurrencyOrEmpty(currencyId);
