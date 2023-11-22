@@ -71,7 +71,7 @@ public class QifImport extends FullDatabaseImport {
 
     public void doImport() throws IOException {
         long t0 = System.currentTimeMillis();
-        InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(options.filename));
+        InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(options.fileUri));
         QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), "UTF-8")));
         QifParser parser = new QifParser(r, options.dateFormat);
         parser.parse();

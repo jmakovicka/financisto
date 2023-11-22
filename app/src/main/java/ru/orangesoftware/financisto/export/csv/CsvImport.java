@@ -76,7 +76,7 @@ public class CsvImport {
         long t6 = System.currentTimeMillis();
         Log.i("Financisto", "Inserting transactions =" + (t6 - t5) + "ms");
         Log.i("Financisto", "Overall csv import =" + ((t6 - t0) / 1000) + "s");
-        return options.filename + " imported!";
+        return options.displayNname + " imported!";
     }
 
     public Map<String, Project> collectAndInsertProjects(List<CsvTransaction> transactions) {
@@ -172,7 +172,7 @@ public class CsvImport {
     }
 
     private List<CsvTransaction> parseTransactions() throws Exception {
-        String csvFilename = options.filename;
+        String csvFileUri = options.fileUri;
         boolean parseLine = false;
         List<String> header = null;
         if (!options.useHeaderFromFile) {
@@ -182,7 +182,7 @@ public class CsvImport {
         try {
             long deltaTime = 0;
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-            InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(csvFilename));
+            InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(csvFileUri));
             Csv.Reader reader = new Csv.Reader(new InputStreamReader(Objects.requireNonNull(inputStream)))
                     .delimiter(options.fieldSeparator).ignoreComments(true);
             List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
@@ -262,10 +262,6 @@ public class CsvImport {
             }
             return transactions;
         } catch (FileNotFoundException e) {
-            if (csvFilename.contains(":")){
-                throw new ImportExportException(R.string.import_file_not_found_2, null,
-                        csvFilename.substring(0, csvFilename.indexOf(":")+1));
-            }
             throw new Exception("Import file not found");
         }
     }

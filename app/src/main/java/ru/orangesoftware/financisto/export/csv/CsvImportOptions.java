@@ -30,15 +30,17 @@ public class CsvImportOptions {
     public char fieldSeparator;
     public WhereFilter filter;
     public long selectedAccountId;
-    public String filename;
+    public String fileUri;
+    public String displayNname;
     public boolean useHeaderFromFile;
 
-    public CsvImportOptions(Currency currency, String dateFormat, long selectedAccountId, WhereFilter filter, String filename, char fieldSeparator, boolean useHeaderFromFile) {
+    public CsvImportOptions(Currency currency, String dateFormat, long selectedAccountId, WhereFilter filter, String fileUri, String displayNname, char fieldSeparator, boolean useHeaderFromFile) {
         this.currency = currency;
         this.dateFormat = new SimpleDateFormat(dateFormat);
         this.selectedAccountId = selectedAccountId;
         this.filter = filter;
-        this.filename = filename;
+        this.fileUri = fileUri;
+        this.displayNname = displayNname;
         this.fieldSeparator = fieldSeparator;
         this.useHeaderFromFile = useHeaderFromFile;
     }
@@ -49,9 +51,10 @@ public class CsvImportOptions {
         char fieldSeparator = data.getCharExtra(CsvImportActivity.CSV_IMPORT_FIELD_SEPARATOR, ',');
         String dateFormat = data.getStringExtra(CsvImportActivity.CSV_IMPORT_DATE_FORMAT);
         long selectedAccountId = data.getLongExtra(CsvImportActivity.CSV_IMPORT_SELECTED_ACCOUNT_2, -1);
-        String filename = data.getStringExtra(CsvImportActivity.CSV_IMPORT_URI);
+        String fileUri = data.getStringExtra(CsvImportActivity.CSV_IMPORT_URI);
+        String displayNname = data.getStringExtra(CsvImportActivity.CSV_IMPORT_FILENAME);
         boolean useHeaderFromFile = data.getBooleanExtra(CsvImportActivity.CSV_IMPORT_USE_HEADER_FROM_FILE, true);
-        return new CsvImportOptions(currency, dateFormat, selectedAccountId, filter, filename, fieldSeparator, useHeaderFromFile);
+        return new CsvImportOptions(currency, dateFormat, selectedAccountId, filter, fileUri, displayNname, fieldSeparator, useHeaderFromFile);
     }
 
 }
