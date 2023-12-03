@@ -224,7 +224,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
     protected void alternateColorIfNeeded(BlotterViewHolder v, Context context, Cursor cursor) {
         if(MyPreferences.isBlotterAlternateColors(context)) {
             if(cursor.getPosition() %2 == 1) {
-                v.layout.setBackgroundColor(Color.argb(255, 31, 31, 31));
+                v.layout.setBackgroundColor(Color.argb(31, 127, 127, 127));
             } else {
                 v.layout.setBackgroundColor(Color.TRANSPARENT);
             }
@@ -243,7 +243,6 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         String category = getCategoryTitle(cursor, categoryId);
         String text = generateTransactionTitle(sb, payee, note, location, categoryId, category);
         noteView.setText(text);
-        noteView.setTextColor(Color.WHITE);
     }
 
     private String getCategoryTitle(Cursor cursor, long categoryId) {

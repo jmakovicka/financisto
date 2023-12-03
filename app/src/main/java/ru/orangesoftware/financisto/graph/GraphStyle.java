@@ -97,14 +97,12 @@ public class GraphStyle {
 			Paint namePaint = new Paint();
 			Paint amountPaint = new Paint();
 			Paint linePaint = new Paint();
-			namePaint.setColor(Color.WHITE);
 			namePaint.setAntiAlias(true);
 			namePaint.setTextAlign(Align.LEFT);
 			namePaint.setTextSize(spToPx(nameTextSize, density));
 			namePaint.setTypeface(Typeface.DEFAULT_BOLD);
 			namePaint.getTextBounds("A", 0, 1, rect);		
 			int nameHeight = rect.height();
-			amountPaint.setColor(Color.WHITE);
 			amountPaint.setAntiAlias(true);
 			amountPaint.setTextSize(spToPx(amountTextSize, density));
 			amountPaint.setTextAlign(Align.CENTER);
