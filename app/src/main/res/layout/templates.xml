@@ -24,7 +24,7 @@
         a:layout_weight="1" />
 
     <TextView
-        a:id="@id/android:empty"
+        a:id="@android:id/empty"
         a:layout_width="fill_parent"
         a:layout_height="?android:attr/listPreferredItemHeight"
         a:layout_weight="1"
