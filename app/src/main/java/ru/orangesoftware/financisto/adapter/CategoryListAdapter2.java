@@ -134,8 +134,6 @@ public class CategoryListAdapter2 extends BaseAdapter {
             indicator.setBackgroundColor(incomeColor);
         } else if (c.isExpense()) {
             indicator.setBackgroundColor(expenseColor);
-        } else {
-            indicator.setBackgroundColor(Color.WHITE);
         }
 		return convertView;
 	}

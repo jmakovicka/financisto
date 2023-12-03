@@ -62,7 +62,6 @@
         android:gravity="center"
         android:padding="3dp"
         android:text="@string/integrity_error"
-        android:textColor="#FFFFFF"
         android:visibility="gone" />
 
     <LinearLayout style="@style/BottomBar">

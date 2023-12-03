@@ -11,12 +11,19 @@
 package ru.orangesoftware.financisto.graph;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.util.TypedValue;
+
+import androidx.core.content.ContextCompat;
+
+import ru.orangesoftware.financisto.R;
 
 public class GraphStyle {
 
@@ -92,19 +99,28 @@ public class GraphStyle {
 		}		
 
 		public GraphStyle build() {
-            float density = context.getResources().getDisplayMetrics().density;
+			// Get the primary text color of the theme
+			TypedValue typedValue = new TypedValue();
+			Resources.Theme theme = context.getTheme();
+			theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+			TypedArray arr =
+					context.obtainStyledAttributes(typedValue.data, new int[]{
+							android.R.attr.textColorPrimary});
+			int primaryColor = arr.getColor(0, -1);
+
+			float density = context.getResources().getDisplayMetrics().density;
 			Rect rect = new Rect();
 			Paint namePaint = new Paint();
 			Paint amountPaint = new Paint();
 			Paint linePaint = new Paint();
-			namePaint.setColor(Color.WHITE);
+			namePaint.setColor(primaryColor);
 			namePaint.setAntiAlias(true);
 			namePaint.setTextAlign(Align.LEFT);
 			namePaint.setTextSize(spToPx(nameTextSize, density));
 			namePaint.setTypeface(Typeface.DEFAULT_BOLD);
 			namePaint.getTextBounds("A", 0, 1, rect);		
 			int nameHeight = rect.height();
-			amountPaint.setColor(Color.WHITE);
+			amountPaint.setColor(primaryColor);
 			amountPaint.setAntiAlias(true);
 			amountPaint.setTextSize(spToPx(amountTextSize, density));
 			amountPaint.setTextAlign(Align.CENTER);
