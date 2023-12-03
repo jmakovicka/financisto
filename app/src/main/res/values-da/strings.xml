@@ -330,7 +330,7 @@
   <string name="calculating">Beregner..</string>
   <string name="budget_mode">Let betingelser</string>
   <string name="budget_mode_summary">Brug mindre restriktive betingelser (kategori ELLER projekt) til at filtrere transaktioner</string>
-  <string name="gdocs_backup">﻿Google Docs Backup</string>
+  <string name="gdocs_backup">Google Docs Backup</string>
   <string name="user_login">Brugernavn</string>
   <string name="user_login_summary">Google konto login (brugernavn)</string>
   <string name="user_password">Password</string>
@@ -574,7 +574,7 @@
   <string name="select_filename">Vælg Import filnavn</string>
   <string name="import_file_not_found">Importfil ikke fundet</string>
   <string name="import_unknown_category">Ukendt kategori i importfilen</string>
-  <string name="import_unknown_project">﻿Ukendt projekt i importfilen</string>
+  <string name="import_unknown_project">Ukendt projekt i importfilen</string>
   <string name="import_wrong_currency">Forkert valuta i importfilen</string>
   <string name="import_illegal_argument_exception">Ulovlig argument undtagelse</string>
   <string name="import_parse_error">Parsing error in import file</string>
