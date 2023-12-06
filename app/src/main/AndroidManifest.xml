@@ -225,7 +225,7 @@
             android:name=".activity.RecurrenceActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/recur"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <activity
             android:name=".activity.NotificationOptionsActivity"
