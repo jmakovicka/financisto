@@ -26,12 +26,6 @@ public class RequestPermissionActivity extends Activity {
     @Extra("requestedPermission")
     String requestedPermission;
 
-    @ViewById(R.id.toggleWriteStorageWrap)
-    ViewGroup toggleWriteStorageWrap;
-
-    @ViewById(R.id.toggleWriteStorage)
-    SwitchCompat toggleWriteStorage;
-
     @ViewById(R.id.toggleGetAccountsWrap)
     ViewGroup toggleGetAccountsWrap;
 
@@ -61,7 +55,6 @@ public class RequestPermissionActivity extends Activity {
     }
 
     private void checkPermissions() {
-        disableToggleIfGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage, toggleWriteStorageWrap);
         disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts, toggleGetAccountsWrap);
         disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera, toggleCameraWrap);
         disableToggleIfGranted(Manifest.permission.RECEIVE_SMS, toggleSms, toggleSmsWrap);
@@ -75,11 +68,6 @@ public class RequestPermissionActivity extends Activity {
         } else if (permission.equals(requestedPermission)) {
             wrapLayout.setBackgroundResource(R.drawable.highlight_border);
         }
-    }
-
-    @Click(R.id.toggleWriteStorage)
-    public void onGrantWriteStorage() {
-        requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage);
     }
 
     @Click(R.id.toggleGetAccounts)

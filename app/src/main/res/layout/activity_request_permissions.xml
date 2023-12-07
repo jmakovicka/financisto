@@ -26,36 +26,6 @@
             a:text="@string/request_permissions_description" />
 
         <RelativeLayout
-            a:id="@+id/toggleWriteStorageWrap"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
-
-            <TextView
-                a:id="@+id/toggleWriteStorageTitle"
-                style="@android:style/TextAppearance.Large"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleWriteStorage"
-                a:layout_alignParentStart="true"
-                a:text="@string/request_permissions_storage_title" />
-
-            <TextView
-                style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleWriteStorageTitle"
-                a:text="@string/request_permissions_storage_description" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleWriteStorage"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
             a:id="@+id/toggleGetAccountsWrap"
             a:layout_width="match_parent"
             a:layout_height="wrap_content"
