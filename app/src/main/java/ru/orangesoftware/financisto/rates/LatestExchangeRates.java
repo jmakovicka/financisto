@@ -8,10 +8,9 @@
 
 package ru.orangesoftware.financisto.rates;
 
-import gnu.trove.map.TLongObjectMap;
-import gnu.trove.map.hash.TLongObjectHashMap;
 import ru.orangesoftware.financisto.model.Currency;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,14 +20,14 @@ import java.util.List;
  */
 public class LatestExchangeRates implements ExchangeRateProvider, ExchangeRatesCollection {
 
-    private final TLongObjectMap<TLongObjectMap<ExchangeRate>> rates = new TLongObjectHashMap<TLongObjectMap<ExchangeRate>>();
+    private final HashMap<Long, HashMap<Long, ExchangeRate>> rates = new HashMap<Long, HashMap<Long, ExchangeRate>>();
 
     @Override
     public ExchangeRate getRate(Currency fromCurrency, Currency toCurrency) {
         if (fromCurrency.id == toCurrency.id) {
             return ExchangeRate.ONE;
         }
-        TLongObjectMap<ExchangeRate> rateMap = getMapFor(fromCurrency.id);
+        HashMap<Long, ExchangeRate> rateMap = getMapFor(fromCurrency.id);
         ExchangeRate rate = rateMap.get(toCurrency.id);
         if (rate == null) {
             rate = ExchangeRate.NA;
@@ -49,14 +48,14 @@ public class LatestExchangeRates implements ExchangeRateProvider, ExchangeRatesC
 
     @Override
     public void addRate(ExchangeRate r) {
-        TLongObjectMap<ExchangeRate> rateMap = getMapFor(r.fromCurrencyId);
+        HashMap<Long, ExchangeRate> rateMap = getMapFor(r.fromCurrencyId);
         rateMap.put(r.toCurrencyId, r);
     }
 
-    private TLongObjectMap<ExchangeRate> getMapFor(long fromCurrencyId) {
-        TLongObjectMap<ExchangeRate> m = rates.get(fromCurrencyId);
+    private HashMap<Long, ExchangeRate> getMapFor(long fromCurrencyId) {
+        HashMap<Long, ExchangeRate> m = rates.get(fromCurrencyId);
         if (m == null) {
-            m = new TLongObjectHashMap<ExchangeRate>();
+            m = new HashMap<Long, ExchangeRate>();
             rates.put(fromCurrencyId, m);
         }
         return m;

@@ -8,8 +8,6 @@
 
 package ru.orangesoftware.financisto.rates;
 
-import gnu.trove.map.TLongObjectMap;
-import gnu.trove.map.hash.TLongObjectHashMap;
 import ru.orangesoftware.financisto.model.Currency;
 
 import java.util.*;
@@ -25,7 +23,7 @@ public class HistoryExchangeRates implements ExchangeRateProvider, ExchangeRates
 
     private static final ExchangeRate r = new ExchangeRate();
     
-    private final TLongObjectMap<TLongObjectMap<SortedSet<ExchangeRate>>> rates = new TLongObjectHashMap<TLongObjectMap<SortedSet<ExchangeRate>>>();
+    private final HashMap<Long, HashMap<Long, SortedSet<ExchangeRate>>> rates = new HashMap<Long, HashMap<Long, SortedSet<ExchangeRate>>>();
 
     @Override
     public void addRate(ExchangeRate r) {
@@ -59,20 +57,20 @@ public class HistoryExchangeRates implements ExchangeRateProvider, ExchangeRates
     }
 
     private SortedSet<ExchangeRate> getRates(long fromCurrencyId, long toCurrencyId) {
-        TLongObjectMap<SortedSet<ExchangeRate>> map = getMapFor(fromCurrencyId);
+        HashMap<Long, SortedSet<ExchangeRate>> map = getMapFor(fromCurrencyId);
         return getSetFor(map, toCurrencyId);
     }
 
-    private TLongObjectMap<SortedSet<ExchangeRate>> getMapFor(long fromCurrencyId) {
-        TLongObjectMap<SortedSet<ExchangeRate>> m = rates.get(fromCurrencyId);
+    private HashMap<Long, SortedSet<ExchangeRate>> getMapFor(long fromCurrencyId) {
+        HashMap<Long, SortedSet<ExchangeRate>> m = rates.get(fromCurrencyId);
         if (m == null) {
-            m = new TLongObjectHashMap<SortedSet<ExchangeRate>>();
+            m = new HashMap<Long, SortedSet<ExchangeRate>>();
             rates.put(fromCurrencyId, m);
         }
         return m;
     }
     
-    private SortedSet<ExchangeRate> getSetFor(TLongObjectMap<SortedSet<ExchangeRate>> rates, long date) {
+    private SortedSet<ExchangeRate> getSetFor(HashMap<Long, SortedSet<ExchangeRate>> rates, long date) {
         SortedSet<ExchangeRate> s = rates.get(date);
         if (s == null) {
             s = new TreeSet<ExchangeRate>();

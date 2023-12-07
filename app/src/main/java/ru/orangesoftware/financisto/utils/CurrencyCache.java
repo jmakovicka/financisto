@@ -11,7 +11,6 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.database.Cursor;
-import gnu.trove.map.hash.TLongObjectHashMap;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Query;
@@ -19,11 +18,13 @@ import ru.orangesoftware.orb.Query;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CurrencyCache {
 
     //@ProtectedBy("this")
-	private static final TLongObjectHashMap<Currency> CURRENCIES = new TLongObjectHashMap<Currency>();
+	private static final Map<Long, Currency> CURRENCIES = new HashMap<Long, Currency>();
 	
 	public static synchronized Currency getCurrency(EntityManager em, long currencyId) {
 		Currency cachedCurrency = CURRENCIES.get(currencyId);
@@ -43,7 +44,7 @@ public class CurrencyCache {
 	}
 
 	public static synchronized void initialize(EntityManager em) {
-        TLongObjectHashMap<Currency> currencies = new TLongObjectHashMap<Currency>();
+		Map<Long, Currency> currencies = new HashMap<Long, Currency>();
 		Query<Currency> q = em.createQuery(Currency.class);
 		Cursor c = q.execute();
 		try {
@@ -77,7 +78,7 @@ public class CurrencyCache {
 	}
 
 	public static synchronized Collection<Currency> getAllCurrencies() {
-		return CURRENCIES.valueCollection();
+		return CURRENCIES.values();
 	}
 
 
