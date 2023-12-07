@@ -1,124 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     a:id="@+id/scroll"
     a:layout_width="match_parent"
-    a:layout_height="wrap_content"
+    a:layout_height="match_parent"
     a:padding="10dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        a:id="@+id/constraintLayout"
         a:layout_width="match_parent"
-        a:layout_height="wrap_content"
+        a:layout_height="match_parent"
         a:orientation="vertical"
-        a:padding="10dp">
+        a:padding="10dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
 
         <TextView
+            a:id="@+id/textView"
             style="@android:style/TextAppearance.Medium"
-            a:layout_width="match_parent"
+            a:layout_width="0dp"
             a:layout_height="wrap_content"
-            a:text="@string/request_permissions_title" />
+            a:text="@string/request_permissions_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
+            a:id="@+id/textView2"
             style="@android:style/TextAppearance.Small"
-            a:layout_width="match_parent"
+            a:layout_width="0dp"
             a:layout_height="wrap_content"
-            a:layout_marginTop="10dp"
-            a:layout_marginBottom="10dp"
-            a:text="@string/request_permissions_description" />
+            a:layout_marginTop="20dp"
+            a:text="@string/request_permissions_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <RelativeLayout
-            a:id="@+id/toggleGetAccountsWrap"
-            a:layout_width="match_parent"
+        <TextView
+            a:id="@+id/toggleGetAccountsTitle"
+            style="@android:style/TextAppearance.Large"
+            a:layout_width="wrap_content"
             a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            a:layout_marginTop="16dp"
+            a:text="@string/request_permissions_get_accounts_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-            <TextView
-                a:id="@+id/toggleGetAccountsTitle"
-                style="@android:style/TextAppearance.Large"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleGetAccounts"
-                a:layout_alignParentStart="true"
-                a:layout_toLeftOf="@id/toggleGetAccounts"
-                a:text="@string/request_permissions_get_accounts_title" />
-
-            <TextView
-                style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleGetAccountsTitle"
-                a:layout_toLeftOf="@id/toggleGetAccounts"
-                a:text="@string/request_permissions_get_accounts_description" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleGetAccounts"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            a:id="@+id/toggleCameraWrap"
-            a:layout_width="match_parent"
+        <TextView
+            a:id="@+id/textView3"
+            style="@android:style/TextAppearance.Small"
+            a:layout_width="wrap_content"
             a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            a:layout_marginTop="8dp"
+            a:text="@string/request_permissions_get_accounts_description"
+            app:layout_constraintStart_toStartOf="@+id/toggleGetAccountsTitle"
+            app:layout_constraintTop_toBottomOf="@+id/toggleGetAccountsTitle" />
 
-            <TextView
-                a:id="@+id/toggleCameraTitle"
-                style="@android:style/TextAppearance.Large"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleCamera"
-                a:layout_alignParentStart="true"
-                a:layout_toLeftOf="@id/toggleCamera"
-                a:text="@string/request_permissions_camera_title" />
-
-            <TextView
-                style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleCameraTitle"
-                a:layout_toLeftOf="@id/toggleCamera"
-                a:text="@string/request_permissions_camera_description" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleCamera"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            a:id="@+id/toggleSmsWrap"
-            a:layout_width="match_parent"
+        <TextView
+            a:id="@+id/toggleCameraTitle"
+            style="@android:style/TextAppearance.Large"
+            a:layout_width="wrap_content"
             a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            a:layout_marginTop="16dp"
+            a:text="@string/request_permissions_camera_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <TextView
-                a:id="@+id/toggleSmsTitle"
-                style="@android:style/TextAppearance.Large"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleSms"
-                a:layout_alignParentStart="true"
-                a:layout_toLeftOf="@id/toggleSms"
-                a:text="@string/request_permissions_receive_sms_title" />
+        <TextView
+            a:id="@+id/textView4"
+            style="@android:style/TextAppearance.Small"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:layout_marginTop="8dp"
+            a:text="@string/request_permissions_camera_description"
+            app:layout_constraintStart_toStartOf="@+id/toggleCameraTitle"
+            app:layout_constraintTop_toBottomOf="@+id/toggleCameraTitle" />
 
-            <TextView
-                style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleSmsTitle"
-                a:layout_toLeftOf="@id/toggleSms"
-                a:text="@string/request_permissions_receive_sms_description" />
+        <TextView
+            a:id="@+id/toggleSmsTitle"
+            style="@android:style/TextAppearance.Large"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:layout_marginTop="16dp"
+            a:text="@string/request_permissions_receive_sms_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleSms"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
-        </RelativeLayout>
-    </LinearLayout>
+        <TextView
+            a:id="@+id/textView5"
+            style="@android:style/TextAppearance.Small"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:layout_marginTop="8dp"
+            a:text="@string/request_permissions_receive_sms_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggleSmsTitle" />
+
+
+        <Switch
+            a:id="@+id/toggleGetAccounts"
+            a:layout_width="wrap_content"
+            a:layout_height="16dp"
+            a:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toggleGetAccountsTitle" />
+
+        <Switch
+            a:id="@+id/toggleCamera"
+            a:layout_width="wrap_content"
+            a:layout_height="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toggleCameraTitle" />
+
+        <Switch
+            a:id="@+id/toggleSms"
+            a:layout_width="wrap_content"
+            a:layout_height="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toggleSmsTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

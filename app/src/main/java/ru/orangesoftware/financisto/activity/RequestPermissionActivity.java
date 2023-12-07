@@ -7,9 +7,9 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -26,23 +26,14 @@ public class RequestPermissionActivity extends Activity {
     @Extra("requestedPermission")
     String requestedPermission;
 
-    @ViewById(R.id.toggleGetAccountsWrap)
-    ViewGroup toggleGetAccountsWrap;
-
     @ViewById(R.id.toggleGetAccounts)
-    SwitchCompat toggleGetAccounts;
-
-    @ViewById(R.id.toggleCameraWrap)
-    ViewGroup toggleCameraWrap;
+    Switch toggleGetAccounts;
 
     @ViewById(R.id.toggleCamera)
-    SwitchCompat toggleCamera;
-
-    @ViewById(R.id.toggleSmsWrap)
-    ViewGroup toggleSmsWrap;
+    Switch toggleCamera;
 
     @ViewById(R.id.toggleSms)
-    SwitchCompat toggleSms;
+    Switch toggleSms;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -55,18 +46,15 @@ public class RequestPermissionActivity extends Activity {
     }
 
     private void checkPermissions() {
-        disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts, toggleGetAccountsWrap);
-        disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera, toggleCameraWrap);
-        disableToggleIfGranted(Manifest.permission.RECEIVE_SMS, toggleSms, toggleSmsWrap);
+        disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts);
+        disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera);
+        disableToggleIfGranted(Manifest.permission.RECEIVE_SMS, toggleSms);
     }
 
-    private void disableToggleIfGranted(String permission, CompoundButton toggleButton, ViewGroup wrapLayout) {
+    private void disableToggleIfGranted(String permission, CompoundButton toggleButton) {
         if (isGranted(permission)) {
             toggleButton.setChecked(true);
             toggleButton.setEnabled(false);
-            wrapLayout.setBackgroundResource(0);
-        } else if (permission.equals(requestedPermission)) {
-            wrapLayout.setBackgroundResource(R.drawable.highlight_border);
         }
     }
 
