@@ -39,6 +39,7 @@
                 a:layout_height="wrap_content"
                 a:layout_alignEnd="@id/toggleGetAccounts"
                 a:layout_alignParentStart="true"
+                a:layout_toLeftOf="@id/toggleGetAccounts"
                 a:text="@string/request_permissions_get_accounts_title" />
 
             <TextView
@@ -46,6 +47,7 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:layout_below="@id/toggleGetAccountsTitle"
+                a:layout_toLeftOf="@id/toggleGetAccounts"
                 a:text="@string/request_permissions_get_accounts_description" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -69,6 +71,7 @@
                 a:layout_height="wrap_content"
                 a:layout_alignEnd="@id/toggleCamera"
                 a:layout_alignParentStart="true"
+                a:layout_toLeftOf="@id/toggleCamera"
                 a:text="@string/request_permissions_camera_title" />
 
             <TextView
@@ -76,6 +79,7 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:layout_below="@id/toggleCameraTitle"
+                a:layout_toLeftOf="@id/toggleCamera"
                 a:text="@string/request_permissions_camera_description" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -99,6 +103,7 @@
                 a:layout_height="wrap_content"
                 a:layout_alignEnd="@id/toggleSms"
                 a:layout_alignParentStart="true"
+                a:layout_toLeftOf="@id/toggleSms"
                 a:text="@string/request_permissions_receive_sms_title" />
 
             <TextView
@@ -106,6 +111,7 @@
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"
                 a:layout_below="@id/toggleSmsTitle"
+                a:layout_toLeftOf="@id/toggleSms"
                 a:text="@string/request_permissions_receive_sms_description" />
 
             <androidx.appcompat.widget.SwitchCompat
