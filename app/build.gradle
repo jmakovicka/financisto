@@ -78,8 +78,6 @@ dependencies {
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
 
-    implementation 'com.google.code.gson:gson:2.10'
-
     implementation 'com.dropbox.core:dropbox-core-sdk:5.4.4'
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     implementation 'com.squareup.okio:okio:3.2.0'
