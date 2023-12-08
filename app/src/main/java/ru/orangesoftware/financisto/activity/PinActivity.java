@@ -10,7 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,21 +17,27 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mtramin.rxfingerprint.RxFingerprint;
+import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
-import io.reactivex.disposables.Disposable;
+import java.util.concurrent.Executor;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.view.PinView;
 
-public class PinActivity extends Activity implements PinView.PinListener {
+public class PinActivity extends FragmentActivity implements PinView.PinListener {
 
     public static final String SUCCESS = "PIN_SUCCESS";
 
-    private Disposable disposable;
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
 
     private final Handler handler = new Handler();
 
@@ -45,9 +50,46 @@ public class PinActivity extends Activity implements PinView.PinListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String pin = MyPreferences.getPin(this);
+        BiometricManager biometricManager = BiometricManager.from(this);
+        int canAuth = biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                if (errorCode == BiometricPrompt.ERROR_USER_CANCELED)
+                    return;
+
+                setFingerprintStatus(R.string.fingerprint_error, R.drawable.ic_error_black_48dp, R.color.material_orange);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                setFingerprintStatus(R.string.fingerprint_auth_success, R.drawable.ic_check_circle_black_48dp, R.color.material_teal);
+                handler.postDelayed(() -> onSuccess(null), 200);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                setFingerprintStatus(R.string.fingerprint_auth_failed, R.drawable.ic_error_black_48dp, R.color.material_orange);
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Locked")
+                .setSubtitle("Unlock with biometric")
+                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .build();
+
         if (pin == null) {
             onSuccess(null);
-        } else if (RxFingerprint.isAvailable(this) && MyPreferences.isPinLockUseFingerprint(this)) {
+        } else if (canAuth == BiometricManager.BIOMETRIC_SUCCESS && MyPreferences.isPinLockUseFingerprint(this)) {
             setContentView(R.layout.lock_fingerprint);
             askForFingerprint();
         } else {
@@ -64,39 +106,18 @@ public class PinActivity extends Activity implements PinView.PinListener {
     private void askForFingerprint() {
         View usePinButton = findViewById(R.id.use_pin);
         if (MyPreferences.isUseFingerprintFallbackToPinEnabled(this)) {
-            usePinButton.setOnClickListener(v -> {
-                disposeFingerprintListener();
-                usePinLock();
-            });
+            usePinButton.setOnClickListener(v -> usePinLock());
         } else {
             usePinButton.setVisibility(View.GONE);
         }
-        disposable = RxFingerprint.authenticate(this).subscribe(
-                result -> {
-                    switch (result.getResult()) {
-                        case AUTHENTICATED:
-                            setFingerprintStatus(R.string.fingerprint_auth_success, R.drawable.ic_check_circle_black_48dp, R.color.material_teal);
-                            handler.postDelayed(() -> onSuccess(null), 200);
-                            break;
-                        case FAILED:
-                            setFingerprintStatus(R.string.fingerprint_auth_failed, R.drawable.ic_error_black_48dp, R.color.material_orange);
-                            break;
-                        case HELP:
-                            Toast.makeText(this, result.getMessage(), Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                },
-                throwable -> {
-                    setFingerprintStatus(R.string.fingerprint_error, R.drawable.ic_error_black_48dp, R.color.holo_red_dark);
-                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-                }
-        );
+
+        biometricPrompt.authenticate(promptInfo);
     }
 
     private void setFingerprintStatus(int messageResId, int iconResId, int colorResId) {
         TextView status = findViewById(R.id.fingerprint_status);
         ImageView icon = findViewById(R.id.fingerprint_icon);
-        int color = getResources().getColor(colorResId);
+        int color = ContextCompat.getColor(this, colorResId);
         status.setText(messageResId);
         status.setTextColor(color);
         icon.setImageResource(iconResId);
@@ -109,23 +130,10 @@ public class PinActivity extends Activity implements PinView.PinListener {
 
     @Override
     public void onSuccess(String pinBase64) {
-        disposeFingerprintListener();
         PinProtection.pinUnlock(this);
         Intent data = new Intent();
         data.putExtra(SUCCESS, true);
         setResult(RESULT_OK, data);
         finish();
     }
-
-    private void disposeFingerprintListener() {
-        if (disposable != null) {
-            disposable.dispose();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
-
 }

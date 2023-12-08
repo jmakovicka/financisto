@@ -18,6 +18,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
+import androidx.biometric.BiometricManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -38,8 +39,6 @@ import ru.orangesoftware.financisto.utils.PinProtection;
 import static android.Manifest.permission.GET_ACCOUNTS;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
-import static ru.orangesoftware.financisto.utils.FingerprintUtils.fingerprintUnavailable;
-import static ru.orangesoftware.financisto.utils.FingerprintUtils.reasonWhyFingerprintUnavailable;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -102,13 +101,24 @@ public class PreferencesActivity extends PreferenceActivity {
             return true;
         });
         Preference useFingerprint = preferenceScreen.findPreference("pin_protection_use_fingerprint");
-        if (fingerprintUnavailable(this)) {
-            useFingerprint.setSummary(getString(R.string.fingerprint_unavailable, reasonWhyFingerprintUnavailable(this)));
+        BiometricManager biometricManager = BiometricManager.from(this);
+        int canAuth = biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+        if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
+            useFingerprint.setSummary(getString(R.string.fingerprint_unavailable, reasonWhyFingerprintUnavailable(canAuth)));
             useFingerprint.setEnabled(false);
         }
         setCurrentDatabaseBackupFolder();
         enableOpenExchangeApp();
         selectAccount();
+    }
+    private String reasonWhyFingerprintUnavailable(int canAuth) {
+        if (canAuth == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE) {
+            return getString(R.string.fingerprint_unavailable_hardware);
+        } else if (canAuth == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
+            return getString(R.string.fingerprint_unavailable_enrolled_fingerprints);
+        } else {
+            return getString(R.string.fingerprint_unavailable_unknown);
+        }
     }
 
     private void chooseAccount() {
