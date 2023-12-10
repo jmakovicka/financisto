@@ -7,9 +7,9 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Switch;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -27,13 +27,13 @@ public class RequestPermissionActivity extends Activity {
     String requestedPermission;
 
     @ViewById(R.id.toggleGetAccounts)
-    Switch toggleGetAccounts;
+    SwitchMaterial toggleGetAccounts;
 
     @ViewById(R.id.toggleCamera)
-    Switch toggleCamera;
+    SwitchMaterial toggleCamera;
 
     @ViewById(R.id.toggleSms)
-    Switch toggleSms;
+    SwitchMaterial toggleSms;
 
     @Override
     protected void attachBaseContext(Context base) {

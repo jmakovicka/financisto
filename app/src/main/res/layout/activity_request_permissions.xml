@@ -99,7 +99,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toggleSmsTitle" />
 
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             a:id="@+id/toggleGetAccounts"
             a:layout_width="wrap_content"
             a:layout_height="16dp"
@@ -107,14 +107,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/toggleGetAccountsTitle" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             a:id="@+id/toggleCamera"
             a:layout_width="wrap_content"
             a:layout_height="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/toggleCameraTitle" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             a:id="@+id/toggleSms"
             a:layout_width="wrap_content"
             a:layout_height="16dp"
