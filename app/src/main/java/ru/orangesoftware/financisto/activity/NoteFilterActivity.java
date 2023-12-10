@@ -11,7 +11,6 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -78,18 +77,5 @@ public class NoteFilterActivity extends Activity {
                 edNoteContaining.setText(v.substring(1, v.length() - 1).replace("%", " "));
             }
         }
-    }
-
-    @Override
-    protected Dialog onCreateDialog(final int id) {
-        final Dialog d = new Dialog(this);
-        d.setCancelable(true);
-        d.setTitle(R.string.note_text_containing);
-        d.setContentView(R.layout.filter_period_select);
-        Button bOk = d.findViewById(R.id.bOK);
-        bOk.setOnClickListener(v -> d.dismiss());
-        Button bCancel = d.findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(v -> d.cancel());
-        return d;
     }
 }
