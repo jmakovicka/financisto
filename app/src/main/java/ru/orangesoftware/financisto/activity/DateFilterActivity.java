@@ -10,8 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,9 +18,9 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.TimePicker;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -36,10 +34,9 @@ import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
-import static ru.orangesoftware.financisto.datetime.DateUtils.is24HourFormat;
 import static ru.orangesoftware.financisto.utils.EnumUtils.createSpinnerAdapter;
 
-public class DateFilterActivity extends Activity {
+public class DateFilterActivity extends FragmentActivity {
 	
 	public static final String EXTRA_FILTER_PERIOD_TYPE = "filter_period_type";
 	public static final String EXTRA_FILTER_PERIOD_FROM = "filter_period_from";
@@ -75,9 +72,41 @@ public class DateFilterActivity extends Activity {
         createPeriodsSpinner();
 
 		buttonPeriodFrom = findViewById(R.id.bPeriodFrom);
-		buttonPeriodFrom.setOnClickListener(v -> showDialog(1));
+		buttonPeriodFrom.setOnClickListener(arg0 -> {
+			Bundle args = new Bundle();
+			args.putInt(DatePickerFragment.YEAR, cFrom.get(Calendar.YEAR));
+			args.putInt(DatePickerFragment.MONTH, cFrom.get(Calendar.MONTH));
+			args.putInt(DatePickerFragment.DAY_OF_MONTH, cFrom.get(Calendar.DAY_OF_MONTH));
+			DatePickerFragment datePickerFragment = new DatePickerFragment(
+					(view, year, month, dayOfMonth) -> {
+						cFrom.set(Calendar.YEAR, year);
+						cFrom.set(Calendar.MONTH, month);
+						cFrom.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+						cFrom.set(Calendar.HOUR_OF_DAY, 0);
+						cFrom.set(Calendar.MINUTE, 0);
+						updateDate();
+					});
+			datePickerFragment.setArguments(args);
+			datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+		});
 		buttonPeriodTo = findViewById(R.id.bPeriodTo);
-		buttonPeriodTo.setOnClickListener(v -> showDialog(2));
+		buttonPeriodTo.setOnClickListener(arg0 -> {
+			Bundle args = new Bundle();
+			args.putInt(DatePickerFragment.YEAR, cTo.get(Calendar.YEAR));
+			args.putInt(DatePickerFragment.MONTH, cTo.get(Calendar.MONTH));
+			args.putInt(DatePickerFragment.DAY_OF_MONTH, cTo.get(Calendar.DAY_OF_MONTH));
+			DatePickerFragment datePickerFragment = new DatePickerFragment(
+					(view, year, month, dayOfMonth) -> {
+						cTo.set(Calendar.YEAR, year);
+						cTo.set(Calendar.MONTH, month);
+						cTo.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+						cTo.set(Calendar.HOUR_OF_DAY, 0);
+						cTo.set(Calendar.MINUTE, 0);
+						updateDate();
+					});
+			datePickerFragment.setArguments(args);
+			datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+		});
 		
 		Button bOk = findViewById(R.id.bOK);
 		bOk.setOnClickListener(v -> {
@@ -164,47 +193,6 @@ public class DateFilterActivity extends Activity {
         }
         return 0;
     }
-
-    @Override
-	protected Dialog onCreateDialog(final int id) {
-		final Dialog d = new Dialog(this);
-		d.setCancelable(true);
-		d.setTitle(id == 1 ? R.string.period_from : R.string.period_to);
-		d.setContentView(R.layout.filter_period_select);
-		Button bOk = d.findViewById(R.id.bOK);
-		bOk.setOnClickListener(v -> {
-            setDialogResult(d, id == 1 ? cFrom : cTo);
-            d.dismiss();
-        });
-		Button bCancel = d.findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(v -> d.cancel());
-		return d;
-	}
-	
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		prepareDialog(dialog, id == 1 ? cFrom : cTo);
-	}
-
-	private void prepareDialog(Dialog dialog, Calendar c) {
-		DatePicker dp = dialog.findViewById(R.id.date);
-		dp.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), null);
-		TimePicker tp = dialog.findViewById(R.id.time);
-        tp.setIs24HourView(is24HourFormat(this));
-        tp.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
-		tp.setCurrentMinute(c.get(Calendar.MINUTE));
-	}
-
-	private void setDialogResult(Dialog d, Calendar c) {
-		DatePicker dp = d.findViewById(R.id.date);
-		c.set(Calendar.YEAR, dp.getYear());
-		c.set(Calendar.MONTH, dp.getMonth());
-		c.set(Calendar.DAY_OF_MONTH, dp.getDayOfMonth());
-		TimePicker tp = d.findViewById(R.id.time);
-		c.set(Calendar.HOUR_OF_DAY, tp.getCurrentHour());
-		c.set(Calendar.MINUTE, tp.getCurrentMinute());
-		updateDate();
-	}
 
 	private void enableButtons() {
 		buttonPeriodFrom.setEnabled(true);
