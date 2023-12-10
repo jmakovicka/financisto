@@ -18,7 +18,7 @@
     <Spinner
         android:id="@+id/period"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/select_entry_height_no_label"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:prompt="@string/period" />
