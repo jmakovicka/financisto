@@ -8,7 +8,7 @@
         android:id="@+id/list_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3px" />
+        android:padding="3dp" />
 
     <TextView
         android:id="@+id/list_note"
@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="left"
-        android:padding="3px" />
+        android:padding="3dp" />
 
     <TextView
         android:id="@+id/list_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:padding="3px" />
+        android:padding="3dp" />
 
 </LinearLayout>
