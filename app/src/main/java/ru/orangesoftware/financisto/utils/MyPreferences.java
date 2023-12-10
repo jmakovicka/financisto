@@ -482,7 +482,7 @@ public class MyPreferences {
         Configuration config = new Configuration(res.getConfiguration());
         config.setLocale(locale);
         context = context.createConfigurationContext(config);
-        Log.i("MyPreferences", "Switching locale to " + config.locale.getDisplayName());
+        Log.i("MyPreferences", "Switching locale to " + config.getLocales().toString());
         return context;
     }
 
