@@ -144,51 +144,16 @@ public class MenuListActivity extends ListActivity {
         }
     }
 
-    // dropbox
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doImportFromDropbox(DropboxFileList event) {
-        final String[] backupFiles = event.files;
-        if (backupFiles != null) {
-            final String[] selectedDropboxFile = new String[1];
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.restore_database_online_dropbox)
-                    .setPositiveButton(R.string.restore, (dialog, which) -> {
-                        if (selectedDropboxFile[0] != null) {
-                            ProgressDialog d = ProgressDialog.show(MenuListActivity.this, null, getString(R.string.restore_database_inprogress_dropbox), true);
-                            new DropboxRestoreTask(MenuListActivity.this, d, selectedDropboxFile[0]).execute();
-                        }
-                    })
-                    .setSingleChoiceItems(backupFiles, -1, (dialog, which) -> {
-                        if (which >= 0 && which < backupFiles.length) {
-                            selectedDropboxFile[0] = backupFiles[which];
-                        }
-                    })
-                    .show();
-        }
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void doDropboxBackup(StartDropboxBackup e) {
         ProgressDialog d = ProgressDialog.show(this, null, this.getString(R.string.backup_database_dropbox_inprogress), true);
         new DropboxBackupTask(this, d).execute();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doDropboxRestore(StartDropboxRestore e) {
-        ProgressDialog d = ProgressDialog.show(this, null, this.getString(R.string.dropbox_loading_files), true);
-        new DropboxListFilesTask(this, d).execute();
-    }
-
     public static class StartDropboxBackup {
     }
 
-    public static class StartDropboxRestore {
-    }
-
     public static class StartDriveBackup {
-    }
-
-    public static class StartDriveRestore {
     }
 
 }

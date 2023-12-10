@@ -94,15 +94,6 @@ public enum MenuListItem implements SummaryEntityEnum {
             GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveBackup());
         }
     },
-    GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.string.restore_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
-        @Override
-        public void call(Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
-            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveRestore());
-        }
-    },
     /*
     MENU_BACKUP_TO(R.string.backup_database_to, R.string.backup_database_to_summary, R.drawable.actionbar_share) {
         @Override
@@ -165,6 +156,7 @@ public enum MenuListItem implements SummaryEntityEnum {
             new IntegrityFixTask(activity).execute();
         }
     },
+    /*
     MENU_DONATE(R.string.donate, R.string.donate_summary, R.drawable.actionbar_donate) {
         @Override
         public void call(Activity activity) {
@@ -179,6 +171,7 @@ public enum MenuListItem implements SummaryEntityEnum {
         }
 
     },
+    */
     MENU_ABOUT(R.string.about, R.string.about_summary, R.drawable.ic_action_info) {
         @Override
         public void call(Activity activity) {
