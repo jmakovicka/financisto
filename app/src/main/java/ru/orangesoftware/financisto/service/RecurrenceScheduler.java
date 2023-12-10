@@ -171,11 +171,7 @@ public class RecurrenceScheduler {
             AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             if (service != null) {
                 PendingIntent pendingIntent = createPendingIntentForScheduledAlarm(context, transaction.id);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    service.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, scheduleTime.getTime(), pendingIntent);
-                } else {
-                    service.set(AlarmManager.RTC_WAKEUP, scheduleTime.getTime(), pendingIntent);
-                }
+                service.setWindow(AlarmManager.RTC_WAKEUP, scheduleTime.getTime(), 15 * 60 * 1000, pendingIntent);
                 Log.i(TAG, "Scheduling alarm for " + transaction.id + " at " + scheduleTime);
                 return true;
             }
