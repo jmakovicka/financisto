@@ -252,94 +252,75 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
 
     @Override
     protected void onClick(final View v, final int id) {
-        switch (id) {
-            case R.id.category:
-            case R.id.category_show_filter:
-            case R.id.category_close_filter:
-            case R.id.category_show_list:
-                parentCatSelector.onClick(R.id.category);
-                break;
+        if (id == R.id.category || id == R.id.category_show_filter || id == R.id.category_close_filter || id == R.id.category_show_list) {
+            parentCatSelector.onClick(R.id.category);
 
             // Attributes >>
-            case R.id.new_attribute:
-                x.select(this, R.id.new_attribute, R.string.attribute, attributeCursor, attributeAdapter,
-                        AttributeColumns.ID, -1);
-                break;
-            case R.id.add_attribute: {
+        } else if (id == R.id.new_attribute) {
+            x.select(this, R.id.new_attribute, R.string.attribute, attributeCursor, attributeAdapter,
+                    AttributeColumns.ID, -1);
+        } else if (id == R.id.add_attribute) {
+            Intent intent = new Intent(this, AttributeActivity.class);
+            startActivityForResult(intent, NEW_ATTRIBUTE_REQUEST);
+        } else if (id == R.id.edit_attribute) {
+            Object o = v.getTag();
+            if (o instanceof Attribute) {
                 Intent intent = new Intent(this, AttributeActivity.class);
-                startActivityForResult(intent, NEW_ATTRIBUTE_REQUEST);
+                intent.putExtra(AttributeColumns.ID, ((Attribute) o).id);
+                startActivityForResult(intent, EDIT_ATTRIBUTE_REQUEST);
             }
-            break;
-            case R.id.edit_attribute: {
-                Object o = v.getTag();
-                if (o instanceof Attribute) {
-                    Intent intent = new Intent(this, AttributeActivity.class);
-                    intent.putExtra(AttributeColumns.ID, ((Attribute) o).id);
-                    startActivityForResult(intent, EDIT_ATTRIBUTE_REQUEST);
-                }
-            }
-            break;
-            case R.id.remove_attribute:
-                attributesLayout.removeView((View) v.getTag());
-                attributesLayout.removeView((View) v.getParent());
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                break;
+        } else if (id == R.id.remove_attribute) {
+            attributesLayout.removeView((View) v.getTag());
+            attributesLayout.removeView((View) v.getParent());
+            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 
             // Sms templates >>
-            case R.id.new_sms_template: {
-                if (!isRequestingPermission(this, RECEIVE_SMS)) {
-                    Intent intent = new Intent(this, SmsTemplateActivity.class);
-                    intent.putExtra(SmsTemplateColumns.category_id.name(), category.id);
-                    startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
-                }
+        } else if (id == R.id.new_sms_template) {
+            if (!isRequestingPermission(this, RECEIVE_SMS)) {
+                Intent intent = new Intent(this, SmsTemplateActivity.class);
+                intent.putExtra(SmsTemplateColumns.category_id.name(), category.id);
+                startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
             }
-            break;
-            case R.id.edit_sms_template: {
-                if (!isRequestingPermission(this, RECEIVE_SMS)) {
-                    Object o = v.getTag();
-                    if (o instanceof SmsTemplate) {
-                        final SmsTemplate clickedItem = (SmsTemplate) o;
-                        Intent intent = new Intent(this, SmsTemplateActivity.class);
-                        intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
-                        intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
-                        startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
-                    }
-                }
-            }
-            break;
-            case R.id.remove_sms_template:
+        } else if (id == R.id.edit_sms_template) {
+            if (!isRequestingPermission(this, RECEIVE_SMS)) {
                 Object o = v.getTag();
-                if (o instanceof Long) {
-                    final long clickedItemId = (Long) o;
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.delete)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setMessage(R.string.sms_delete_alert)
-                            .setPositiveButton(R.string.delete,
-                                    (arg0, arg1) -> {
-                                        db.delete(SmsTemplate.class, clickedItemId);
-
-                                        smsTemplatesLayout.removeView((View) v.getParent());
-                                    })
-                            .setNegativeButton(R.string.cancel, null)
-                            .show();
-
-
+                if (o instanceof SmsTemplate) {
+                    final SmsTemplate clickedItem = (SmsTemplate) o;
+                    Intent intent = new Intent(this, SmsTemplateActivity.class);
+                    intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
+                    intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
+                    startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
                 }
-                break;
+            }
+        } else if (id == R.id.remove_sms_template) {
+            Object o = v.getTag();
+            if (o instanceof Long) {
+                final long clickedItemId = (Long) o;
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setMessage(R.string.sms_delete_alert)
+                        .setPositiveButton(R.string.delete,
+                                (arg0, arg1) -> {
+                                    db.delete(SmsTemplate.class, clickedItemId);
+
+                                    smsTemplatesLayout.removeView((View) v.getParent());
+                                })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+
+
+            }
         }
     }
 
     @Override
     public void onSelectedId(int id, long selectedId) {
-        switch (id) {
-            case R.id.category:
-                parentCatSelector.selectCategory(selectedId);
-                break;
-            case R.id.new_attribute:
-                Attribute a = db.getAttribute(selectedId);
-                addAttribute(a);
-                break;
+        if (id == R.id.category) {
+            parentCatSelector.selectCategory(selectedId);
+        } else if (id == R.id.new_attribute) {
+            Attribute a = db.getAttribute(selectedId);
+            addAttribute(a);
         }
     }
 

@@ -95,31 +95,25 @@ public class NotificationOptionsActivity extends AbstractActivity {
 
 	@Override
 	protected void onClick(View v, int id) {
-		switch (id) {
-			case R.id.notification_sound: {
-				Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-				if (options.sound != null) {
-					intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, Uri.parse(options.sound));
-				}
-				intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
-				startActivityForResult(intent, PICKUP_RINGTONE);
-			} break;
-			case R.id.notification_vibra: {
-				ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(this, patterns);
-				x.selectPosition(this, R.id.notification_vibra, R.string.notification_vibra, adapter, options.vibration.ordinal());
-			} break;
-			case R.id.notification_led:  {
-				ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(this, colors);
-				x.selectPosition(this, R.id.notification_led, R.string.notification_led, adapter, options.ledColor.ordinal());
-			} break;
-			case R.id.result1: {
-				options = NotificationOptions.createDefault();
-				updateOptions();
-			} break;
-			case R.id.result2: {
-				options = NotificationOptions.createOff();
-				updateOptions();
-			} break;
+		if (id == R.id.notification_sound) {
+			Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+			if (options.sound != null) {
+				intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, Uri.parse(options.sound));
+			}
+			intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+			startActivityForResult(intent, PICKUP_RINGTONE);
+		} else if (id == R.id.notification_vibra) {
+			ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(this, patterns);
+			x.selectPosition(this, R.id.notification_vibra, R.string.notification_vibra, adapter, options.vibration.ordinal());
+		} else if (id == R.id.notification_led) {
+			ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(this, colors);
+			x.selectPosition(this, R.id.notification_led, R.string.notification_led, adapter, options.ledColor.ordinal());
+		} else if (id == R.id.result1) {
+			options = NotificationOptions.createDefault();
+			updateOptions();
+		} else if (id == R.id.result2) {
+			options = NotificationOptions.createOff();
+			updateOptions();
 		}
 	}
 

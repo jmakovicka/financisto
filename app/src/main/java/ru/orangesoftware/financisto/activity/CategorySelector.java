@@ -194,32 +194,24 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public void onClick(int id) {
-        switch (id) {
-            case R.id.category:
-                if (isListPick()) {
-                    pickCategory();
-                } else {
-                    showFilter();
-                }
-                break;
-            case R.id.category_show_list:
+        if (id == R.id.category) {
+            if (isListPick()) {
                 pickCategory();
-                break;
-            case R.id.category_add:
-                addCategory();
-                break;
-            case R.id.category_split:
-                selectCategory(Category.SPLIT_CATEGORY_ID);
-                break;
-            case R.id.category_clear:
-                clearCategory();
-                break;
-            case R.id.category_show_filter:
+            } else {
                 showFilter();
-                break;
-            case R.id.category_close_filter:
-                filterNode.hideFilter();
-                break;
+            }
+        } else if (id == R.id.category_show_list) {
+            pickCategory();
+        } else if (id == R.id.category_add) {
+            addCategory();
+        } else if (id == R.id.category_split) {
+            selectCategory(Category.SPLIT_CATEGORY_ID);
+        } else if (id == R.id.category_clear) {
+            clearCategory();
+        } else if (id == R.id.category_show_filter) {
+            showFilter();
+        } else if (id == R.id.category_close_filter) {
+            filterNode.hideFilter();
         }
     }
 
@@ -378,20 +370,15 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case R.id.category_add: {
-                    categoryCursor.requery();
-                    long categoryId = data.getLongExtra(DatabaseHelper.CategoryColumns._id.name(), -1);
-                    if (categoryId != -1) {
-                        selectCategory(categoryId);
-                    }
-                    break;
-                }
-                case R.id.category_pick: {
-                    long categoryId = data.getLongExtra(CategorySelectorActivity.SELECTED_CATEGORY_ID, 0);
+            if (requestCode == R.id.category_add) {
+                categoryCursor.requery();
+                long categoryId = data.getLongExtra(DatabaseHelper.CategoryColumns._id.name(), -1);
+                if (categoryId != -1) {
                     selectCategory(categoryId);
-                    break;
                 }
+            } else if (requestCode == R.id.category_pick) {
+                long categoryId = data.getLongExtra(CategorySelectorActivity.SELECTED_CATEGORY_ID, 0);
+                selectCategory(categoryId);
             }
         }
     }
