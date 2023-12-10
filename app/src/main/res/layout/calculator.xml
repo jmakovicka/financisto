@@ -15,7 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:background="@android:color/white"
+        android:background="?android:attr/colorForeground"
         android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
@@ -25,6 +25,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:textColor="?android:attr/colorBackground"
             android:textSize="20sp" />
 
         <TextView
@@ -34,7 +35,7 @@
             android:gravity="right"
             android:maxLines="1"
             android:text="0"
-            android:textColor="#000000"
+            android:textColor="?android:attr/colorBackground"
             android:textSize="36sp" />
 
     </LinearLayout>

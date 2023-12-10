@@ -157,7 +157,6 @@
     </style>
 
     <style name="CalculatorButton">
-        <item name="android:textColor">@android:color/secondary_text_dark</item>
         <item name="android:background">@android:drawable/list_selector_background</item>
         <item name="android:layout_width">@dimen/calculator_button_width</item>
         <item name="android:layout_height">@dimen/calculator_button_height</item>
