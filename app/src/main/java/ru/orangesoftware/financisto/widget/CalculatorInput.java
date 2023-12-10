@@ -67,9 +67,6 @@ public class CalculatorInput extends DialogFragment {
 
     @AfterViews
     public void initUi() {
-        int bgColorResource = R.color.mdtp_date_picker_view_animator_dark_theme;
-        int bgColor = ContextCompat.getColor(getActivity(), bgColorResource);
-        getView().setBackgroundColor(bgColor);
         setDisplay(amount);
     }
 

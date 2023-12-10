@@ -22,9 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,8 +37,6 @@ import ru.orangesoftware.financisto.recur.RecurrenceUntil;
 import ru.orangesoftware.financisto.recur.RecurrenceView;
 import ru.orangesoftware.financisto.recur.RecurrenceViewFactory;
 import ru.orangesoftware.financisto.utils.EnumUtils;
-
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 public class RecurrenceActivity extends AbstractActivity {
 
@@ -162,31 +157,31 @@ public class RecurrenceActivity extends AbstractActivity {
             break;
             case R.id.start_date: {
                 final Calendar c = recurrence.getStartDate();
-                DatePickerDialog dialog = DatePickerDialog.newInstance(
-                        (view, year, monthOfYear, dayOfMonth) -> {
-                            recurrence.updateStartDate(year, monthOfYear, dayOfMonth);
+                Bundle args = new Bundle();
+                args.putInt(DatePickerFragment.YEAR, c.get(Calendar.YEAR));
+                args.putInt(DatePickerFragment.MONTH, c.get(Calendar.MONTH));
+                args.putInt(DatePickerFragment.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+                DatePickerFragment datePickerFragment = new DatePickerFragment(
+                        (view, year, month, dayOfMonth) -> {
+                            recurrence.updateStartDate(year, month, dayOfMonth);
                             startDateView.setText(DateUtils.getMediumDateFormat(RecurrenceActivity.this).format(c.getTime()));
-                        },
-                        c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH),
-                        c.get(Calendar.DAY_OF_MONTH)
+                        }
                 );
-                applyTheme(this, dialog);
-                dialog.show(getSupportFragmentManager(), "DatePickerDialog");
+                datePickerFragment.show(getSupportFragmentManager(), "DatePickerDialog");
             }
             break;
             case R.id.start_time: {
                 final Calendar c = recurrence.getStartDate();
-                boolean is24Format = DateUtils.is24HourFormat(RecurrenceActivity.this);
-                TimePickerDialog dialog = TimePickerDialog.newInstance(
-                        (view, hourOfDay, minute, second) -> {
+                Bundle args = new Bundle();
+                args.putInt(TimePickerFragment.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+                args.putInt(TimePickerFragment.MINUTE, c.get(Calendar.MINUTE));
+                TimePickerFragment timePickerFragment = new TimePickerFragment(
+                        (view, hourOfDay, minute) -> {
                             recurrence.updateStartTime(hourOfDay, minute, 0);
                             startTimeView.setText(DateUtils.getTimeFormat(RecurrenceActivity.this).format(c.getTime()));
-                        },
-                        c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), is24Format
+                        }
                 );
-                applyTheme(this, dialog);
-                dialog.show(getSupportFragmentManager(), "TimePickerDialog");
+                timePickerFragment.show(getSupportFragmentManager(), "TimePickerDialog");
             }
             break;
             case R.id.result: {

@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.*;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
@@ -36,7 +33,6 @@ import java.util.Date;
 import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 import static ru.orangesoftware.financisto.model.Category.NO_CATEGORY_ID;
 import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
 import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
@@ -180,33 +176,33 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         dateText = findViewById(R.id.date);
         dateText.setText(df.format(date));
         dateText.setOnClickListener(arg0 -> {
-            DatePickerDialog dialog = DatePickerDialog.newInstance(
-                    (view, year, monthOfYear, dayOfMonth) -> {
-                        dateTime.set(year, monthOfYear, dayOfMonth);
+            Bundle args = new Bundle();
+            args.putInt(DatePickerFragment.YEAR, dateTime.get(Calendar.YEAR));
+            args.putInt(DatePickerFragment.MONTH, dateTime.get(Calendar.MONTH));
+            args.putInt(DatePickerFragment.DAY_OF_MONTH, dateTime.get(Calendar.DAY_OF_MONTH));
+            DatePickerFragment datePickerFragment = new DatePickerFragment(
+                    (view, year, month, dayOfMonth) -> {
+                        dateTime.set(year, month, dayOfMonth);
                         dateText.setText(df.format(dateTime.getTime()));
-                    },
-                    dateTime.get(Calendar.YEAR),
-                    dateTime.get(Calendar.MONTH),
-                    dateTime.get(Calendar.DAY_OF_MONTH)
-            );
-            applyTheme(this, dialog);
-            dialog.show(getSupportFragmentManager(), "DatePickerDialog");
+                    });
+            datePickerFragment.setArguments(args);
+            datePickerFragment.show(getSupportFragmentManager(), "datePicker");
         });
 
         timeText = findViewById(R.id.time);
         timeText.setText(tf.format(date));
         timeText.setOnClickListener(arg0 -> {
-            boolean is24Format = DateUtils.is24HourFormat(AbstractTransactionActivity.this);
-            TimePickerDialog dialog = TimePickerDialog.newInstance(
-                    (view, hourOfDay, minute, second) -> {
+            Bundle args = new Bundle();
+            args.putInt(TimePickerFragment.HOUR_OF_DAY, dateTime.get(Calendar.HOUR_OF_DAY));
+            args.putInt(TimePickerFragment.MINUTE, dateTime.get(Calendar.MINUTE));
+            TimePickerFragment timePickerFragment = new TimePickerFragment(
+                    (view, hourOfDay, minute) -> {
                         dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         dateTime.set(Calendar.MINUTE, minute);
                         timeText.setText(tf.format(dateTime.getTime()));
-                    },
-                    dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), is24Format
-            );
-            applyTheme(this, dialog);
-            dialog.show(getSupportFragmentManager(), "TimePickerDialog");
+                    });
+            timePickerFragment.setArguments(args);
+            timePickerFragment.show(getSupportFragmentManager(), "timePicker");
         });
 
         internalOnCreate();

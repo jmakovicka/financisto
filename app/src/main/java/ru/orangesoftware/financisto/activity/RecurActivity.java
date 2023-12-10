@@ -28,8 +28,6 @@ import android.widget.SpinnerAdapter;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -48,8 +46,6 @@ import ru.orangesoftware.financisto.utils.RecurUtils.RecurPeriod;
 import ru.orangesoftware.financisto.utils.RecurUtils.SemiMonthly;
 import ru.orangesoftware.financisto.utils.RecurUtils.Weekly;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 public class RecurActivity extends FragmentActivity {
 
@@ -92,20 +88,20 @@ public class RecurActivity extends FragmentActivity {
         bStartDate = findViewById(R.id.bStartDate);
         bStartDate.setOnClickListener(v -> {
             final Calendar c = startDate;
-            DatePickerDialog dialog = DatePickerDialog.newInstance(
-                    (view, year, monthOfYear, dayOfMonth) -> {
+            Bundle args = new Bundle();
+            args.putInt(DatePickerFragment.YEAR, c.get(Calendar.YEAR));
+            args.putInt(DatePickerFragment.MONTH, c.get(Calendar.MONTH));
+            args.putInt(DatePickerFragment.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+            DatePickerFragment datePickerFragment = new DatePickerFragment(
+                    (view, year, month, dayOfMonth) -> {
                         c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, monthOfYear);
+                        c.set(Calendar.MONTH, month);
                         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         DateUtils.startOfDay(c);
                         editStartDate(c.getTimeInMillis());
-                    },
-                    c.get(Calendar.YEAR),
-                    c.get(Calendar.MONTH),
-                    c.get(Calendar.DAY_OF_MONTH)
+                    }
             );
-            applyTheme(this, dialog);
-            dialog.show(getSupportFragmentManager(), "DatePickerDialog");
+            datePickerFragment.show(getSupportFragmentManager(), "DatePickerDialog");
         });
 
         addSpinnerItems(sInterval, new RecurInterval[]{RecurInterval.NO_RECUR, RecurInterval.WEEKLY, RecurInterval.MONTHLY});
@@ -246,20 +242,20 @@ public class RecurActivity extends FragmentActivity {
                     final Calendar c = this.stopsOnDate;
                     editStopsOnDate(v, c.getTimeInMillis());
                     b.setOnClickListener(view -> {
-                        DatePickerDialog dialog = DatePickerDialog.newInstance(
-                                (view1, year, monthOfYear, dayOfMonth) -> {
+                        Bundle args = new Bundle();
+                        args.putInt(DatePickerFragment.YEAR, c.get(Calendar.YEAR));
+                        args.putInt(DatePickerFragment.MONTH, c.get(Calendar.MONTH));
+                        args.putInt(DatePickerFragment.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+                        DatePickerFragment datePickerFragment = new DatePickerFragment(
+                                (view1, year, month, dayOfMonth) -> {
                                     c.set(Calendar.YEAR, year);
-                                    c.set(Calendar.MONTH, monthOfYear);
+                                    c.set(Calendar.MONTH, month);
                                     c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                                     DateUtils.endOfDay(c);
                                     editStopsOnDate(v, c.getTimeInMillis());
-                                },
-                                c.get(Calendar.YEAR),
-                                c.get(Calendar.MONTH),
-                                c.get(Calendar.DAY_OF_MONTH)
+                                }
                         );
-                        applyTheme(RecurActivity.this, dialog);
-                        dialog.show(getSupportFragmentManager(), "DatePickerDialog");
+                        datePickerFragment.show(getSupportFragmentManager(), "DatePickerDialog");
                     });
                 }
                 layout.addView(v, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);

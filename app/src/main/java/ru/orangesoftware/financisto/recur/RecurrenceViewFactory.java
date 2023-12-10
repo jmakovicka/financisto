@@ -11,17 +11,17 @@
 package ru.orangesoftware.financisto.recur;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
 import ru.orangesoftware.financisto.activity.ActivityLayoutListener;
+import ru.orangesoftware.financisto.activity.DatePickerFragment;
 import ru.orangesoftware.financisto.activity.RecurrenceActivity;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -32,8 +32,6 @@ import ru.orangesoftware.financisto.view.NodeInflater;
 
 import java.text.ParseException;
 import java.util.*;
-
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 public class RecurrenceViewFactory {
 
@@ -726,19 +724,19 @@ public class RecurrenceViewFactory {
 
         @Override
         protected void onClick(View v, int id) {
-            DatePickerDialog dialog = DatePickerDialog.newInstance(
-                    (view, year, monthOfYear, dayOfMonth) -> {
+            Bundle args = new Bundle();
+            args.putInt(DatePickerFragment.YEAR, c.get(Calendar.YEAR));
+            args.putInt(DatePickerFragment.MONTH, c.get(Calendar.MONTH));
+            args.putInt(DatePickerFragment.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+            DatePickerFragment datePickerFragment = new DatePickerFragment(
+                    (view, year, month, dayOfMonth) -> {
                         c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, monthOfYear);
+                        c.set(Calendar.MONTH, month);
                         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         onDateText.setText(DateUtils.getMediumDateFormat(activity).format(c.getTime()));
-                    },
-                    c.get(Calendar.YEAR),
-                    c.get(Calendar.MONTH),
-                    c.get(Calendar.DAY_OF_MONTH)
+                    }
             );
-            applyTheme(activity, dialog);
-            dialog.show(activity.getSupportFragmentManager(), "DatePickerDialog");
+            datePickerFragment.show(activity.getSupportFragmentManager(), "DatePickerDialog");
         }
 
         @Override

@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.rates.ExchangeRate;
@@ -138,17 +136,18 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
     private void editDate() {
         final Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
-        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                (view, year, monthOfYear, dayOfMonth) -> {
-                    c.set(year, monthOfYear, dayOfMonth);
+        Bundle args = new Bundle();
+        args.putInt(DatePickerFragment.YEAR, c.get(Calendar.YEAR));
+        args.putInt(DatePickerFragment.MONTH, c.get(Calendar.MONTH));
+        args.putInt(DatePickerFragment.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+        DatePickerFragment datePickerFragment = new DatePickerFragment(
+                (view, year, month, dayOfMonth) -> {
+                    c.set(year, month, dayOfMonth);
                     date = c.getTimeInMillis();
                     dateNode.setText(formatRateDate(ExchangeRateActivity.this, date));
-                },
-                c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH)
+                }
         );
-        datePickerDialog.show(getSupportFragmentManager(), "DatePickerDialog");
+        datePickerFragment.show(getSupportFragmentManager(), "DatePickerDialog");
     }
 
     @Override
