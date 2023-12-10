@@ -5,7 +5,8 @@
   ~ which accompanies this distribution, and is available at
   ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -17,43 +18,43 @@
         android:id="@+id/account_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerInside"
         android:src="@drawable/account_type_cash"
-        android:tint="@color/holo_gray_light" />
+        app:tint="@color/holo_gray_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/line1"
         style="@android:style/TextAppearance.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/account_icon"
+        android:layout_marginRight="10dp"
         android:ellipsize="end"
         android:gravity="right"
         android:singleLine="true"
         android:text="Text1"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/note"
         style="@android:style/TextAppearance.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/line1"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/account_icon"
         android:gravity="right"
         android:text="text2"
-        android:textColor="@color/holo_gray_bright" />
+        android:textColor="@color/holo_gray_bright"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

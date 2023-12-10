@@ -5,7 +5,9 @@
   ~ which accompanies this distribution, and is available at
   ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -17,70 +19,70 @@
         android:id="@+id/account_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerInside"
         android:src="@drawable/account_type_cash"
-        android:tint="@color/holo_gray_light" />
+        app:tint="@color/holo_gray_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/d1"
+        android:layout_width="1px"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/vertical_divider"
+        android:drawable="@drawable/vertical_divider"
+        android:minHeight="38dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/add_transaction"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/add_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/appwidget_button_right"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:scaleType="center"
+        android:src="@drawable/actionbar_add_big"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/line1"
         style="@android:style/TextAppearance.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@+id/add_transaction"
-        android:layout_toRightOf="@+id/account_icon"
         android:ellipsize="end"
         android:gravity="right"
         android:singleLine="true"
         android:text="Text1"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:layout_constraintRight_toLeftOf="@id/d1"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/note"
         style="@android:style/TextAppearance.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="false"
-        android:layout_below="@id/line1"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/add_transaction"
-        android:layout_toRightOf="@+id/account_icon"
+        android:layout_marginRight="5dp"
         android:gravity="right"
         android:text="text2"
-        android:textColor="@color/holo_gray_bright" />
+        android:textColor="@color/holo_gray_bright"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/d1"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
 
-    <ImageView
-        android:id="@+id/d1"
-        android:layout_width="1px"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/add_transaction"
-        android:background="@drawable/vertical_divider"
-        android:drawable="@drawable/vertical_divider"
-        android:minHeight="38dp" />
-
-    <ImageView
-        android:id="@+id/add_transaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/appwidget_button_right"
-        android:minHeight="40dp"
-        android:minWidth="40dp"
-        android:scaleType="center"
-        android:src="@drawable/actionbar_add_big" />
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
