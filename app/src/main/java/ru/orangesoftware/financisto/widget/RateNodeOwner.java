@@ -8,7 +8,8 @@
 
 package ru.orangesoftware.financisto.widget;
 
-import android.app.Activity;
+import androidx.fragment.app.FragmentActivity;
+
 import ru.orangesoftware.financisto.model.Currency;
 
 /**
@@ -23,7 +24,7 @@ public interface RateNodeOwner {
     void onSuccessfulRateDownload();
     void onRateChanged();
 
-    Activity getActivity();
+    FragmentActivity getActivity();
 
     Currency getCurrencyFrom();
     Currency getCurrencyTo();

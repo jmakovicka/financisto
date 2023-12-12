@@ -8,13 +8,14 @@
 
 package ru.orangesoftware.financisto.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
@@ -171,7 +172,7 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
     }
 
     @Override
-    public Activity getActivity() {
+    public FragmentActivity getActivity() {
         return this;
     }
 

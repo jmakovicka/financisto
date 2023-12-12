@@ -1,10 +1,11 @@
 package ru.orangesoftware.financisto.widget;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractActivity;
@@ -269,7 +270,7 @@ public class RateLayoutView implements RateNodeOwner {
     }
 
     @Override
-    public Activity getActivity() {
+    public FragmentActivity getActivity() {
         return activity;
     }
 

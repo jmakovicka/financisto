@@ -8,7 +8,6 @@
 
 package ru.orangesoftware.financisto.widget;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -20,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentActivity;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -74,7 +75,7 @@ public class RateNode {
         rateInfo = rateInfoNode.findViewById(R.id.data);
         bCalc = rateInfoNode.findViewById(R.id.rateCalculator);
         bCalc.setOnClickListener(v -> {
-            Activity activity = owner.getActivity();
+            FragmentActivity activity = owner.getActivity();
 
             CalculatorInput input = CalculatorInput_.builder().amount(String.valueOf(getRate())).build();
             input.setListener(amount -> {
@@ -85,7 +86,7 @@ public class RateNode {
                 } catch (NumberFormatException ignored) {
                 }
             });
-            input.show(activity.getFragmentManager(), "calculator");
+            input.show(activity.getSupportFragmentManager(), "calculator");
         });
         bDownload = rateInfoNode.findViewById(R.id.rateDownload);
         bDownload.setOnClickListener(v -> new RateDownloadTask().execute());

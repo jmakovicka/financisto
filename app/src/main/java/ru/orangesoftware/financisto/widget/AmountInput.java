@@ -10,7 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -28,6 +27,8 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -54,7 +55,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
 
     private static final AtomicInteger EDIT_AMOUNT_REQUEST = new AtomicInteger(2000);
 
-    protected Activity owner;
+    protected FragmentActivity owner;
     private Currency currency;
     private int decimals;
 
@@ -303,7 +304,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
         this.currency = currency;
     }
 
-    public void setOwner(Activity owner) {
+    public void setOwner(FragmentActivity owner) {
         this.owner = owner;
     }
 
@@ -358,13 +359,13 @@ public class AmountInput extends LinearLayout implements AmountListener {
     public void openCalculator() {
         CalculatorInput input = CalculatorInput_.builder().amount(getAbsAmountString()).build();
         input.setListener(this);
-        input.show(owner.getFragmentManager(), "calculator");
+        input.show(owner.getSupportFragmentManager(), "calculator");
     }
 
     private void openQuickInput() {
         QuickAmountInput input = QuickAmountInput_.builder().amount(getAmount()).build();
         input.setListener(this);
-        input.show(owner.getFragmentManager(), "quick");
+        input.show(owner.getSupportFragmentManager(), "quick");
     }
 
     @Override
