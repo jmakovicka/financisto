@@ -12,20 +12,17 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 
-import androidx.test.core.app.ApplicationProvider;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.robolectric.Shadows;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -133,8 +130,7 @@ public class DatabaseBackupTest extends AbstractImportExportTest {
 
     private String fileAsString(String backupFile) throws IOException {
         File backupPath = Export.getBackupFolder(context);
-        File file = new File(backupPath, backupFile);
-        return FileUtils.readFileToString(file, "UTF-8");
+        return new String(Files.readAllBytes(Paths.get(backupPath.toString(), backupFile)));
     }
 
 }
