@@ -175,12 +175,15 @@ public class RunningBalanceTest extends AbstractDbTest {
 
     @Test
     public void should_update_running_balance_for_two_accounts_when_updating_transfer_split() {
-        Transaction t1 = TransactionBuilder.withDb(db).account(a1).amount(1000).create();
-        Transaction t2 = TransactionBuilder.withDb(db).account(a2).amount(2000).create();
+        DateTime dateTime = DateTime.fromTimestamp(System.currentTimeMillis());
+        DateTime dateTime2 = DateTime.fromTimestamp(System.currentTimeMillis() + 1);
+        DateTime dateTime3 = DateTime.fromTimestamp(System.currentTimeMillis() + 2);
+        Transaction t1 = TransactionBuilder.withDb(db).account(a1).amount(1000).dateTime(dateTime).create();
+        Transaction t2 = TransactionBuilder.withDb(db).account(a2).amount(2000).dateTime(dateTime).create();
         Transaction t3 = TransactionBuilder.withDb(db).account(a1).amount(-100)
-                .withTransferSplit(a2, -100, 50).create();
-        Transaction t4 = TransactionBuilder.withDb(db).account(a1).amount(-100).create();
-        Transaction t5 = TransactionBuilder.withDb(db).account(a2).amount(-100).create();
+                .withTransferSplit(a2, -100, 50).dateTime(dateTime2).create();
+        Transaction t4 = TransactionBuilder.withDb(db).account(a1).amount(-100).dateTime(dateTime3).create();
+        Transaction t5 = TransactionBuilder.withDb(db).account(a2).amount(-100).dateTime(dateTime3).create();
         db.rebuildRunningBalances();
         assertFinalBalanceForAccount(a1, 800);
         assertFinalBalanceForAccount(a2, 1950);
