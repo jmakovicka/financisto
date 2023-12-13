@@ -418,7 +418,7 @@ public class QifImportTest extends AbstractDbTest {
     }
 
     private void doImport(QifParser p) {
-        QifImportOptions options = new QifImportOptions("", EU_FORMAT, Currency.EMPTY);
+        QifImportOptions options = new QifImportOptions("", "", EU_FORMAT, Currency.EMPTY);
         qifImport = new QifImport(getContext(), db, options);
         qifImport.doImport(p);
     }

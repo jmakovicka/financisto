@@ -9,10 +9,13 @@
 package ru.orangesoftware.financisto.backup;
 
 import android.content.Context;
+import android.net.Uri;
 
 import org.junit.Test;
+import org.robolectric.Shadows;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -263,6 +266,9 @@ public class LegacyDatabaseRestoreTest extends AbstractDbTest {
         Context context = getContext();
         String fileName = createBackupFile(fileContent);
         try {
+            File backupPath = Export.getBackupFolder(context);
+            Uri uri = Uri.parse(fileName);
+            Shadows.shadowOf(context.getContentResolver()).registerInputStream(uri, new FileInputStream(new File(backupPath, fileName)));
             DatabaseImport databaseImport = DatabaseImport.createFromFileBackup(context, db, fileName);
             databaseImport.importDatabase();
         } finally {

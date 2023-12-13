@@ -8,13 +8,19 @@
 
 package ru.orangesoftware.financisto.export;
 
+import android.net.Uri;
 import android.util.Log;
 
-import org.junit.Test;
+import androidx.test.core.app.ApplicationProvider;
 
+import org.junit.Test;
+import org.robolectric.Shadows;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
@@ -207,12 +213,9 @@ public class QifImportTestCases extends AbstractDbTest {
     }
 
     private void doImport(String qif) throws IOException {
-        File tmp = File.createTempFile("backup", ".qif");
-        FileWriter w = new FileWriter(tmp);
-        w.write(qif);
-        w.close();
-        Log.d("Financisto", "Created a temporary backup file: "+tmp.getAbsolutePath());
-        QifImportOptions options = new QifImportOptions(tmp.getAbsolutePath(), EU_FORMAT, Currency.EMPTY);
+        Uri uri = Uri.parse("file://backup.qif");
+        Shadows.shadowOf(ApplicationProvider.getApplicationContext().getContentResolver()).registerInputStream(uri, new ByteArrayInputStream(qif.getBytes(StandardCharsets.UTF_8)));
+        QifImportOptions options = new QifImportOptions(uri.toString(), uri.getLastPathSegment(), EU_FORMAT, Currency.EMPTY);
         qifImport = new QifImport(getContext(), db, options);
         qifImport.importDatabase();
     }

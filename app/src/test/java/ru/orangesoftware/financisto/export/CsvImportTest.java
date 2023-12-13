@@ -8,12 +8,16 @@
 
 package ru.orangesoftware.financisto.export;
 
+import android.net.Uri;
 import android.util.Log;
 
-import org.junit.Test;
+import androidx.test.core.app.ApplicationProvider;
 
-import java.io.File;
-import java.io.FileWriter;
+import org.junit.Test;
+import org.robolectric.Shadows;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +59,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     @Test
     public void should_collect_all_categories_from_transactions() {
         //given
-        csvImport = new CsvImport(db, defaultOptions);
+        csvImport = new CsvImport(ApplicationProvider.getApplicationContext(), db, defaultOptions);
         List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
         transactions.add(newCsvTransactionWithCategory(null, "A"));
         transactions.add(newCsvTransactionWithCategory("", "A"));
@@ -73,7 +77,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     @Test
     public void should_insert_all_categories_from_transactions() {
         //given
-        csvImport = new CsvImport(db, defaultOptions);
+        csvImport = new CsvImport(ApplicationProvider.getApplicationContext(), db, defaultOptions);
         List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
         transactions.add(newCsvTransactionWithCategory(null, null));
         transactions.add(newCsvTransactionWithCategory("", ""));
@@ -102,7 +106,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     @Test
     public void should_insert_all_projects_from_transactions() {
         //given
-        csvImport = new CsvImport(db, defaultOptions);
+        csvImport = new CsvImport(ApplicationProvider.getApplicationContext(), db, defaultOptions);
         List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
         transactions.add(newCsvTransactionWithProject(null));
         transactions.add(newCsvTransactionWithProject(""));
@@ -130,7 +134,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     @Test
     public void should_insert_all_payees_from_transactions() {
         //given
-        csvImport = new CsvImport(db, defaultOptions);
+        csvImport = new CsvImport(ApplicationProvider.getApplicationContext(), db, defaultOptions);
         List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
         transactions.add(newCsvTransactionWithPayee(null));
         transactions.add(newCsvTransactionWithPayee(""));
@@ -206,14 +210,11 @@ public class CsvImportTest extends AbstractImportExportTest {
     }
 
     private void doImport(String csv, CsvImportOptions options) throws Exception {
-        File tmp = File.createTempFile("backup", ".csv");
-        FileWriter w = new FileWriter(tmp);
-        w.write(csv);
-        w.close();
-        Log.d("Financisto", "Created a temporary backup file: " + tmp.getAbsolutePath());
+        Uri uri = Uri.parse("file://backup.csv");
+        Shadows.shadowOf(ApplicationProvider.getApplicationContext().getContentResolver()).registerInputStream(uri, new ByteArrayInputStream(csv.getBytes(StandardCharsets.UTF_8)));
         options = new CsvImportOptions(options.currency, options.dateFormat.toPattern(),
-                options.selectedAccountId, options.filter, tmp.getAbsolutePath(), options.fieldSeparator, options.useHeaderFromFile);
-        csvImport = new CsvImport(db, options);
+                options.selectedAccountId, options.filter, uri.toString(), uri.getLastPathSegment(), options.fieldSeparator, options.useHeaderFromFile);
+        csvImport = new CsvImport(ApplicationProvider.getApplicationContext(), db, options);
         csvImport.doImport();
     }
 
@@ -239,7 +240,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     private CsvImportOptions createDefaultOptions() {
         Account a = createFirstAccount();
         Currency c = a.currency;
-        return new CsvImportOptions(c, CsvImportOptions.DEFAULT_DATE_FORMAT, a.id, WhereFilter.empty(), null, ',', true);
+        return new CsvImportOptions(c, CsvImportOptions.DEFAULT_DATE_FORMAT, a.id, WhereFilter.empty(), null, "", ',', true);
     }
 
     private Set<CategoryInfo> asCategoryInfoSet(String...categories) {
