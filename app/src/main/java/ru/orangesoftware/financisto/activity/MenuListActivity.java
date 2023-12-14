@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.ListView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OnActivityResult;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -56,51 +55,34 @@ public class MenuListActivity extends ListActivity {
         MenuListItem.values()[position].call(this);
     }
 
-    @OnActivityResult(MenuListItem.ACTIVITY_CSV_EXPORT)
-    public void onCsvExportResult(int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            CsvExportOptions options = CsvExportOptions.fromIntent(data);
-            MenuListItem.doCsvExport(this, options);
-        }
-    }
-
-    @OnActivityResult(MenuListItem.ACTIVITY_QIF_EXPORT)
-    public void onQifExportResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            QifExportOptions options = QifExportOptions.fromIntent(data);
-            MenuListItem.doQifExport(this, options);
-        }
-    }
-
-    @OnActivityResult(MenuListItem.ACTIVITY_CSV_IMPORT)
-    public void onCsvImportResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            CsvImportOptions options = CsvImportOptions.fromIntent(data);
-            MenuListItem.doCsvImport(this, options);
-        }
-    }
-
-    @OnActivityResult(MenuListItem.ACTIVITY_QIF_IMPORT)
-    public void onQifImportResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            QifImportOptions options = QifImportOptions.fromIntent(data);
-            MenuListItem.doQifImport(this, options);
-        }
-    }
-
-    @OnActivityResult(MenuListItem.ACTIVITY_CHANGE_PREFERENCES)
-    public void onChangePreferences() {
-        scheduleNextAutoBackup(this);
-    }
-
-    @OnActivityResult(MenuListItem.ACTIVITY_DB_IMPORT)
-    public void onDbImport(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && data != null) {
-            Uri fileUri = data.getData();
-            if (fileUri != null) {
-                ProgressDialog d = ProgressDialog.show(this, null, getString(R.string.restore_database_inprogress), true);
-                new BackupImportTask(this, d).execute(fileUri.toString());
+            if (requestCode == MenuListItem.ACTIVITY_CSV_EXPORT) {
+                CsvExportOptions options = CsvExportOptions.fromIntent(data);
+                MenuListItem.doCsvExport(this, options);
+            } else if (requestCode == MenuListItem.ACTIVITY_QIF_EXPORT) {
+                QifExportOptions options = QifExportOptions.fromIntent(data);
+                MenuListItem.doQifExport(this, options);
+            } else if (requestCode == MenuListItem.ACTIVITY_CSV_IMPORT) {
+                CsvImportOptions options = CsvImportOptions.fromIntent(data);
+                MenuListItem.doCsvImport(this, options);
+            } else if (requestCode == MenuListItem.ACTIVITY_QIF_IMPORT) {
+                QifImportOptions options = QifImportOptions.fromIntent(data);
+                MenuListItem.doQifImport(this, options);
+            } else if (requestCode == MenuListItem.ACTIVITY_DB_IMPORT) {
+                if (data != null) {
+                    Uri fileUri = data.getData();
+                    if (fileUri != null) {
+                        ProgressDialog d = ProgressDialog.show(this, null, getString(R.string.restore_database_inprogress), true);
+                        new BackupImportTask(this, d).execute(fileUri.toString());
+                    }
+                }
             }
+        }
+
+        if (requestCode == MenuListItem.ACTIVITY_CHANGE_PREFERENCES) {
+            scheduleNextAutoBackup(this);
         }
     }
 
