@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import androidx.multidex.MultiDexApplication;
 
-import org.androidannotations.annotations.EApplication;
-
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
-@EApplication
 public class FinancistoApp extends MultiDexApplication {
 
     @Override
