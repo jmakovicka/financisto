@@ -29,7 +29,7 @@ public abstract class MyEntityManager extends EntityManager {
     protected final Context context;
 
     public MyEntityManager(Context context) {
-        super(DatabaseHelper_.getInstance_(context), new DatabaseFixPlugin());
+        super(DatabaseHelper.getInstance(context), new DatabaseFixPlugin());
         this.context = context;
     }
 
