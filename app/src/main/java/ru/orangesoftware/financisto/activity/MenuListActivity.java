@@ -16,10 +16,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -35,7 +34,6 @@ import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.sche
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
-@EActivity(R.layout.activity_menu_list)
 public class MenuListActivity extends ListActivity {
 
     private static final int RESOLVE_CONNECTION_REQUEST_CODE = 1;
@@ -45,8 +43,8 @@ public class MenuListActivity extends ListActivity {
         super.attachBaseContext(MyPreferences.switchLocale(base));
     }
 
-    @AfterViews
-    protected void init() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setListAdapter(new SummaryEntityListAdapter(this, MenuListItem.values()));
     }
 
