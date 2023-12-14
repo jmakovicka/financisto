@@ -8,39 +8,31 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:paddingStart="0dip"
-    android:paddingEnd="12dip">
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="11dip"
-        android:layout_marginTop="8dip" />
-    <!-- TextView android:id="@+id/label" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_toRightOf="@id/icon"
-        android:layout_alignParentBottom="true" android:layout_marginBottom="8dip"
-        android:layout_marginTop="-10dip" android:singleLine="true"
-        android:ellipsize="marquee" android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginLeft="11dip" android:text="label" android:textColor="#444"/ -->
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/line1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_above="@id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="11dip"
-        android:layout_toEndOf="@id/icon"
+        android:layout_marginStart="8dp"
         android:ellipsize="marquee"
-        android:gravity="center_vertical"
         android:singleLine="true"
-        android:text="line1"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
-</RelativeLayout>
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="line1" />
+</androidx.constraintlayout.widget.ConstraintLayout>
