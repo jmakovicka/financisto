@@ -26,22 +26,16 @@ import android.widget.LinearLayout.LayoutParams;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
-
 import java.math.BigDecimal;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 
-@EFragment
 public class QuickAmountInput extends DialogFragment {
 
-    @FragmentArg
-    protected long currencyId;
-    @FragmentArg
-    protected long amount;
+    public final static String CURRENCY_ID_ARG = "currencyId";
+    public final static String AMOUNT_ARG = "amount";
 
     private AmountPicker picker;
     private AmountListener listener;
@@ -64,10 +58,11 @@ public class QuickAmountInput extends DialogFragment {
         lpWrapWrap.weight = 1;
 
         // picker
-        Currency currency = CurrencyCache.getCurrencyOrEmpty(currencyId);
+        Bundle args = getArguments();
+        Currency currency = CurrencyCache.getCurrencyOrEmpty(args.getLong(CURRENCY_ID_ARG, 0));
         picker = new AmountPicker(activity, currency.decimals);
         layout.addView(picker, lpWrapWrap);
-        picker.setCurrent(new BigDecimal(amount));
+        picker.setCurrent(new BigDecimal(args.getLong(AMOUNT_ARG, 0)));
         picker.setOnChangeListener((picker, oldVal, newVal) -> setTitle());
 
         // buttons

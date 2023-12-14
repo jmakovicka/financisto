@@ -13,6 +13,7 @@ package ru.orangesoftware.financisto.widget;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Spanned;
@@ -363,7 +364,12 @@ public class AmountInput extends LinearLayout implements AmountListener {
     }
 
     private void openQuickInput() {
-        QuickAmountInput input = QuickAmountInput_.builder().amount(getAmount()).build();
+        QuickAmountInput input = new QuickAmountInput();
+
+        Bundle args = new Bundle();
+        args.putLong(QuickAmountInput.AMOUNT_ARG, Math.abs(getAmount()));
+        input.setArguments(args);
+
         input.setListener(this);
         input.show(owner.getSupportFragmentManager(), "quick");
     }
