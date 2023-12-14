@@ -293,10 +293,8 @@ public class AccountActivity extends AbstractActivity {
 
     @Override
     public void onSelectedId(int id, long selectedId) {
-        switch (id) {
-            case R.id.currency:
-                selectCurrency(selectedId);
-                break;
+        if (id == R.id.currency) {
+            selectCurrency(selectedId);
         }
     }
 

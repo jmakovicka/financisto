@@ -257,35 +257,29 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 	@Override
 	public void onSelectedId(final int id, final long selectedId) {
     	super.onSelectedId(id, selectedId);
-		switch (id) {
-			case R.id.account:
-				filter.put(Criteria.eq(FROM_ACCOUNT_ID, String.valueOf(selectedId)));
-				updateAccountFromFilter();
-				break;
-			case R.id.currency:
-				filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
-				updateCurrencyFromFilter();
-				break;
+		if (id == R.id.account) {
+			filter.put(Criteria.eq(FROM_ACCOUNT_ID, String.valueOf(selectedId)));
+			updateAccountFromFilter();
+		} else if (id == R.id.currency) {
+			filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
+			updateCurrencyFromFilter();
 		}
 	}
 	
 	@Override
 	public void onSelectedPos(int id, int selectedPos) {
     	super.onSelectedPos(id, selectedPos);
-		switch (id) {
-			case R.id.status:
-				filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
-				updateStatusFromFilter();			
-				break;
-			case R.id.sort_order:
-				filter.resetSort();
-				if (selectedPos == 1) {
-					filter.asc(BlotterFilter.DATETIME);
-				} else {
-					filter.desc(BlotterFilter.DATETIME);
-				}
-				updateSortOrderFromFilter();
-				break;
+		if (id == R.id.status) {
+			filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
+			updateStatusFromFilter();
+		} else if (id == R.id.sort_order) {
+			filter.resetSort();
+			if (selectedPos == 1) {
+				filter.asc(BlotterFilter.DATETIME);
+			} else {
+				filter.desc(BlotterFilter.DATETIME);
+			}
+			updateSortOrderFromFilter();
 		}
 	}
 

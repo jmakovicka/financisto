@@ -114,23 +114,20 @@ public class PurgeAccountActivity extends AbstractActivity {
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.date:
-                Bundle args = new Bundle();
-                args.putInt(DatePickerFragment.YEAR, date.get(Calendar.YEAR));
-                args.putInt(DatePickerFragment.MONTH, date.get(Calendar.MONTH));
-                args.putInt(DatePickerFragment.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH));
-                DatePickerFragment datePickerFragment = new DatePickerFragment(
-                        (view, year, month, dayOfMonth) -> {
-                            date.set(year, month, dayOfMonth);
-                            setDateText();
-                        }
-                );
-                datePickerFragment.show(getSupportFragmentManager(), "DatePickerDialog");
-                break;
-            case R.id.backup:
-                databaseBackup.setChecked(!databaseBackup.isChecked());
-                break;
+        if (id == R.id.date) {
+            Bundle args = new Bundle();
+            args.putInt(DatePickerFragment.YEAR, date.get(Calendar.YEAR));
+            args.putInt(DatePickerFragment.MONTH, date.get(Calendar.MONTH));
+            args.putInt(DatePickerFragment.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH));
+            DatePickerFragment datePickerFragment = new DatePickerFragment(
+                    (view, year, month, dayOfMonth) -> {
+                        date.set(year, month, dayOfMonth);
+                        setDateText();
+                    }
+            );
+            datePickerFragment.show(getSupportFragmentManager(), "DatePickerDialog");
+        } else if (id == R.id.backup) {
+            databaseBackup.setChecked(!databaseBackup.isChecked());
         }
     }
 

@@ -128,18 +128,14 @@ public class NotificationOptionsActivity extends AbstractActivity {
 
 	@Override
 	public void onSelectedPos(int id, int selectedPos) {
-		switch (id) {
-		case R.id.notification_sound:
+		if (id == R.id.notification_sound) {
 			updateOptions();
-			break;
-		case R.id.notification_vibra:
+		} else if (id == R.id.notification_vibra) {
 			options.vibration = patterns[selectedPos];
 			updateOptions();
-			break;
-		case R.id.notification_led:
+		} else if (id == R.id.notification_led) {
 			options.ledColor = colors[selectedPos];
 			updateOptions();
-			break;
 		}
 	}
 

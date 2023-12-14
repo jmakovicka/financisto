@@ -208,23 +208,20 @@ public class RecurrenceActivity extends AbstractActivity {
 
     @Override
     public void onSelectedPos(int id, int selectedPos) {
-        switch (id) {
-            case R.id.recurrence_pattern:
-                RecurrenceFrequency newFrequency = frequencies[selectedPos];
-                if (recurrence.pattern.frequency != newFrequency) {
-                    recurrence.pattern = RecurrencePattern.empty(newFrequency);
-                    recurrencePatternView = viewFactory.create(recurrence.pattern);
-                    createNodes();
-                }
-                break;
-            case R.id.recurrence_period:
-                RecurrenceUntil newUntil = until[selectedPos];
-                if (recurrence.period.until != newUntil) {
-                    recurrence.period = RecurrencePeriod.empty(newUntil);
-                    recurrencePeriodView = viewFactory.create(newUntil);
-                    createNodes();
-                }
-                break;
+        if (id == R.id.recurrence_pattern) {
+            RecurrenceFrequency newFrequency = frequencies[selectedPos];
+            if (recurrence.pattern.frequency != newFrequency) {
+                recurrence.pattern = RecurrencePattern.empty(newFrequency);
+                recurrencePatternView = viewFactory.create(recurrence.pattern);
+                createNodes();
+            }
+        } else if (id == R.id.recurrence_period) {
+            RecurrenceUntil newUntil = until[selectedPos];
+            if (recurrence.period.until != newUntil) {
+                recurrence.period = RecurrencePeriod.empty(newUntil);
+                recurrencePeriodView = viewFactory.create(newUntil);
+                createNodes();
+            }
         }
     }
 

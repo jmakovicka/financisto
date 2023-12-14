@@ -200,10 +200,8 @@ public class SmsTemplateActivity extends AbstractActivity {
     @Override
     public void onSelectedId(int id, long selectedId) {
         categorySelector.onSelectedId(id, selectedId);
-        switch (id) {
-            case R.id.category:
-                categoryId = categorySelector.getSelectedCategoryId();
-                break;
+        if (id == R.id.category) {
+            categoryId = categorySelector.getSelectedCategoryId();
         }
     }
 

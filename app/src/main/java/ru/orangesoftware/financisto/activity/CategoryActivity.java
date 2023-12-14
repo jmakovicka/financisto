@@ -335,46 +335,34 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case NEW_ATTRIBUTE_REQUEST: {
-                    long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
-                    if (attributeId != -1) {
-                        Attribute a = db.getAttribute(attributeId);
-                        addAttribute(a);
-                    }
+            if (requestCode == NEW_ATTRIBUTE_REQUEST) {
+                long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
+                if (attributeId != -1) {
+                    Attribute a = db.getAttribute(attributeId);
+                    addAttribute(a);
                 }
-                break;
-                case EDIT_ATTRIBUTE_REQUEST: {
-                    long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
-                    if (attributeId != -1) {
-                        Attribute a = db.getAttribute(attributeId);
-                        attributeCursor.requery();
-                        updateAttribute(attributesLayout, a);
-                        updateAttribute(parentAttributesLayout, a);
-                    }
+            } else if (requestCode == EDIT_ATTRIBUTE_REQUEST) {
+                long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
+                if (attributeId != -1) {
+                    Attribute a = db.getAttribute(attributeId);
+                    attributeCursor.requery();
+                    updateAttribute(attributesLayout, a);
+                    updateAttribute(parentAttributesLayout, a);
                 }
-                break;
-
-                case NEW_SMS_TEMPLATE_REQUEST: {
-                    long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
-                    if (smsTemplateId != -1) {
-                        SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
-                        addSmsTemplate(t);
-                    }
+            } else if (requestCode == NEW_SMS_TEMPLATE_REQUEST) {
+                long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
+                if (smsTemplateId != -1) {
+                    SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
+                    addSmsTemplate(t);
                 }
-                break;
-                case EDIT_SMS_TEMPLATE_REQUEST: {
-                    long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
-                    if (smsTemplateId != -1) {
-                        SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
-                        updateSmsTemplate(smsTemplatesLayout, t);
-                    }
+            } else if (requestCode == EDIT_SMS_TEMPLATE_REQUEST) {
+                long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
+                if (smsTemplateId != -1) {
+                    SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
+                    updateSmsTemplate(smsTemplatesLayout, t);
                 }
-                break;
-                case R.id.category_pick: {
-                    parentCatSelector.onActivityResult(requestCode, resultCode, data);
-                }
-                break;
+            } else if (requestCode == R.id.category_pick) {
+                parentCatSelector.onActivityResult(requestCode, resultCode, data);
             }
         }
     }

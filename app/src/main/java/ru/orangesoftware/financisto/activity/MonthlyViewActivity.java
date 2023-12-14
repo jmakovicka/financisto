@@ -320,16 +320,14 @@ public class MonthlyViewActivity extends ListActivity {
     }
 
     public void onPopupMenuSelected(int id) {
-        switch (id) {
-            case R.id.opt_menu_closing_day:
-                // call credit card closing day sending period
-                Intent intent = new Intent(this, CCardStatementClosingDayActivity.class);
-                int closingDay = getClosingDate(month, year).get(Calendar.DAY_OF_MONTH);
-                intent.putExtra(CCardStatementClosingDayActivity.PERIOD_MONTH, closingDate.get(Calendar.MONTH));
-                intent.putExtra(CCardStatementClosingDayActivity.PERIOD_YEAR, closingDate.get(Calendar.YEAR));
-                intent.putExtra(CCardStatementClosingDayActivity.ACCOUNT, accountId);
-                intent.putExtra(CCardStatementClosingDayActivity.REGULAR_CLOSING_DAY, closingDay);
-                startActivityForResult(intent, 16);
+        if (id == R.id.opt_menu_closing_day) {// call credit card closing day sending period
+            Intent intent = new Intent(this, CCardStatementClosingDayActivity.class);
+            int closingDay = getClosingDate(month, year).get(Calendar.DAY_OF_MONTH);
+            intent.putExtra(CCardStatementClosingDayActivity.PERIOD_MONTH, closingDate.get(Calendar.MONTH));
+            intent.putExtra(CCardStatementClosingDayActivity.PERIOD_YEAR, closingDate.get(Calendar.YEAR));
+            intent.putExtra(CCardStatementClosingDayActivity.ACCOUNT, accountId);
+            intent.putExtra(CCardStatementClosingDayActivity.REGULAR_CLOSING_DAY, closingDay);
+            startActivityForResult(intent, 16);
         }
     }
 
