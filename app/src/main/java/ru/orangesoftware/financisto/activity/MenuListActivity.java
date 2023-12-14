@@ -19,14 +19,13 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ListView;
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.SummaryEntityListAdapter;
-import ru.orangesoftware.financisto.bus.GreenRobotBus;
 import ru.orangesoftware.financisto.export.BackupImportTask;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
@@ -41,9 +40,6 @@ import ru.orangesoftware.financisto.utils.PinProtection;
 public class MenuListActivity extends ListActivity {
 
     private static final int RESOLVE_CONNECTION_REQUEST_CODE = 1;
-
-    @Bean
-    GreenRobotBus bus;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -109,17 +105,31 @@ public class MenuListActivity extends ListActivity {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         PinProtection.lock(this);
-        bus.unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         PinProtection.unlock(this);
-        bus.register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     ProgressDialog progressDialog;

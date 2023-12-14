@@ -12,9 +12,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import org.greenrobot.eventbus.EventBus;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.MenuListItem;
-import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
@@ -37,7 +38,7 @@ public class DropboxListFilesTask extends ImportExportAsyncTask {
         setListener(new ImportExportAsyncTaskListener() {
             @Override
             public void onCompleted(Object result) {
-                GreenRobotBus_.getInstance_(context).post(new DropboxFileList((String[]) result));
+                EventBus.getDefault().post(new DropboxFileList((String[]) result));
             }
         });
     }

@@ -23,6 +23,8 @@ import android.widget.ListAdapter;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +35,6 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.AccountListAdapter2;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.blotter.TotalCalculationTask;
-import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.bus.SwitchToMenuTabEvent;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.dialog.AccountInfoDialog;
@@ -102,7 +103,7 @@ public class AccountListActivity extends AbstractListActivity {
         if (id == R.id.backup) {
             MenuListItem.MENU_BACKUP.call(this);
         } else if (id == R.id.go_to_menu) {
-            GreenRobotBus_.getInstance_(this).post(new SwitchToMenuTabEvent());
+            EventBus.getDefault().post(new SwitchToMenuTabEvent());
         }
     }
 

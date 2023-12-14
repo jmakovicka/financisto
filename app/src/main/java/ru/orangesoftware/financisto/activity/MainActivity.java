@@ -20,12 +20,11 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.TabHost;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.bus.GreenRobotBus;
-import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
 import ru.orangesoftware.financisto.bus.SwitchToMenuTabEvent;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -37,7 +36,7 @@ import ru.orangesoftware.financisto.utils.PinProtection;
 
 public class MainActivity extends TabActivity implements TabHost.OnTabChangeListener {
 
-    private GreenRobotBus greenRobotBus;
+    private EventBus eventBus;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -48,7 +47,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        greenRobotBus = GreenRobotBus_.getInstance_(this);
+        eventBus = EventBus.getDefault();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -78,9 +77,23 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        greenRobotBus.register(this);
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
         PinProtection.unlock(this);
         if (PinProtection.isUnlocked()) {
             WebViewDialog.checkVersionAndShowWhatsNewIfNeeded(this);
@@ -90,7 +103,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     @Override
     protected void onPause() {
         super.onPause();
-        greenRobotBus.unregister(this);
+        eventBus.unregister(this);
         PinProtection.lock(this);
     }
 

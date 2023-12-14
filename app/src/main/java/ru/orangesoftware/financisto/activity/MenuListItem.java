@@ -13,13 +13,15 @@ import androidx.core.content.FileProvider;
 import android.os.Build;
 import android.widget.ListAdapter;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.backup.Backup;
-import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.BackupExportTask;
 import ru.orangesoftware.financisto.export.BackupImportTask;
@@ -91,7 +93,7 @@ public enum MenuListItem implements SummaryEntityEnum {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
-            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveBackup());
+            EventBus.getDefault().post(new MenuListActivity.StartDriveBackup());
         }
     },
     /*

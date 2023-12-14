@@ -30,7 +30,6 @@ import java.util.zip.GZIPOutputStream;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.RequestPermission;
 import ru.orangesoftware.financisto.export.drive.GoogleDriveClientV3;
-import ru.orangesoftware.financisto.export.drive.GoogleDriveClientV3_;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
@@ -133,7 +132,7 @@ public abstract class Export {
 
     public static void uploadBackupFileToGoogleDrive(Context context, String backupFileName) throws Exception {
         File file = getBackupFile(context, backupFileName);
-        GoogleDriveClientV3 driveClient = GoogleDriveClientV3_.getInstance_(context);
+        GoogleDriveClientV3 driveClient = new GoogleDriveClientV3(context);
         driveClient.uploadFile(file);
     }
 
