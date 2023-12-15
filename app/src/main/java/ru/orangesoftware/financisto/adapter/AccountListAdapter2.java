@@ -17,9 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
@@ -136,7 +137,7 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
         TextView rightCenterView;
         TextView rightView;
         ProgressBar progressBar;
-        RelativeLayout layout;
+        ConstraintLayout layout;
 
         public static View create(View view) {
             AccountListItemHolder v = new AccountListItemHolder();
