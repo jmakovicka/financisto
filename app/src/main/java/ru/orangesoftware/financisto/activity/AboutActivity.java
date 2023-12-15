@@ -13,6 +13,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.Utils;
@@ -27,7 +28,8 @@ public class AboutActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
 
-        setTitle("Financisto (" + getAppVersion(this) + ")");
+        TextView titleText = findViewById(R.id.titleText);
+        titleText.setText("Financisto (" + getAppVersion(this) + ")");
     }
 
     @Override
