@@ -5,8 +5,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -177,7 +178,7 @@ public class MyPreferences {
 
     public static void setLastAccount(Context context, long accountId) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putLong("last_account_id", accountId).commit();
+        sharedPreferences.edit().putLong("last_account_id", accountId).apply();
     }
 
     public static boolean isRememberAccount(Context context) {
@@ -322,7 +323,7 @@ public class MyPreferences {
         Currency cur = null;
         try {
             String refCurrency = sharedPreferences.getString("report_reference_currency", null);
-            if (currencies != null && currencies.size() > 0) {
+            if (currencies.size() > 0) {
                 for (Currency currency : currencies) {
                     if (currency.title.equals(refCurrency)) cur = currency;
                 }
@@ -482,7 +483,7 @@ public class MyPreferences {
         Configuration config = new Configuration(res.getConfiguration());
         config.setLocale(locale);
         context = context.createConfigurationContext(config);
-        Log.i("MyPreferences", "Switching locale to " + config.getLocales().toString());
+        Log.i("MyPreferences", "Switching locale to " + config.getLocales());
         return context;
     }
 
@@ -513,7 +514,13 @@ public class MyPreferences {
         if (hasSystemFeatureMethod != null) {
             PackageManager pm = context.getPackageManager();
             try {
-                return (Boolean) hasSystemFeatureMethod.invoke(pm, feature);
+                Object hasFeature = hasSystemFeatureMethod.invoke(pm, feature);
+                if (hasFeature != null) {
+                    return (Boolean) hasFeature;
+                } else {
+                    Log.w("Financisto", "PackageManager.hasSystemFeature(" + feature + ") returned null");
+                    return false;
+                }
             } catch (Exception e) {
                 Log.w("Financisto", "Some problems executing PackageManager.hasSystemFeature(" + feature + ")", e);
                 return false;
@@ -539,7 +546,7 @@ public class MyPreferences {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean result = sharedPreferences.getBoolean(name, true);
         if (result) {
-            sharedPreferences.edit().putBoolean(name, false).commit();
+            sharedPreferences.edit().putBoolean(name, false).apply();
         }
         return result;
     }
@@ -551,7 +558,7 @@ public class MyPreferences {
 
     public static void setDatabaseBackupFolder(Context context, String databaseBackupFolder) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putString("database_backup_folder", databaseBackupFolder).commit();
+        sharedPreferences.edit().putString("database_backup_folder", databaseBackupFolder).apply();
     }
 
     public static String[] getReportPreferences(Context context) {
