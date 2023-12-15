@@ -449,7 +449,7 @@
         <activity android:name="org.achartengine.GraphicalActivity" />
 
         <activity
-            android:name=".activity.RequestPermissionActivity_"
+            android:name=".activity.RequestPermissionActivity"
             android:label="@string/permissions" />
 
         <activity
