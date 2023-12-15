@@ -11,6 +11,7 @@ package ru.orangesoftware.financisto.widget;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -77,7 +78,12 @@ public class RateNode {
         bCalc.setOnClickListener(v -> {
             FragmentActivity activity = owner.getActivity();
 
-            CalculatorInput input = CalculatorInput_.builder().amount(String.valueOf(getRate())).build();
+            CalculatorInput input = new CalculatorInput();
+
+            Bundle args = new Bundle();
+            args.putString(CalculatorInput.AMOUNT_ARG, String.valueOf(getRate()));
+            input.setArguments(args);
+
             input.setListener(amount -> {
                 try {
                     setRate(Float.parseFloat(amount));

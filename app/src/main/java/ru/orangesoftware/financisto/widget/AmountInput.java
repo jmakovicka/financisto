@@ -358,7 +358,12 @@ public class AmountInput extends LinearLayout implements AmountListener {
     }
 
     public void openCalculator() {
-        CalculatorInput input = CalculatorInput_.builder().amount(getAbsAmountString()).build();
+        CalculatorInput input = new CalculatorInput();
+
+        Bundle args = new Bundle();
+        args.putString(CalculatorInput.AMOUNT_ARG, getAbsAmountString());
+        input.setArguments(args);
+
         input.setListener(this);
         input.show(owner.getSupportFragmentManager(), "calculator");
     }

@@ -1,26 +1,22 @@
 package ru.orangesoftware.financisto.widget;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import org.androidannotations.annotations.AfterInject;
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.ViewsById;
-
 import java.math.BigDecimal;
-import java.util.List;
+import java.math.RoundingMode;
 import java.util.Stack;
 
 import ru.orangesoftware.financisto.R;
@@ -28,26 +24,15 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.financisto.utils.Utils;
 
-@EFragment(R.layout.calculator)
 public class CalculatorInput extends DialogFragment {
 
-    @ViewById(R.id.result)
+    public final static String AMOUNT_ARG = "amount";
+
     protected TextView tvResult;
 
-    @ViewById(R.id.op)
     protected TextView tvOp;
 
-    @ViewsById({R.id.b0, R.id.b1, R.id.b2, R.id.b3,
-            R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
-            R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
-            R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete})
-    protected List<Button> buttons;
-
-    @SystemService
     protected Vibrator vibrator;
-
-    @FragmentArg
-    protected String amount;
 
     private final Stack<String> stack = new Stack<>();
     private String result = "0";
@@ -60,16 +45,7 @@ public class CalculatorInput extends DialogFragment {
         this.listener = listener;
     }
 
-    @AfterInject
-    public void init() {
-
-    }
-
-    @AfterViews
-    public void initUi() {
-        setDisplay(amount);
-    }
-
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -77,28 +53,49 @@ public class CalculatorInput extends DialogFragment {
         return dialog;
     }
 
-    @Click({R.id.b0, R.id.b1, R.id.b2, R.id.b3,
-            R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
-            R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
-            R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete})
-    public void onButtonClick(View v) {
-        Button b = (Button) v;
-        char c = b.getText().charAt(0);
-        onButtonClick(c);
-    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.calculator, container, false);
 
-    @Click(R.id.bOK)
-    public void onOk() {
-        if (!isInEquals) {
-            doEqualsChar();
+        final int[] calcButtons = {R.id.b0, R.id.b1, R.id.b2, R.id.b3,
+                R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
+                R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
+                R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete};
+
+        for (int id : calcButtons) {
+            View bView = view.findViewById(id);
+            bView.setOnClickListener(v -> {
+                Button b = (Button) v;
+                char c = b.getText().charAt(0);
+                onButtonClick(c);
+            });
         }
-        listener.onAmountChanged(result);
-        dismiss();
-    }
 
-    @Click(R.id.bCancel)
-    public void onCancel() {
-        dismiss();
+        View bOk = view.findViewById(R.id.bOK);
+        bOk.setOnClickListener(v -> {
+            if (!isInEquals) {
+                doEqualsChar();
+            }
+            listener.onAmountChanged(result);
+            dismiss();
+        });
+
+        View bCancel = view.findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(v -> dismiss());
+
+        tvResult = view.findViewById(R.id.result);
+        tvOp = view.findViewById(R.id.op);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            setDisplay(args.getString(AMOUNT_ARG, "0"));
+        } else {
+            setDisplay("0");
+        }
+
+        vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+
+        return view;
     }
 
     private void setDisplay(String s) {
@@ -111,7 +108,7 @@ public class CalculatorInput extends DialogFragment {
 
     private void onButtonClick(char c) {
         if (vibrator != null && MyPreferences.isPinHapticFeedbackEnabled(getActivity())) {
-            vibrator.vibrate(20);
+            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
         }
         switch (c) {
             case 'C':
@@ -164,7 +161,7 @@ public class CalculatorInput extends DialogFragment {
                 case '\r':
                     doEqualsChar();
                     break;
-                case '\u00B1':
+                case '±':
                     setDisplay(new BigDecimal(result).negate().toPlainString());
                     break;
             }
@@ -222,7 +219,7 @@ public class CalculatorInput extends DialogFragment {
                 if (d2.intValue() == 0) {
                     stack.push("0.0");
                 } else {
-                    stack.push(asNumber(valOne).divide(d2, 2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    stack.push(asNumber(valOne).divide(d2, 2, RoundingMode.HALF_UP).toPlainString());
                 }
                 break;
             default:
@@ -244,7 +241,7 @@ public class CalculatorInput extends DialogFragment {
     private void doPercentChar() {
         if (stack.size() == 0)
             return;
-        setDisplay(new BigDecimal(result).divide(Utils.HUNDRED, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(stack.peek())).toPlainString());
+        setDisplay(new BigDecimal(result).divide(Utils.HUNDRED, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(stack.peek())).toPlainString());
         tvOp.setText("");
     }
 
