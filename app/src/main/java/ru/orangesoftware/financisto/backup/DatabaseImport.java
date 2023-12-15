@@ -16,8 +16,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.dropbox.core.util.IOUtil;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -84,7 +82,11 @@ public class DatabaseImport extends FullDatabaseImport {
             recoverDatabase(br);
             runRestoreAlterscripts();
         } finally {
-            IOUtil.closeInput(br);
+            try {
+                br.close();
+            } catch (IOException ex) {
+                // Ignore
+            }
         }
     }
 
