@@ -13,6 +13,7 @@ package ru.orangesoftware.financisto.view;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.Base64Coder;
@@ -35,7 +36,7 @@ public class PinView implements OnClickListener {
 		R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bHelp,
 		R.id.bClear};
 
-	public static interface PinListener {
+	public interface PinListener {
 		void onConfirm(String pinBase64);
 		void onSuccess(String pinBase64);
 	}
@@ -87,7 +88,7 @@ public class PinView implements OnClickListener {
 		Button b = (Button)v;
 		char c = b.getText().charAt(0);
         if (vibrator != null && MyPreferences.isPinHapticFeedbackEnabled(context)) {
-            vibrator.vibrate(20);
+			vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
         }
 		switch (c) {
 		case 'O':
@@ -97,9 +98,8 @@ public class PinView implements OnClickListener {
 			result.setText("");
 			break;
 		default:
-            String text = result.getText().toString();
-			if (text.length() < 7) {
-				result.setText(text+String.valueOf(c));
+			if (result.length() < 7) {
+				result.append(String.valueOf(c));
 			}
 			break;
 		}
