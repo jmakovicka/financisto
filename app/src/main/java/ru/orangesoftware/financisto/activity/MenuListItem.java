@@ -71,9 +71,6 @@ public enum MenuListItem implements SummaryEntityEnum {
     MENU_BACKUP(R.string.backup_database, R.string.backup_database_summary, R.drawable.actionbar_db_backup) {
         @Override
         public void call(Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
             ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
             new BackupExportTask(activity, d, true).execute();
         }
@@ -90,9 +87,6 @@ public enum MenuListItem implements SummaryEntityEnum {
     GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.string.backup_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
         @Override
         public void call(Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
             EventBus.getDefault().post(new MenuListActivity.StartDriveBackup());
         }
     },
@@ -100,9 +94,6 @@ public enum MenuListItem implements SummaryEntityEnum {
     MENU_BACKUP_TO(R.string.backup_database_to, R.string.backup_database_to_summary, R.drawable.actionbar_share) {
         @Override
         public void call(final Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
             ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
             final BackupExportTask t = new BackupExportTask(activity, d, false);
             t.setShowResultMessage(false);
@@ -122,9 +113,6 @@ public enum MenuListItem implements SummaryEntityEnum {
     MENU_IMPORT_EXPORT(R.string.import_export, R.string.import_export_summary, R.drawable.actionbar_export) {
         @Override
         public void call(Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
             showPickOneDialog(activity, R.string.import_export, ImportExportEntities.values(), activity);
         }
     },

@@ -12,9 +12,6 @@ import androidx.core.content.ContextCompat;
 public class RequestPermission {
 
     public static boolean isRequestingPermission(Context context, String permission) {
-        if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-            if (Build.VERSION.SDK_INT > VERSION_CODES.P) return false;
-        }
         if (!checkPermission(context, permission)) {
             Intent intent = new Intent(context, RequestPermissionActivity.class);
             context.startActivity(intent);
@@ -24,9 +21,6 @@ public class RequestPermission {
     }
 
     public static boolean checkPermission(Context ctx, String permission) {
-        if (permission == Manifest.permission.WRITE_EXTERNAL_STORAGE){
-            if (Build.VERSION.SDK_INT > VERSION_CODES.P) return true;
-        }
         return ContextCompat.checkSelfPermission(ctx, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
