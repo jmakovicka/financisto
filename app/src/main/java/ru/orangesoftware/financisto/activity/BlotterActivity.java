@@ -58,6 +58,7 @@ public class BlotterActivity extends AbstractListActivity {
     private static final int MENU_DUPLICATE = MENU_ADD + 1;
     private static final int MENU_SAVE_AS_TEMPLATE = MENU_ADD + 2;
 
+    protected TextView titleText;
     protected TextView totalText;
     protected ImageButton bFilter;
     protected ImageButton bTransfer;
@@ -119,6 +120,8 @@ public class BlotterActivity extends AbstractListActivity {
     @Override
     protected void internalOnCreate(Bundle savedInstanceState) {
         super.internalOnCreate(savedInstanceState);
+
+        titleText = findViewById(R.id.titleText);
 
         bFilter = findViewById(R.id.bFilter);
         bFilter.setOnClickListener(v -> {
@@ -532,8 +535,11 @@ public class BlotterActivity extends AbstractListActivity {
             }
         }
         String title = blotterFilter.getTitle();
-        if (title != null) {
-            setTitle(getString(R.string.blotter) + " : " + title);
+        if (title != null && !title.isEmpty()) {
+            titleText.setText(getString(R.string.blotter) + " : " + title);
+            titleText.setVisibility(View.VISIBLE);
+        } else {
+            titleText.setVisibility(View.GONE);
         }
         updateFilterImage();
     }

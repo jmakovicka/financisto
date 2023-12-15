@@ -7,12 +7,8 @@
 
     <TextView
         android:id="@+id/titleText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        style="@style/titleText"
+        android:layout_weight="0"
         tools:text="Title Text" />
 
     <androidx.fragment.app.FragmentContainerView
