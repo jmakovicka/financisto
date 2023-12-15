@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
+        mavenCentral()
         google()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.0'
@@ -12,22 +12,24 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs += ['-Xlint:deprecation']
+        tasks.withType(JavaCompile).tap {
+            configureEach {
+                options.compilerArgs += ['-Xlint:deprecation']
+            }
         }
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
 
 project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 
-tasks.matching {it instanceof Test}.all {
+tasks.matching {it instanceof Test}.configureEach {
     testLogging.events = ["failed", "passed", "skipped"]
 }
