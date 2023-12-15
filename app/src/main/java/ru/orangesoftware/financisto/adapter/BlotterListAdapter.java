@@ -24,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import java.util.Date;
 import java.util.HashMap;
 import ru.orangesoftware.financisto.R;
@@ -302,7 +305,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
 
     public static class BlotterViewHolder {
 
-        public final RelativeLayout layout;
+        public final ConstraintLayout layout;
         public final TextView indicator;
         public final TextView topView;
         public final TextView centerView;
@@ -313,7 +316,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         public final CheckBox checkBox;
 
         public BlotterViewHolder(View view) {
-            layout = (RelativeLayout) view.findViewById(R.id.layout);
+            layout = (ConstraintLayout) view.findViewById(R.id.layout);
             indicator = (TextView) view.findViewById(R.id.indicator);
             topView = (TextView) view.findViewById(R.id.top);
             centerView = (TextView) view.findViewById(R.id.center);
