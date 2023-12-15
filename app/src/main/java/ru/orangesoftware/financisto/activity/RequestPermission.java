@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -15,7 +16,8 @@ public class RequestPermission {
             if (Build.VERSION.SDK_INT > VERSION_CODES.P) return false;
         }
         if (!checkPermission(context, permission)) {
-            RequestPermissionActivity_.intent(context).requestedPermission(permission).start();
+            Intent intent = new Intent(context, RequestPermissionActivity.class);
+            context.startActivity(intent);
             return true;
         }
         return false;

@@ -1,48 +1,50 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import android.os.Bundle;
 import android.widget.CompoundButton;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.ViewById;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
-@EActivity(R.layout.activity_request_permissions)
-public class RequestPermissionActivity extends Activity {
+public class RequestPermissionActivity extends FragmentActivity {
 
-    @Extra("requestedPermission")
-    String requestedPermission;
-
-    @ViewById(R.id.toggleGetAccounts)
     SwitchMaterial toggleGetAccounts;
-
-    @ViewById(R.id.toggleCamera)
     SwitchMaterial toggleCamera;
-
-    @ViewById(R.id.toggleSms)
     SwitchMaterial toggleSms;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_request_permissions);
+
+        toggleGetAccounts = findViewById(R.id.toggleGetAccounts);
+        toggleCamera = findViewById(R.id.toggleCamera);
+        toggleSms = findViewById(R.id.toggleSms);
+
+        checkPermissions();
+
+        findViewById(R.id.toggleGetAccounts).setOnClickListener(
+                v -> requestPermission(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts));
+        findViewById(R.id.toggleCamera).setOnClickListener(
+                v -> requestPermission(Manifest.permission.CAMERA, toggleCamera));
+        findViewById(R.id.toggleSms).setOnClickListener(
+                v -> requestPermission(Manifest.permission.RECEIVE_SMS, toggleSms));
+
+    }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(MyPreferences.switchLocale(base));
-    }
-
-    @AfterViews
-    public void initViews() {
-        checkPermissions();
     }
 
     private void checkPermissions() {
@@ -58,21 +60,6 @@ public class RequestPermissionActivity extends Activity {
         }
     }
 
-    @Click(R.id.toggleGetAccounts)
-    public void onGrantGetAccounts() {
-        requestPermission(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts);
-    }
-
-    @Click(R.id.toggleCamera)
-    public void onGrantCamera() {
-        requestPermission(Manifest.permission.CAMERA, toggleCamera);
-    }
-
-    @Click(R.id.toggleSms)
-    public void onGrantSms() {
-        requestPermission(Manifest.permission.RECEIVE_SMS, toggleSms);
-    }
-
     private void requestPermission(String permission, CompoundButton toggleButton) {
         toggleButton.setChecked(false);
         ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
@@ -84,6 +71,7 @@ public class RequestPermissionActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         checkPermissions();
     }
 
