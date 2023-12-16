@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         a:id="@+id/constraintLayout"
         a:layout_width="match_parent"
-        a:layout_height="match_parent"
+        a:layout_height="wrap_content"
         a:orientation="vertical"
         a:padding="10dp"
         tools:layout_editor_absoluteX="1dp"
