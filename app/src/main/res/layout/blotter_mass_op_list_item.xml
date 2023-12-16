@@ -8,99 +8,105 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp">
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
 
     <TextView
         android:id="@+id/indicator"
         android:layout_width="7dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/bottom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/top"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="6dp"
-        android:background="@color/unreconciled_transaction_color" />
+        android:layout_height="0dp"
+        android:background="@color/unreconciled_transaction_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginRight="6dp"
-        android:layout_toRightOf="@id/indicator"
-        android:focusable="false" />
-
-    <ImageView
-        android:id="@+id/right_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/top"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignTop="@+id/top"
-        android:adjustViewBounds="false"
-        android:paddingRight="10dp"
-        android:scaleType="fitEnd"
-        android:src="@drawable/ic_blotter_income" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="6dp"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/indicator"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/cb"
+        android:layout_marginStart="8dp"
         android:maxLines="1"
-        android:text="top"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        app:layout_constraintStart_toEndOf="@+id/cb"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Top" />
 
     <TextView
         android:id="@+id/center"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/top"
-        android:layout_below="@+id/top"
-        android:layout_toLeftOf="@+id/right_center"
+        android:layout_marginStart="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintEnd_toStartOf="@+id/right_center"
+        app:layout_constraintStart_toEndOf="@+id/cb"
+        app:layout_constraintTop_toBottomOf="@+id/top"
+        tools:text="Center" />
 
     <TextView
         android:id="@+id/bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/center"
-        android:layout_below="@id/center"
+        android:layout_marginStart="8dp"
         android:maxLines="1"
-        android:text="bottom"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        app:layout_constraintStart_toEndOf="@+id/cb"
+        app:layout_constraintTop_toBottomOf="@id/center"
+        tools:text="Bottom" />
 
-    <TextView
-        android:id="@+id/right"
-        style="@style/TextAppearance.BalanceAmount"
+    <ImageView
+        android:id="@+id/right_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/bottom"
-        android:layout_alignParentRight="true"
-        android:maxLines="1"
-        android:paddingRight="10dp"
-        android:text="right" />
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="false"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_blotter_income"
+        app:layout_constraintBottom_toBottomOf="@+id/top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/top" />
 
     <TextView
         android:id="@+id/right_center"
         style="@style/TextAppearance.TransactionAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/center"
-        android:layout_alignBottom="@+id/center"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginEnd="8dp"
         android:maxLines="1"
-        android:paddingRight="10dp"
-        android:text="right_center"/>
+        app:layout_constraintBottom_toBottomOf="@+id/center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/right_top"
+        tools:text="Right Center" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/right"
+        style="@style/TextAppearance.BalanceAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="@id/bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/right_center"
+        tools:text="Right" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

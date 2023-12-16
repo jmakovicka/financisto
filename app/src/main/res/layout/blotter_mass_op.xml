@@ -12,13 +12,15 @@
     android:orientation="vertical">
 
     <LinearLayout
-        style="@style/BottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/action_button_size"
         android:paddingTop="2dp">
 
         <Spinner
             android:id="@+id/spOperation"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <ListView
