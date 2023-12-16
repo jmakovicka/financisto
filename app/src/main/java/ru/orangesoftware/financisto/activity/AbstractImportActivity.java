@@ -15,12 +15,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
@@ -59,9 +56,7 @@ public abstract class AbstractImportActivity extends Activity {
     protected void openFile() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        intent.setData(fileUri);
-        intent.setType("*/*");
+        intent.setDataAndType(fileUri, "*/*");
 
         try {
             startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
@@ -73,9 +68,8 @@ public abstract class AbstractImportActivity extends Activity {
     }
 
     protected void uriToDisplay() {
-        Cursor fileCursor =
-                getContentResolver().query(fileUri, null, null, null, null);
-        if (fileCursor != null) {
+        try (Cursor fileCursor = getContentResolver().query(fileUri, null, null, null, null)) {
+            assert fileCursor != null;
             int nameIndex = fileCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
             fileCursor.moveToFirst();
             String filePath = fileCursor.getString(nameIndex);
