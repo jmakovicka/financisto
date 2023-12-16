@@ -19,9 +19,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import org.greenrobot.eventbus.EventBus;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.SummaryEntityListAdapter;
+import ru.orangesoftware.financisto.export.BackupExportTask;
 import ru.orangesoftware.financisto.export.BackupImportTask;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
@@ -32,8 +32,6 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
 public class MenuListActivity extends ListActivity {
-
-    private static final int RESOLVE_CONNECTION_REQUEST_CODE = 1;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -73,6 +71,13 @@ public class MenuListActivity extends ListActivity {
                         new BackupImportTask(this, d).execute(fileUri.toString());
                     }
                 }
+            } else if (requestCode == MenuListItem.ACTIVITY_EXPORT_FILENAME) {
+                if (data != null) {
+                    Uri fileUri = data.getData();
+                    ProgressDialog d = ProgressDialog.show(this, null, getString(R.string.backup_database_inprogress), true);
+                    final BackupExportTask t = new BackupExportTask(this, d, fileUri);
+                    t.execute((String[]) null);
+                }
             }
         }
 
@@ -100,9 +105,6 @@ public class MenuListActivity extends ListActivity {
             progressDialog.dismiss();
             progressDialog = null;
         }
-    }
-
-    public static class StartDriveBackup {
     }
 
 }

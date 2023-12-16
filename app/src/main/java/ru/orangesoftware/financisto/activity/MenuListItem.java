@@ -1,31 +1,20 @@
 package ru.orangesoftware.financisto.activity;
 
-import android.Manifest;
 import static android.Manifest.permission.RECEIVE_SMS;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.core.content.FileProvider;
 
-import android.os.Build;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
-import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
-import ru.orangesoftware.financisto.backup.Backup;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.BackupExportTask;
-import ru.orangesoftware.financisto.export.BackupImportTask;
-import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvExportTask;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
@@ -72,7 +61,7 @@ public enum MenuListItem implements SummaryEntityEnum {
         @Override
         public void call(Activity activity) {
             ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
-            new BackupExportTask(activity, d, true).execute();
+            new BackupExportTask(activity, d).execute();
         }
     },
     MENU_RESTORE(R.string.restore_database, R.string.restore_database_summary, R.drawable.actionbar_db_restore) {
@@ -84,32 +73,30 @@ public enum MenuListItem implements SummaryEntityEnum {
 
             activity.startActivityForResult(intent, ACTIVITY_DB_IMPORT);}
     },
+    /*
     GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.string.backup_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
         @Override
         public void call(Activity activity) {
             EventBus.getDefault().post(new MenuListActivity.StartDriveBackup());
         }
     },
-    /*
+    */
     MENU_BACKUP_TO(R.string.backup_database_to, R.string.backup_database_to_summary, R.drawable.actionbar_share) {
         @Override
         public void call(final Activity activity) {
-            ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
-            final BackupExportTask t = new BackupExportTask(activity, d, false);
-            t.setShowResultMessage(false);
-            t.setListener(result -> {
-                String backupFileName = t.backupFileName;
-                File file = Export.getBackupFile(activity, backupFileName);
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                Uri backupFileUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID, file);
-                intent.putExtra(Intent.EXTRA_STREAM, backupFileUri);
-                intent.setType("text/plain");
-                activity.startActivity(Intent.createChooser(intent, activity.getString(R.string.backup_database_to_title)));
-            });
-            t.execute((String[]) null);
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/x-gzip");
+            intent.putExtra(Intent.EXTRA_TITLE, "financisto.backup");
+
+            try {
+                activity.startActivityForResult(intent, ACTIVITY_EXPORT_FILENAME);
+            } catch (ActivityNotFoundException e) {
+                // No compatible file manager was found.
+                Toast.makeText(activity, R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
+            }
         }
     },
-    */
     MENU_IMPORT_EXPORT(R.string.import_export, R.string.import_export_summary, R.drawable.actionbar_export) {
         @Override
         public void call(Activity activity) {
@@ -200,6 +187,7 @@ public enum MenuListItem implements SummaryEntityEnum {
     public static final int ACTIVITY_QIF_IMPORT = 5;
     public static final int ACTIVITY_CHANGE_PREFERENCES = 6;
     public static final int ACTIVITY_DB_IMPORT = 7;
+    public static final int ACTIVITY_EXPORT_FILENAME = 8;
 
     public abstract void call(Activity activity);
 
