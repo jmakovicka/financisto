@@ -65,9 +65,13 @@ public abstract class Export {
         generateBackup(outputStream);
     }
 
-    public String generateFilename() {
+    public static String generateBaseFilename() {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd'_'HHmmss'_'SSS", Locale.US);
-        return df.format(new Date()) + getExtension();
+        return df.format(new Date());
+    }
+
+    public String generateFilename() {
+        return generateBaseFilename() + getExtension();
     }
 
     public byte[] generateBackupBytes() throws Exception {

@@ -15,6 +15,7 @@ import ru.orangesoftware.financisto.R;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.BackupExportTask;
+import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvExportTask;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
@@ -87,7 +88,7 @@ public enum MenuListItem implements SummaryEntityEnum {
             Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("application/x-gzip");
-            intent.putExtra(Intent.EXTRA_TITLE, "financisto.backup");
+            intent.putExtra(Intent.EXTRA_TITLE, Export.generateBaseFilename() + ".backup");
 
             try {
                 activity.startActivityForResult(intent, ACTIVITY_EXPORT_FILENAME);
