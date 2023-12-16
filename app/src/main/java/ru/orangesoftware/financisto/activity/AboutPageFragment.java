@@ -26,7 +26,8 @@ public class AboutPageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle args = getArguments();
         if (args != null) {
-            ((WebView) view.findViewById(R.id.aboutWebView)).loadUrl(args.getString(PAGE_URL));
+            ((WebView) view.findViewById(R.id.aboutWebView)).loadUrl(
+                    args.getString(PAGE_URL, "about:blank"));
         }
     }
 }

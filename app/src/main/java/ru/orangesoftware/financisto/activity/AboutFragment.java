@@ -45,7 +45,7 @@ public class AboutFragment extends Fragment {
         viewPager.setAdapter(aboutCollectionAdapter);
 
         tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(aboutCollectionAdapter.tabNames[position])
+                (tab, position) -> tab.setText(AboutCollectionAdapter.tabNames[position])
         );
         tabLayoutMediator.attach();
     }
