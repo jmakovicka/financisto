@@ -27,7 +27,7 @@ import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.common.AccountPicker;
+//import com.google.android.gms.common.AccountPicker;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.dialog.FolderBrowser;
@@ -119,17 +119,17 @@ public class PreferencesActivity extends PreferenceActivity {
     }
 
     private void chooseAccount() {
-        try {
-            if (isRequestingPermissions(this, GET_ACCOUNTS, "android.permission.USE_CREDENTIALS")) {
-                return;
-            }
-            Account selectedAccount = getSelectedAccount();
-            Intent intent = AccountPicker.newChooseAccountIntent(selectedAccount, null,
-                    new String[]{"com.google"}, true, null, null, null, null);
-            startActivityForResult(intent, CHOOSE_ACCOUNT);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, R.string.google_drive_account_select_error, Toast.LENGTH_LONG).show();
-        }
+//        try {
+//            if (isRequestingPermissions(this, GET_ACCOUNTS, "android.permission.USE_CREDENTIALS")) {
+//                return;
+//            }
+//            Account selectedAccount = getSelectedAccount();
+//            Intent intent = AccountPicker.newChooseAccountIntent(selectedAccount, null,
+//                    new String[]{"com.google"}, true, null, null, null, null);
+//            startActivityForResult(intent, CHOOSE_ACCOUNT);
+//        } catch (ActivityNotFoundException e) {
+//            Toast.makeText(this, R.string.google_drive_account_select_error, Toast.LENGTH_LONG).show();
+//        }
     }
 
     private Account getSelectedAccount() {
