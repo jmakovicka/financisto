@@ -33,7 +33,6 @@ import ru.orangesoftware.financisto.db.Database;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseSchemaEvolution;
 import ru.orangesoftware.financisto.export.Export;
-import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 
 import static ru.orangesoftware.financisto.backup.Backup.RESTORE_SCRIPTS;
 import static ru.orangesoftware.financisto.backup.Backup.tableHasOrder;
@@ -59,13 +58,6 @@ public class DatabaseImport extends FullDatabaseImport {
         return new DatabaseImport(context, db, in);
     }
     */
-
-    public static DatabaseImport createFromDropboxBackup(Context context, DatabaseAdapter dbAdapter, Dropbox dropbox, String backupFile)
-            throws Exception {
-        InputStream inputStream = dropbox.getFileAsStream(backupFile);
-        InputStream in = new GZIPInputStream(inputStream);
-        return new DatabaseImport(context, dbAdapter, in);
-    }
 
     private DatabaseImport(Context context, DatabaseAdapter dbAdapter, InputStream backupStream) {
         super(context, dbAdapter);

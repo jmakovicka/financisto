@@ -10,7 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.export;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
@@ -27,10 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.activity.RequestPermission;
 import ru.orangesoftware.financisto.export.drive.GoogleDriveClientV3;
-import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public abstract class Export {
@@ -119,12 +115,6 @@ public abstract class Export {
     public static File getBackupFile(Context context, String backupFileName) {
         File path = getBackupFolder(context);
         return new File(path, backupFileName);
-    }
-
-    public static void uploadBackupFileToDropbox(Context context, String backupFileName) throws Exception {
-        File file = getBackupFile(context, backupFileName);
-        Dropbox dropbox = new Dropbox(context);
-        dropbox.uploadFile(file);
     }
 
     public static void uploadBackupFileToGoogleDrive(Context context, String backupFileName) throws Exception {

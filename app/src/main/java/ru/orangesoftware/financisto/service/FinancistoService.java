@@ -150,15 +150,6 @@ public class FinancistoService extends JobIntentService {
                 DatabaseExport export = new DatabaseExport(this, db.db(), true);
                 String fileName = export.export();
                 boolean successful = true;
-                if (MyPreferences.isDropboxUploadAutoBackups(this)) {
-                    try {
-                        Export.uploadBackupFileToDropbox(this, fileName);
-                    } catch (Exception e) {
-                        Log.e(TAG, "Unable to upload auto-backup to Dropbox", e);
-                        MyPreferences.notifyAutobackupFailed(this, e);
-                        successful = false;
-                    }
-                }
                 if (MyPreferences.isGoogleDriveUploadAutoBackups(this)) {
                     try {
                         Export.uploadBackupFileToGoogleDrive(this, fileName);

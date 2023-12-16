@@ -22,7 +22,6 @@ public class BackupExportTask extends ImportExportAsyncTask {
 		DatabaseExport export = new DatabaseExport(context, db.db(), true);
         backupFileName = export.export();
         if (uploadOnline) {
-            doUploadToDropbox(context, backupFileName);
 			doUploadToGoogleDrive(context, backupFileName);
         }
         return backupFileName;
