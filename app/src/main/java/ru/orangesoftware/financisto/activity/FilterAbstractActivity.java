@@ -244,6 +244,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == R.id.category_pick || requestCode == R.id.category_add) {
             categorySelector.onActivityResult(requestCode, resultCode, data);
         }
