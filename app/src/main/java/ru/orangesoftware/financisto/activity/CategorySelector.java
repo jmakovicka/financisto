@@ -177,9 +177,7 @@ public class CategorySelector<A extends AbstractActivity> {
                     autoCompleteTextView.selectAll();
                 }
             });
-            autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-                activity.onSelectedId(R.id.category, id);
-            });
+            autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> activity.onSelectedId(R.id.category, id));
             initAutocomplete = false;
         }
     }
@@ -282,7 +280,7 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void selectCategory(long categoryId, boolean selectLast) {
         if (multiSelect) {
-            updateCheckedEntities("" + categoryId);
+            updateCheckedEntities(String.valueOf(categoryId));
             selectedCategory = Category.noCategory();
             this.selectLast = false;
             fillCategoryInUI();
@@ -306,10 +304,6 @@ public class CategorySelector<A extends AbstractActivity> {
         MyEntitySelector.updateCheckedEntities(this.categories, checkedCommaIds);
     }
 
-    public void updateCheckedEntities(String[] checkedIds) {
-        MyEntitySelector.updateCheckedEntities(this.categories, checkedIds);
-    }
-
     public void updateCheckedEntities(List<Long> checkedIds) {
         for (Long id : checkedIds) {
             for (MyEntity e : categories) {
@@ -329,11 +323,11 @@ public class CategorySelector<A extends AbstractActivity> {
     public void createAttributesLayout(LinearLayout layout) {
         attributesLayout = new LinearLayout(activity);
         attributesLayout.setOrientation(LinearLayout.VERTICAL);
-        layout.addView(attributesLayout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        layout.addView(attributesLayout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     }
 
     protected List<TransactionAttribute> getAttributes() {
-        List<TransactionAttribute> list = new LinkedList<TransactionAttribute>();
+        List<TransactionAttribute> list = new LinkedList<>();
         long count = attributesLayout.getChildCount();
         for (int i = 0; i < count; i++) {
             View v = attributesLayout.getChildAt(i);
