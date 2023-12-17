@@ -28,7 +28,7 @@ import static ru.orangesoftware.financisto.blotter.BlotterFilter.PROJECT_ID;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.BTW;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.IN;
 
-public abstract class FilterAbstractActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
+public abstract class FilterAbstractActivity extends AbstractActivity {
 
     protected WhereFilter filter = WhereFilter.empty();
 
@@ -59,7 +59,6 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 
     protected void initCategorySelector(LinearLayout layout) {
         categorySelector = new CategorySelector<>(this, db, x);
-        categorySelector.setListener(this);
         categorySelector.initMultiSelect();
         categorySelector.createNode(layout, FILTER);
     }
@@ -131,8 +130,18 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
             updatePayeeFromFilter();
         } else if (id == R.id.category) {
             categorySelector.onSelectedId(id, selectedId, false);
-//                filter.put(Criteria.btw(CATEGORY_LEFT, categorySelector.getCheckedCategoryLeafs()));
-//                updateCategoryFromFilter();
+            clearCategoryFilter();
+            if (categorySelector.isMultiSelect()) {
+                final String[] checkedCatLeafs = categorySelector.getCheckedCategoryLeafs();
+                if (checkedCatLeafs.length > 1)
+                    filter.put(Criteria.btw(CATEGORY_LEFT, checkedCatLeafs));
+            } else {
+                Category cat = categorySelector.getSelectedCategory();
+                if (cat.id > 0) {
+                    filter.put(Criteria.btw(CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
+                }
+            }
+            updateCategoryFromFilter();
         } else if (id == R.id.location) {
             locationSelector.onSelectedId(id, selectedId);
             filter.put(Criteria.in(LOCATION_ID, locationSelector.getCheckedIds()));
@@ -248,21 +257,6 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
         if (requestCode == R.id.category_pick || requestCode == R.id.category_add) {
             categorySelector.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    @Override
-    public void onCategorySelected(Category cat, boolean selectLast) {
-        clearCategoryFilter();
-        if (categorySelector.isMultiSelect()) {
-            final String[] checkedCatLeafs = categorySelector.getCheckedCategoryLeafs();
-            if (checkedCatLeafs.length > 1)
-                filter.put(Criteria.btw(CATEGORY_LEFT, checkedCatLeafs));
-        } else {
-            if (cat.id > 0) {
-                filter.put(Criteria.btw(CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
-            }
-        }
-        updateCategoryFromFilter();
     }
 
     protected void updateProjectFromFilter() {

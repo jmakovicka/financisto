@@ -44,8 +44,8 @@ public class CategorySelector<A extends AbstractActivity> {
     private ListAdapter categoryAdapter;
     private LinearLayout attributesLayout;
 
-    private long selectedCategoryId = NO_CATEGORY_ID;
-    private CategorySelectorListener listener;
+    private Category selectedCategory = Category.noCategory();
+    private boolean selectLast = true;
     private boolean showSplitCategory = true;
     private boolean multiSelect, useMultiChoicePlainSelector;
     private final long excludingSubTreeId;
@@ -63,11 +63,6 @@ public class CategorySelector<A extends AbstractActivity> {
         this.db = db;
         this.x = x;
         this.excludingSubTreeId = exclSubTreeId;
-    }
-
-
-    public void setListener(CategorySelectorListener listener) {
-        this.listener = listener;
     }
 
     public void doNotShowSplitCategory() {
@@ -232,19 +227,19 @@ public class CategorySelector<A extends AbstractActivity> {
     private void pickCategory() {
         if (isMultiSelect()) {
             x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
-        } else if (!CategorySelectorActivity.pickCategory(activity, multiSelect, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
+        } else if (!CategorySelectorActivity.pickCategory(activity, multiSelect, selectedCategory.id, excludingSubTreeId, showSplitCategory)) {
             x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
-                    DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
+                    DatabaseHelper.CategoryViewColumns._id.name(), selectedCategory.id);
 
         }
     }
 
     void clearCategory() {
         categoryText.setText(emptyResId);
-        selectedCategoryId = NO_CATEGORY_ID;
+        selectedCategory = Category.noCategory();
+        selectLast = false;
         for (MyEntity e : categories) e.setChecked(false);
         showHideMinusBtn(false);
-        if (listener != null) listener.onCategorySelected(Category.noCategory(), false);
     }
 
     public void onSelectedId(int id, long selectedId) {
@@ -274,8 +269,11 @@ public class CategorySelector<A extends AbstractActivity> {
         }
     }
 
-    public long getSelectedCategoryId() {
-        return selectedCategoryId;
+    public Category getSelectedCategory() {
+        return selectedCategory;
+    }
+    public boolean getSelectLast() {
+        return selectLast;
     }
 
     public void selectCategory(long categoryId) {
@@ -285,18 +283,18 @@ public class CategorySelector<A extends AbstractActivity> {
     public void selectCategory(long categoryId, boolean selectLast) {
         if (multiSelect) {
             updateCheckedEntities("" + categoryId);
-            selectedCategoryId = categoryId;
+            selectedCategory = Category.noCategory();
+            this.selectLast = false;
             fillCategoryInUI();
-            if (listener != null) listener.onCategorySelected(null, false);
         } else {
-            if (selectedCategoryId != categoryId) {
+            if (selectedCategory.id != categoryId) {
                 Category category = db.getCategoryWithParent(categoryId);
                 if (category != null) {
                     categoryText.setText(Category.getTitle(category.title, category.level));
                     showHideMinusBtn(true);
                 }
-                selectedCategoryId = categoryId;
-                if (listener != null) listener.onCategorySelected(category, selectLast);
+                selectedCategory = category;
+                this.selectLast = selectLast;
             }
             if (filterNode != null) {
                 filterNode.hideFilter();
@@ -351,7 +349,7 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void addAttributes(Transaction transaction) {
         attributesLayout.removeAllViews();
-        ArrayList<Attribute> attributes = db.getAllAttributesForCategory(selectedCategoryId);
+        ArrayList<Attribute> attributes = db.getAllAttributesForCategory(selectedCategory.id);
         Map<Long, String> values = transaction.categoryAttributes;
         for (Attribute a : attributes) {
             AttributeView av = inflateAttribute(a);
@@ -384,14 +382,7 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public boolean isSplitCategorySelected() {
-        return Category.isSplit(selectedCategoryId);
-    }
-
-    @Deprecated
-    // todo.mb: it seems not much sense in it, better do it in single place - activity.onSelectedId
-    public interface CategorySelectorListener {
-        @Deprecated
-        void onCategorySelected(Category category, boolean selectLast);
+        return Category.isSplit(selectedCategory.id);
     }
 
     public boolean isMultiSelect() {

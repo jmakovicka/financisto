@@ -485,7 +485,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
             if (categorySelector.isSplitCategorySelected()) {
                 Log.d("Financisto", "Saving splits...");
                 ActivityState state = new ActivityState();
-                state.categoryId = categorySelector.getSelectedCategoryId();
+                state.categoryId = categorySelector.getSelectedCategory().id;
                 state.idSequence = idSequence;
                 state.splits = new ArrayList<>(viewToSplitMap.values());
                 try (ByteArrayOutputStream s = new ByteArrayOutputStream()) {

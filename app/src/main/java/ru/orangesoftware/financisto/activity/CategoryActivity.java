@@ -34,7 +34,7 @@ import static ru.orangesoftware.financisto.activity.RequestPermission.isRequesti
 import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
-public class CategoryActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
+public class CategoryActivity extends AbstractActivity {
 
     public static final String CATEGORY_ID_EXTRA = "categoryId";
     public static final int NEW_ATTRIBUTE_REQUEST = 1;
@@ -141,7 +141,6 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         final CategorySelector res = new CategorySelector<>(this, db, x, category.id);
         LinearLayout layout = findViewById(R.id.layout);
         res.createNode(layout, PARENT);
-        res.setListener(this);
         res.fetchCategories(false);
         res.doNotShowSplitCategory();
         return res;
@@ -318,6 +317,10 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     public void onSelectedId(int id, long selectedId) {
         if (id == R.id.category) {
             parentCatSelector.selectCategory(selectedId);
+            Category parent = parentCatSelector.getSelectedCategory();
+            if (parent.id != category.id) {
+                selectParentCategory(parent);
+            }
         } else if (id == R.id.new_attribute) {
             Attribute a = db.getAttribute(selectedId);
             addAttribute(a);
@@ -361,8 +364,6 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
                     SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
                     updateSmsTemplate(smsTemplatesLayout, t);
                 }
-            } else if (requestCode == R.id.category_pick) {
-                parentCatSelector.onActivityResult(requestCode, resultCode, data);
             }
         }
     }
@@ -400,10 +401,4 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         }
     }
 
-    @Override
-    public void onCategorySelected(Category parent, boolean selectLast) {
-        if (parent.id != category.id) {
-            selectParentCategory(parent);
-        }
-    }
 }

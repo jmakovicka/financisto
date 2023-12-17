@@ -162,7 +162,7 @@ public class SmsTemplateActivity extends AbstractActivity {
     private void updateSmsTemplateFromUI() {
         smsTemplate.title = smsNumber.getText().toString();
         smsTemplate.template = templateTxt.getText().toString();
-        smsTemplate.categoryId = categorySelector == null ? categoryId : categorySelector.getSelectedCategoryId();
+        smsTemplate.categoryId = categorySelector == null ? categoryId : categorySelector.getSelectedCategory().id;
         smsTemplate.isIncome = toggleIncome.isChecked();
         smsTemplate.accountId = accountSpinner.getSelectedItemId();
 
@@ -201,7 +201,7 @@ public class SmsTemplateActivity extends AbstractActivity {
     public void onSelectedId(int id, long selectedId) {
         categorySelector.onSelectedId(id, selectedId);
         if (id == R.id.category) {
-            categoryId = categorySelector.getSelectedCategoryId();
+            categoryId = categorySelector.getSelectedCategory().id;
         }
     }
 

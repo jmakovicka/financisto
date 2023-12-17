@@ -38,7 +38,7 @@ import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
 import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
-public abstract class AbstractTransactionActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
+public abstract class AbstractTransactionActivity extends AbstractActivity {
 
     public static final String TRAN_ID_EXTRA = "tranId";
     public static final String ACCOUNT_ID_EXTRA = "accountId";
@@ -118,8 +118,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
         long t0 = System.currentTimeMillis();
 
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         setContentView(getLayoutId());
 
         isRememberLastAccount = MyPreferences.isRememberAccount(this);
@@ -132,7 +130,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         isOpenCalculatorForTemplates = MyPreferences.isOpenCalculatorForTemplates(this);
 
         categorySelector = new CategorySelector<>(this, db, x);
-        categorySelector.setListener(this);
         fetchCategories();
 
         long accountId = -1;
@@ -440,6 +437,19 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         locationSelector.onSelectedId(id, selectedId);
         if (id == R.id.account) {
             selectAccount(selectedId);
+        } else if (id == R.id.category) {
+            addOrRemoveSplits();
+            categorySelector.addAttributes(transaction);
+            Category category = categorySelector.getSelectedCategory();
+            boolean selectLast = categorySelector.getSelectLast();
+            switchIncomeExpenseButton(category);
+            if (selectLast && isRememberLastLocation) {
+                locationSelector.selectEntity(category.lastLocationId);
+            }
+            if (selectLast && isRememberLastProject) {
+                projectSelector.selectEntity(category.lastProjectId);
+            }
+            projectSelector.setNodeVisible(!category.isSplit());
         }
     }
 
@@ -464,20 +474,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected long getSelectedAccountId() {
         return selectedAccount != null ? selectedAccount.id : -1;
-    }
-
-    @Override
-    public void onCategorySelected(Category category, boolean selectLast) {
-        addOrRemoveSplits();
-        categorySelector.addAttributes(transaction);
-        switchIncomeExpenseButton(category);
-        if (selectLast && isRememberLastLocation) {
-            locationSelector.selectEntity(category.lastLocationId);
-        }
-        if (selectLast && isRememberLastProject) {
-            projectSelector.selectEntity(category.lastProjectId);
-        }
-        projectSelector.setNodeVisible(!category.isSplit());
     }
 
     protected void addOrRemoveSplits() {
@@ -614,7 +610,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     }
 
     protected void updateTransactionFromUI(Transaction transaction) {
-        transaction.categoryId = categorySelector.getSelectedCategoryId();
+        transaction.categoryId = categorySelector.getSelectedCategory().id;
         transaction.projectId = projectSelector.getSelectedEntityId();
         transaction.locationId = locationSelector.getSelectedEntityId();
         if (transaction.isScheduled()) {

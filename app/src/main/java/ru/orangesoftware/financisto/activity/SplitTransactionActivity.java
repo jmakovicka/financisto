@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.SPLIT;
 
-public class SplitTransactionActivity extends AbstractSplitActivity implements CategorySelector.CategorySelectorListener {
+public class SplitTransactionActivity extends AbstractSplitActivity {
 
     private TextView amountTitle;
     private AmountInput amountInput;
@@ -42,7 +42,6 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
     @Override
     protected void fetchData() {
         categorySelector = new CategorySelector<>(this, db, x);
-        categorySelector.setListener(this);
         categorySelector.doNotShowSplitCategory();
         categorySelector.fetchCategories(false);
     }
@@ -71,17 +70,6 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
         return attributes;
     }
 
-    @Override
-    public void onCategorySelected(Category category, boolean selectLast) {
-        if (category.isIncome()) {
-            amountInput.setIncome();
-        } else {
-            amountInput.setExpense();
-        }
-        split.categoryId = category.id;
-        categorySelector.addAttributes(split);
-    }
-
     private void setAmount(long amount) {
         amountInput.setAmount(amount);
         Currency c = getCurrency();
@@ -98,7 +86,17 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
     @Override
     public void onSelectedId(int id, long selectedId) {
         super.onSelectedId(id, selectedId);
-        categorySelector.onSelectedId(id, selectedId);
+        if (id == R.id.category) {
+            categorySelector.onSelectedId(id, selectedId);
+            Category category = categorySelector.getSelectedCategory();
+            if (category.isIncome()) {
+                amountInput.setIncome();
+            } else {
+                amountInput.setExpense();
+            }
+            split.categoryId = category.id;
+            categorySelector.addAttributes(split);
+        }
     }
 
     @Override
@@ -106,7 +104,6 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
         super.onActivityResult(requestCode, resultCode, data);
         categorySelector.onActivityResult(requestCode, resultCode, data);
     }
-
 
     @Override
     protected void onDestroy() {
