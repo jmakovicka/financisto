@@ -12,6 +12,10 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar"></style>
 
+    <style name="AppThemeDialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:background">?android:attr/colorBackgroundFloating</item>
+    </style>
+
     <style name="TextAppearance" parent="android:TextAppearance.Small">
         <item name="android:textStyle">normal</item>
         <item name="android:antialias">true</item>
