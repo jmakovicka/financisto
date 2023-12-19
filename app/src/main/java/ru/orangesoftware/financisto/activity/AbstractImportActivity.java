@@ -31,9 +31,11 @@ public abstract class AbstractImportActivity extends Activity {
     protected ImageButton bBrowse;
     protected TextView edFilename;
     protected Uri fileUri;
+    protected String mimeType;
 
     public AbstractImportActivity(int layoutId) {
         this.layoutId = layoutId;
+        this.mimeType = "*/*";
     }
 
     @Override
@@ -56,7 +58,7 @@ public abstract class AbstractImportActivity extends Activity {
     protected void openFile() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setDataAndType(fileUri, "*/*");
+        intent.setDataAndType(fileUri, mimeType);
 
         try {
             startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
