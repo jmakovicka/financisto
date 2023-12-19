@@ -135,7 +135,7 @@ public class RangeBarChart extends BarChart {
    * 
    * @return the constant value
    */
-  protected float getCoeficient() {
+  protected float getCoefficient() {
     return 0.5f;
   }
 
