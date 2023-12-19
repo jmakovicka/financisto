@@ -428,8 +428,8 @@ public class DefaultRenderer implements Serializable {
    * 
    * @param showTickMarks the visibility flag for the tick marks
    */
-  public void setShowTickMarks(boolean mShowTickMarks) {
-    this.mShowTickMarks = mShowTickMarks;
+  public void setShowTickMarks(boolean showTickMarks) {
+    mShowTickMarks = showTickMarks;
   }
 
   /**
