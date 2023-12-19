@@ -121,8 +121,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 		this.setTitle(R.string.closing_day_title);
 		
 		if (customClosingDay>0) {
-			EditText newCD = (EditText)findViewById(R.id.new_closing_day);
-			newCD.setText(Integer.toString(customClosingDay));
+			newClosingDay.setText(Integer.toString(customClosingDay));
 			// set custom closing day selected
 			regularCD.setChecked(false);
 			customCD.setChecked(true);
