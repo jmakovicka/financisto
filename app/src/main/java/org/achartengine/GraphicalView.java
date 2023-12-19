@@ -114,17 +114,7 @@ public class GraphicalView extends View {
       mZoomOut = new Zoom(mChart, false, mRenderer.getZoomRate());
       mFitZoom = new FitZoom(mChart);
     }
-    int version = 7;
-    try {
-      version = Integer.valueOf(Build.VERSION.SDK);
-    } catch (Exception e) {
-      // do nothing
-    }
-    if (version < 7) {
-      mTouchHandler = new TouchHandlerOld(this, mChart);
-    } else {
-      mTouchHandler = new TouchHandler(this, mChart);
-    }
+    mTouchHandler = new TouchHandler(this, mChart);
   }
 
   /**
@@ -312,39 +302,6 @@ public class GraphicalView extends View {
         invalidate();
       }
     });
-  }
-
-  /**
-   * Schedule a view content repaint, in the specified rectangle area.
-   * 
-   * @param left the left position of the area to be repainted
-   * @param top the top position of the area to be repainted
-   * @param right the right position of the area to be repainted
-   * @param bottom the bottom position of the area to be repainted
-   */
-  public void repaint(final int left, final int top, final int right, final int bottom) {
-    mHandler.post(new Runnable() {
-      public void run() {
-        invalidate(left, top, right, bottom);
-      }
-    });
-  }
-
-  /**
-   * Saves the content of the graphical view to a bitmap.
-   * 
-   * @return the bitmap
-   */
-  public Bitmap toBitmap() {
-    setDrawingCacheEnabled(false);
-    if (!isDrawingCacheEnabled()) {
-      setDrawingCacheEnabled(true);
-    }
-    if (mRenderer.isApplyBackgroundColor()) {
-      setDrawingCacheBackgroundColor(mRenderer.getBackgroundColor());
-    }
-    setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-    return getDrawingCache(true);
   }
 
 }

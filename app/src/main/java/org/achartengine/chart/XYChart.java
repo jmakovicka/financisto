@@ -831,7 +831,7 @@ public abstract class XYChart extends AbstractChart {
             if (showTickMarks) {
               canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
             }
-            drawText(canvas, getLabel(mRenderer.getLabelFormat(), label),
+            drawText(canvas, getLabel(mRenderer.getYLabelFormat(i), label),
                 right + 10 + mRenderer.getYLabelsPadding(),
                 yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
           }
