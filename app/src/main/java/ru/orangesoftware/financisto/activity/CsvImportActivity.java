@@ -42,7 +42,6 @@ public class CsvImportActivity extends AbstractImportActivity {
 
     public CsvImportActivity() {
         super(R.layout.csv_import);
-        this.mimeType = "text/csv";
     }
 
     @Override
