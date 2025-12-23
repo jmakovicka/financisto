@@ -79,13 +79,13 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.material:material:1.13.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0"
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
     implementation "androidx.biometric:biometric:1.1.0"
     implementation 'androidx.preference:preference:1.2.1'
 
-    implementation 'com.squareup.okhttp3:okhttp:5.2.1'
-    implementation 'com.squareup.okio:okio:3.16.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.3.2'
+    implementation 'com.squareup.okio:okio:3.16.4'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.bumptech.glide:glide:5.0.5'
 
@@ -99,6 +99,6 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test:core:1.7.0'
-    testImplementation 'org.robolectric:robolectric:4.16'
+    testImplementation 'org.robolectric:robolectric:4.16.1'
     testImplementation 'org.hamcrest:hamcrest:3.0'
 }
