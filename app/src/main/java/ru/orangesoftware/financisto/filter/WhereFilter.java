@@ -25,8 +25,6 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.PeriodType;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.StringUtil;
-import ru.orangesoftware.orb.Expression;
-import ru.orangesoftware.orb.Expressions;
 
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
@@ -181,16 +179,7 @@ public class WhereFilter {
 		return new WhereFilter("");
 	}
 	
-	public Expression toWhereExpression() {
-		int count = criterias.size();
-		Expression[] ee = new Expression[count];
-		for (int i=0; i<count; i++) {
-			ee[i] = criterias.get(i).toWhereExpression();
-		}		
-		return Expressions.and(ee);
-	}
-
-	public void toBundle(Bundle bundle) {		
+	public void toBundle(Bundle bundle) {
 		String[] extras = new String[criterias.size()];
 		for (int i=0; i<extras.length; i++) {
 			extras[i] = criterias.get(i).toStringExtra();

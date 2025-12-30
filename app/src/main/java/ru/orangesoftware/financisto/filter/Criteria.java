@@ -12,8 +12,6 @@ import android.content.Intent;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.StringUtil;
-import ru.orangesoftware.orb.Expression;
-import ru.orangesoftware.orb.Expressions;
 
 /**
  * Created by IntelliJ IDEA.
@@ -86,27 +84,6 @@ public class Criteria {
         return operation == WhereFilter.Operation.ISNULL;
     }
     
-    @Deprecated // todo.mb: not used, can be removed
-    public Expression toWhereExpression() {
-        switch (operation) {
-            case EQ:
-                return Expressions.eq(columnName, getLongValue1());
-            case GT:
-                return Expressions.gt(columnName, getLongValue1());
-            case GTE:
-                return Expressions.gte(columnName, getLongValue1());
-            case LT:
-                return Expressions.lt(columnName, getLongValue1());
-            case LTE:
-                return Expressions.lte(columnName, getLongValue1());
-            case BTW:
-                return Expressions.btw(columnName, getLongValue1(), getLongValue2());
-            case LIKE:
-                return Expressions.like(columnName, getStringValue());
-        }
-        throw new IllegalArgumentException();
-    }
-
     public String toStringExtra() {
         StringBuilder sb = new StringBuilder();
         sb.append(columnName).append(",");
