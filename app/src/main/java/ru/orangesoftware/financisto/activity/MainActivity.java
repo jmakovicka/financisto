@@ -17,8 +17,12 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -172,9 +176,18 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         }
     }
 
+    private View createTabIndicator(String label, int drawableId) {
+        View view = LayoutInflater.from(this).inflate(R.layout.custom_tab_indicator, getTabHost().getTabWidget(), false);
+        ImageView icon = view.findViewById(android.R.id.icon);
+        icon.setImageResource(drawableId);
+        TextView tv = view.findViewById(android.R.id.title);
+        tv.setText(label);
+        return view;
+    }
+
     private void setupAccountsTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("accounts")
-                .setIndicator(getString(R.string.accounts), getResources().getDrawable(R.drawable.ic_tab_accounts))
+                .setIndicator(createTabIndicator(getString(R.string.accounts), R.drawable.ic_tab_accounts))
                 .setContent(new Intent(this, AccountListActivity.class)));
     }
 
@@ -183,25 +196,25 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         intent.putExtra(BlotterActivity.SAVE_FILTER, true);
         intent.putExtra(BlotterActivity.EXTRA_FILTER_ACCOUNTS, true);
         tabHost.addTab(tabHost.newTabSpec("blotter")
-                .setIndicator(getString(R.string.blotter), getResources().getDrawable(R.drawable.ic_tab_blotter))
+                .setIndicator(createTabIndicator(getString(R.string.blotter), R.drawable.ic_tab_blotter))
                 .setContent(intent));
     }
 
     private void setupBudgetsTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("budgets")
-                .setIndicator(getString(R.string.budgets), getResources().getDrawable(R.drawable.ic_tab_budgets))
+                .setIndicator(createTabIndicator(getString(R.string.budgets), R.drawable.ic_tab_budgets))
                 .setContent(new Intent(this, BudgetListActivity.class)));
     }
 
     private void setupReportsTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("reports")
-                .setIndicator(getString(R.string.reports), getResources().getDrawable(R.drawable.ic_tab_reports))
+                .setIndicator(createTabIndicator(getString(R.string.reports), R.drawable.ic_tab_reports))
                 .setContent(new Intent(this, ReportsListActivity.class)));
     }
 
     private void setupMenuTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("menu")
-                .setIndicator(getString(R.string.menu), getResources().getDrawable(R.drawable.ic_tab_menu))
+                .setIndicator(createTabIndicator(getString(R.string.menu), R.drawable.ic_tab_menu))
                 .setContent(new Intent(this, MenuListActivity.class)));
     }
 

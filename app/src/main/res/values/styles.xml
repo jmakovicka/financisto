@@ -12,6 +12,7 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:fitsSystemWindows">true</item>
+        <item name="android:tabWidgetStyle">@android:style/Widget.Holo.TabWidget</item>
     </style>
 
     <style name="AppThemeDialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog">
