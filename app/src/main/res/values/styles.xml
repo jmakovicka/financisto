@@ -10,7 +10,9 @@
 -->
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar"></style>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
 
     <style name="AppThemeDialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog">
         <item name="android:background">?android:attr/colorBackgroundFloating</item>
