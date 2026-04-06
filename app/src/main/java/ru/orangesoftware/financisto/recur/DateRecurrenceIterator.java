@@ -13,36 +13,36 @@ import static ru.orangesoftware.financisto.recur.RecurrencePeriod.dateValueToDat
 
 public class DateRecurrenceIterator {
 
-	private final RecurrenceIterator ri;
+    private final RecurrenceIterator ri;
     private Date firstDate;
 
-	private DateRecurrenceIterator(RecurrenceIterator ri) {
-		this.ri = ri;
-	}
+    private DateRecurrenceIterator(RecurrenceIterator ri) {
+        this.ri = ri;
+    }
 
-	public boolean hasNext() {
-		return firstDate != null || ri.hasNext();
-	}
+    public boolean hasNext() {
+        return firstDate != null || ri.hasNext();
+    }
 
-	public Date next() {
+    public Date next() {
         if (firstDate != null) {
             Date date = firstDate;
             firstDate = null;
             return date;
         }
-		return dateValueToDate(ri.next());
-	}
+        return dateValueToDate(ri.next());
+    }
 
-	public static DateRecurrenceIterator create(RRule rrule, Date nowDate, Date startDate) throws ParseException {
+    public static DateRecurrenceIterator create(RRule rrule, Date nowDate, Date startDate) throws ParseException {
         RecurrenceIterator ri = RecurrenceIteratorFactory.createRecurrenceIterator(rrule,
                 dateToDateValue(startDate), Calendar.getInstance().getTimeZone());
         Date date = null;
-        while (ri.hasNext() && (date = dateValueToDate(ri.next())).before(nowDate));
+        while (ri.hasNext() && (date = dateValueToDate(ri.next())).before(nowDate)) ;
         //ri.advanceTo(dateToDateValue(nowDate));
         DateRecurrenceIterator iterator = new DateRecurrenceIterator(ri);
         iterator.firstDate = date;
         return iterator;
-	}
+    }
 
     public static DateRecurrenceIterator empty() {
         return new EmptyDateRecurrenceIterator();

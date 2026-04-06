@@ -12,8 +12,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.Utils;
 
@@ -23,7 +25,7 @@ import ru.orangesoftware.financisto.utils.Utils;
  * Date: 5/28/12 10:11 PM
  */
 public class DatabaseUtils {
-    
+
     public static long rawFetchId(DatabaseAdapter db, String query, String[] selectionArgs) {
         return rawFetchLong(db.db(), query, selectionArgs, -1);
     }

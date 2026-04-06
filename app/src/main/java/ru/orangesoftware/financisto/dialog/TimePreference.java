@@ -13,6 +13,7 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
+
 import ru.orangesoftware.financisto.R;
 
 import static ru.orangesoftware.financisto.datetime.DateUtils.is24HourFormat;
@@ -28,7 +29,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
 
     private int hh;
     private int mm;
-    
+
     public TimePreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setPersistent(true);
@@ -57,25 +58,25 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
             return;
         }
         if (shouldPersist()) {
-            persistInt(100*hh+mm);
+            persistInt(100 * hh + mm);
         }
         notifyChanged();
     }
 
     private int getHour() {
-        return getPersistedInt(DEFAULT_VALUE)/100;
+        return getPersistedInt(DEFAULT_VALUE) / 100;
     }
 
     private int getMinute() {
         int hm = getPersistedInt(DEFAULT_VALUE);
-        int h = hm/100;
-        return hm-100*h;
+        int h = hm / 100;
+        return hm - 100 * h;
     }
 
     @Override
     public void onTimeChanged(TimePicker timePicker, int hh, int mm) {
         this.hh = hh;
-        this.mm = mm;        
+        this.mm = mm;
     }
 
     @Override

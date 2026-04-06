@@ -196,7 +196,7 @@ public class TransactionInfoDialog {
                         : (ti.toAccount == null ? R.string.transaction : R.string.transfer);
                 titleLabel.setText(titleId);
                 add(layout, R.string.date, DateUtils.formatDateTime(context, ti.dateTime,
-                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_YEAR),
+                                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_YEAR),
                         ti.attachedPicture);
             }
         }
@@ -233,7 +233,7 @@ public class TransactionInfoDialog {
     private TextView add(LinearLayout layout, int labelId, String data) {
         View v = inflater.new Builder(layout, R.layout.select_entry_simple).withLabel(labelId)
                 .withData(data).create();
-        return (TextView)v.findViewById(R.id.data);
+        return (TextView) v.findViewById(R.id.data);
     }
 
     private void add(LinearLayout layout, int labelId, String data, String pictureFileName) {

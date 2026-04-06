@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.SmsDragListActivity;
 import ru.orangesoftware.financisto.activity.SmsTemplateActivity;
@@ -34,10 +37,10 @@ import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQ
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 
 /**
- * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 
+ * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and
  * <a href=https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf>drag-and-swipe-with-recyclerview</a>
  */
-public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> 
+public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder>
         implements ItemTouchHelperAdapter {
     public static final String TAG = "Financisto." + SmsTemplateListAsyncAdapter.class.getSimpleName();
 
@@ -51,10 +54,10 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     private AtomicLong draggedItemId = new AtomicLong(0);
 
     public SmsTemplateListAsyncAdapter(int chunkSize,
-        DatabaseAdapter db,
-        SmsTemplateListSource itemSource,
-        RecyclerView recyclerView,
-        SmsDragListActivity activity) {
+                                       DatabaseAdapter db,
+                                       SmsTemplateListSource itemSource,
+                                       RecyclerView recyclerView,
+                                       SmsDragListActivity activity) {
         super(chunkSize, itemSource, recyclerView);
         this.context = recyclerView.getContext();
         this.db = db;
@@ -116,13 +119,13 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
     private void deleteItem(long id, int position) {
         new AlertDialog.Builder(context)
-            .setTitle(R.string.delete)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setMessage(R.string.sms_delete_alert)
-            .setPositiveButton(R.string.delete, (arg0, arg1) -> new DeleteTask().execute(id))
-            .setNegativeButton(R.string.cancel, (arg0, arg1) -> revertSwipeBack())
-            .setOnCancelListener(dialog -> revertSwipeBack())
-            .show();
+                .setTitle(R.string.delete)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(R.string.sms_delete_alert)
+                .setPositiveButton(R.string.delete, (arg0, arg1) -> new DeleteTask().execute(id))
+                .setNegativeButton(R.string.cancel, (arg0, arg1) -> revertSwipeBack())
+                .setOnCancelListener(dialog -> revertSwipeBack())
+                .show();
     }
 
     public void revertSwipeBack() {
@@ -146,8 +149,8 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
     @Override
     public void onItemDismiss(int position, int dir) {
-        Log.d (TAG, String.format("swipped %s pos to %s (%s)",
-            position, dir == START ? "left" : dir == END ? "right" : "??", dir));
+        Log.d(TAG, String.format("swipped %s pos to %s (%s)",
+                position, dir == START ? "left" : dir == END ? "right" : "??", dir));
 
         final long itemId = listUtil.getItem(position).id;
         switch (dir) {

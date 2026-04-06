@@ -9,10 +9,10 @@
 package ru.orangesoftware.financisto.datetime;
 
 /**
-* Created by IntelliJ IDEA.
-* User: denis.solonenko
-* Date: 12/17/12 9:07 PM
-*/
+ * Created by IntelliJ IDEA.
+ * User: denis.solonenko
+ * Date: 12/17/12 9:07 PM
+ */
 public class Period {
 
     public PeriodType type;

@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 
 import javax.persistence.Column;

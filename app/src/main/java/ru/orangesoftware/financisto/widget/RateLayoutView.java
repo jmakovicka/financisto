@@ -118,7 +118,7 @@ public class RateLayoutView implements RateNodeOwner {
     private void updateTitle(View node, int titleId, Currency currency) {
         TextView title = node.findViewById(R.id.label);
         if (currency != null && currency.id > 0) {
-            title.setText(activity.getString(titleId)+" ("+currency.name+")");
+            title.setText(activity.getString(titleId) + " (" + currency.name + ")");
         } else {
             title.setText(activity.getString(titleId));
         }
@@ -138,7 +138,7 @@ public class RateLayoutView implements RateNodeOwner {
     private void calculateRate() {
         long amountFrom = amountInputFrom.getAmount();
         long amountTo = amountInputTo.getAmount();
-        float r = 1.0f*amountTo/amountFrom;
+        float r = 1.0f * amountTo / amountFrom;
         if (!Float.isNaN(r)) {
             rateNode.setRate(r);
         }
@@ -161,13 +161,13 @@ public class RateLayoutView implements RateNodeOwner {
         return currencyFrom != null && currencyTo != null && currencyFrom.id != currencyTo.id;
     }
 
-    private final AmountInput.OnAmountChangedListener onAmountFromChangedListener = new AmountInput.OnAmountChangedListener(){
+    private final AmountInput.OnAmountChangedListener onAmountFromChangedListener = new AmountInput.OnAmountChangedListener() {
         @Override
         public void onAmountChanged(long oldAmount, long newAmount) {
             double r = rateNode.getRate();
             if (r > 0) {
                 long amountFrom = amountInputFrom.getAmount();
-                long amountTo = Math.round(r*amountFrom);
+                long amountTo = Math.round(r * amountFrom);
                 amountInputTo.setOnAmountChangedListener(null);
                 amountInputTo.setAmount(amountTo);
                 amountInputTo.setOnAmountChangedListener(onAmountToChangedListener);
@@ -192,7 +192,7 @@ public class RateLayoutView implements RateNodeOwner {
         }
     };
 
-    private final AmountInput.OnAmountChangedListener onAmountToChangedListener = new AmountInput.OnAmountChangedListener(){
+    private final AmountInput.OnAmountChangedListener onAmountToChangedListener = new AmountInput.OnAmountChangedListener() {
         @Override
         public void onAmountChanged(long oldAmount, long newAmount) {
             long amountFrom = amountInputFrom.getAmount();
@@ -220,7 +220,7 @@ public class RateLayoutView implements RateNodeOwner {
     private void updateToAmountFromRate() {
         double r = rateNode.getRate();
         long amountFrom = amountInputFrom.getAmount();
-        long amountTo = (long)Math.floor(r*amountFrom);
+        long amountTo = (long) Math.floor(r * amountFrom);
         amountInputTo.setOnAmountChangedListener(null);
         amountInputTo.setAmount(amountTo);
         rateNode.updateRateInfo();

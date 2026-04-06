@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 
+ * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and
  * <a href=https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf>drag-and-swipe-with-recyclerview</a>
  */
-public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> { 
+public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private final ItemSource<T> itemSource;
     private final RecyclerView recyclerView;
@@ -45,7 +45,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         listUtil = initListUtil();
         notifyDataSetChanged();
     }
-    
+
     /**
      * Reloads all visible items from DB
      */
@@ -58,7 +58,6 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
     public int getItemCount() {
         return listUtil.getItemCount();
     }
-
 
 
     private class DataCallback extends AsyncListUtil.DataCallback<T> implements AutoCloseable {
@@ -79,12 +78,12 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         }
 
         @Override
-        public void close(){
-            
+        public void close() {
+
         }
     }
 
-    
+
     private class ViewCallback extends AsyncListUtil.ViewCallback {
 
         @Override
@@ -92,7 +91,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
             if (outRange == null) {
                 return;
             }
-            if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+            if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
                 LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
                 outRange[0] = llm.findFirstVisibleItemPosition();
                 outRange[1] = llm.findLastVisibleItemPosition();

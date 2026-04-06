@@ -14,7 +14,7 @@ abstract public class CursorItemSource<T> implements ItemSource<T>, AutoCloseabl
     @Override
     public T getItem(int position) {
         prepareCursor();
-        if(cursor.moveToPosition(position)){
+        if (cursor.moveToPosition(position)) {
             return loadItem();
         }
         return itemOnError();

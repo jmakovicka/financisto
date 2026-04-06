@@ -23,32 +23,32 @@ import ru.orangesoftware.financisto.model.Project;
 
 public class TransactionUtils {
 
-	public static ListAdapter createAccountAdapter(Context context, Cursor accountCursor) {
-		return new SimpleCursorAdapter(context, android.R.layout.simple_spinner_dropdown_item, accountCursor, 
-				new String[]{"e_"+AccountColumns.TITLE}, new int[]{android.R.id.text1});		
-	}
+    public static ListAdapter createAccountAdapter(Context context, Cursor accountCursor) {
+        return new SimpleCursorAdapter(context, android.R.layout.simple_spinner_dropdown_item, accountCursor,
+                new String[]{"e_" + AccountColumns.TITLE}, new int[]{android.R.id.text1});
+    }
 
     public static ListAdapter createAccountMultiChoiceAdapter(Context context, Cursor accountCursor) {
         return new SimpleCursorAdapter(context, android.R.layout.simple_list_item_multiple_choice, accountCursor,
-                new String[]{"e_"+AccountColumns.TITLE}, new int[]{android.R.id.text1});
+                new String[]{"e_" + AccountColumns.TITLE}, new int[]{android.R.id.text1});
     }
 
-	public static SimpleCursorAdapter createCurrencyAdapter(Context context, Cursor currencyCursor) {
-		return new SimpleCursorAdapter(context, android.R.layout.simple_spinner_dropdown_item, currencyCursor, 
-				new String[]{"e_name"}, new int[]{android.R.id.text1});		
-	}
+    public static SimpleCursorAdapter createCurrencyAdapter(Context context, Cursor currencyCursor) {
+        return new SimpleCursorAdapter(context, android.R.layout.simple_spinner_dropdown_item, currencyCursor,
+                new String[]{"e_name"}, new int[]{android.R.id.text1});
+    }
 
-	public static ListAdapter createCategoryAdapter(DatabaseAdapter db, Context context, Cursor categoryCursor) {
-		return new CategoryListAdapter(db, context, android.R.layout.simple_spinner_dropdown_item, categoryCursor);
-	}
+    public static ListAdapter createCategoryAdapter(DatabaseAdapter db, Context context, Cursor categoryCursor) {
+        return new CategoryListAdapter(db, context, android.R.layout.simple_spinner_dropdown_item, categoryCursor);
+    }
 
-	public static ListAdapter createCategoryMultiChoiceAdapter(DatabaseAdapter db, Context context, Cursor categoryCursor) {
-		return new CategoryListAdapter(db, context, android.R.layout.simple_list_item_multiple_choice, categoryCursor);
-	}
+    public static ListAdapter createCategoryMultiChoiceAdapter(DatabaseAdapter db, Context context, Cursor categoryCursor) {
+        return new CategoryListAdapter(db, context, android.R.layout.simple_list_item_multiple_choice, categoryCursor);
+    }
 
-	public static ListAdapter createProjectAdapter(Context context, List<Project> projects) {
-		return new MyEntityAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, projects);
-	}
+    public static ListAdapter createProjectAdapter(Context context, List<Project> projects) {
+        return new MyEntityAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, projects);
+    }
 
     public static ListAdapter createLocationAdapter(Context context, List<MyLocation> locations) {
         return new MyEntityAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, locations);
@@ -63,9 +63,9 @@ public class TransactionUtils {
     }
 
     public static ListAdapter createLocationAdapter(Context context, Cursor cursor) {
-		return new SimpleCursorAdapter(context, android.R.layout.simple_spinner_dropdown_item, cursor, 
-				new String[]{"e_name"}, new int[]{android.R.id.text1});
-	}
+        return new SimpleCursorAdapter(context, android.R.layout.simple_spinner_dropdown_item, cursor,
+                new String[]{"e_name"}, new int[]{android.R.id.text1});
+    }
 
     public static SimpleCursorAdapter createPayeeAutoCompleteAdapter(Context context, final MyEntityManager db) {
         return new FilterSimpleCursorAdapter<MyEntityManager, Payee>(context, db, Payee.class) {
@@ -86,7 +86,7 @@ public class TransactionUtils {
     }
 
     public static SimpleCursorAdapter createLocationAutoCompleteAdapter(Context context, final MyEntityManager db) {
-        return new FilterSimpleCursorAdapter<MyEntityManager, MyLocation>(context, db, MyLocation.class){
+        return new FilterSimpleCursorAdapter<MyEntityManager, MyLocation>(context, db, MyLocation.class) {
             @Override
             Cursor filterRows(CharSequence constraint) {
                 return db.filterActiveEntities(MyLocation.class, constraint.toString());
@@ -100,7 +100,7 @@ public class TransactionUtils {
     }
 
     public static SimpleCursorAdapter createCategoryFilterAdapter(Context context, final DatabaseAdapter db) {
-        return new FilterSimpleCursorAdapter<DatabaseAdapter, MyLocation>(context, db, MyLocation.class, "title"){
+        return new FilterSimpleCursorAdapter<DatabaseAdapter, MyLocation>(context, db, MyLocation.class, "title") {
             @Override
             Cursor getAllRows() {
                 return db.getCategories(false);
@@ -122,7 +122,7 @@ public class TransactionUtils {
         FilterSimpleCursorAdapter(Context context, final T db, Class<E> entityClass) {
             this(context, db, entityClass, "e_title");
         }
-        
+
         FilterSimpleCursorAdapter(Context context, final T db, Class<E> entityClass, String filterColumn) {
             super(context, android.R.layout.simple_dropdown_item_1line, null, new String[]{filterColumn}, new int[]{android.R.id.text1});
             this.db = db;
@@ -154,7 +154,7 @@ public class TransactionUtils {
     }
 
     public static FilterEntityAdapter<Payee> payeeFilterAdapter(Context context, MyEntityManager em) {
-	    return new FilterEntityAdapter<>(context, em.getAllActivePayeeList());
+        return new FilterEntityAdapter<>(context, em.getAllActivePayeeList());
     }
 
     public static FilterEntityAdapter<Project> projectFilterAdapter(Context context, MyEntityManager em) {

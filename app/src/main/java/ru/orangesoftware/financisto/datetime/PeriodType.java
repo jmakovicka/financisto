@@ -214,7 +214,7 @@ public enum PeriodType implements LocalizableEnum {
     public final boolean inPast;
     public final boolean inFuture;
 
-    PeriodType(int titleId, boolean inPast,boolean inFuture) {
+    PeriodType(int titleId, boolean inPast, boolean inFuture) {
         this.titleId = titleId;
         this.inPast = inPast;
         this.inFuture = inFuture;

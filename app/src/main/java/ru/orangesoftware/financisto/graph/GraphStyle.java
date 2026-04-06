@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -27,117 +27,117 @@ import ru.orangesoftware.financisto.R;
 
 public class GraphStyle {
 
-	public final int dy;
-	public final int textDy;
-	public final int lineHeight;
-	public final int indent;
-	public final int nameHeight;
-	public final int amountHeight;
-	
-	public final Paint namePaint;
-	public final Paint amountPaint;
-	public final Paint linePaint;
-	
-	private GraphStyle(
-			int dy, int textDy, int indent, 
-			int lineHeight, int nameHeight, int amountHeight, 
-			Paint namePaint, Paint amountPaint, Paint linePaint) {
-		this.dy = dy;
-		this.textDy = textDy;
-		this.indent = indent;
-		this.lineHeight = lineHeight;
-		this.nameHeight = nameHeight;
-		this.amountHeight = amountHeight;
-		this.namePaint = namePaint;		
-		this.amountPaint = amountPaint;
-		this.linePaint = linePaint;
-	}
+    public final int dy;
+    public final int textDy;
+    public final int lineHeight;
+    public final int indent;
+    public final int nameHeight;
+    public final int amountHeight;
 
-	public static class Builder {
+    public final Paint namePaint;
+    public final Paint amountPaint;
+    public final Paint linePaint;
+
+    private GraphStyle(
+            int dy, int textDy, int indent,
+            int lineHeight, int nameHeight, int amountHeight,
+            Paint namePaint, Paint amountPaint, Paint linePaint) {
+        this.dy = dy;
+        this.textDy = textDy;
+        this.indent = indent;
+        this.lineHeight = lineHeight;
+        this.nameHeight = nameHeight;
+        this.amountHeight = amountHeight;
+        this.namePaint = namePaint;
+        this.amountPaint = amountPaint;
+        this.linePaint = linePaint;
+    }
+
+    public static class Builder {
 
         private final Context context;
 
-		private int dy = 2;
-		private int textDy = 5;
-		private int lineHeight = 30;
-		private int nameTextSize = 14;
-		private int amountTextSize = 12;
-		private int indent = 0;
+        private int dy = 2;
+        private int textDy = 5;
+        private int lineHeight = 30;
+        private int nameTextSize = 14;
+        private int amountTextSize = 12;
+        private int indent = 0;
 
         public Builder(Context context) {
             this.context = context;
         }
 
         public Builder dy(int x) {
-			this.dy = x;
-			return this;
-		}
-		
-		public Builder textDy(int x) {
-			this.textDy = x;
-			return this;
-		}
+            this.dy = x;
+            return this;
+        }
 
-		public Builder lineHeight(int x) {
-			this.lineHeight = x;
-			return this;
-		}
-		
-		public Builder nameTextSize(int x) {
-			this.nameTextSize = x;
-			return this;
-		}		
-		
-		public Builder amountTextSize(int x) {
-			this.amountTextSize = x;
-			return this;
-		}		
-		
-		public Builder indent(int x) {
-			this.indent = x;
-			return this;
-		}		
+        public Builder textDy(int x) {
+            this.textDy = x;
+            return this;
+        }
 
-		public GraphStyle build() {
-			// Get the primary text color of the theme
-			TypedArray arr = context.obtainStyledAttributes(new int[]{android.R.attr.textColorPrimary});
-			int primaryColor = arr.getColor(0, -1);
+        public Builder lineHeight(int x) {
+            this.lineHeight = x;
+            return this;
+        }
 
-			float density = context.getResources().getDisplayMetrics().density;
-			Rect rect = new Rect();
-			Paint namePaint = new Paint();
-			Paint amountPaint = new Paint();
-			Paint linePaint = new Paint();
-			namePaint.setColor(primaryColor);
-			namePaint.setAntiAlias(true);
-			namePaint.setTextAlign(Align.LEFT);
-			namePaint.setTextSize(spToPx(nameTextSize, density));
-			namePaint.setTypeface(Typeface.DEFAULT_BOLD);
-			namePaint.getTextBounds("A", 0, 1, rect);		
-			int nameHeight = rect.height();
-			amountPaint.setColor(primaryColor);
-			amountPaint.setAntiAlias(true);
-			amountPaint.setTextSize(spToPx(amountTextSize, density));
-			amountPaint.setTextAlign(Align.CENTER);
-			amountPaint.getTextBounds("8", 0, 1, rect);		
-			int amountHeight = rect.height();
-			linePaint.setStyle(Style.FILL);
-			return new GraphStyle(
-					spToPx(dy, density),
+        public Builder nameTextSize(int x) {
+            this.nameTextSize = x;
+            return this;
+        }
+
+        public Builder amountTextSize(int x) {
+            this.amountTextSize = x;
+            return this;
+        }
+
+        public Builder indent(int x) {
+            this.indent = x;
+            return this;
+        }
+
+        public GraphStyle build() {
+            // Get the primary text color of the theme
+            TypedArray arr = context.obtainStyledAttributes(new int[]{android.R.attr.textColorPrimary});
+            int primaryColor = arr.getColor(0, -1);
+
+            float density = context.getResources().getDisplayMetrics().density;
+            Rect rect = new Rect();
+            Paint namePaint = new Paint();
+            Paint amountPaint = new Paint();
+            Paint linePaint = new Paint();
+            namePaint.setColor(primaryColor);
+            namePaint.setAntiAlias(true);
+            namePaint.setTextAlign(Align.LEFT);
+            namePaint.setTextSize(spToPx(nameTextSize, density));
+            namePaint.setTypeface(Typeface.DEFAULT_BOLD);
+            namePaint.getTextBounds("A", 0, 1, rect);
+            int nameHeight = rect.height();
+            amountPaint.setColor(primaryColor);
+            amountPaint.setAntiAlias(true);
+            amountPaint.setTextSize(spToPx(amountTextSize, density));
+            amountPaint.setTextAlign(Align.CENTER);
+            amountPaint.getTextBounds("8", 0, 1, rect);
+            int amountHeight = rect.height();
+            linePaint.setStyle(Style.FILL);
+            return new GraphStyle(
+                    spToPx(dy, density),
                     spToPx(textDy, density),
                     spToPx(indent, density),
-					spToPx(lineHeight, density),
+                    spToPx(lineHeight, density),
                     nameHeight,
                     amountHeight,
-					namePaint,
+                    namePaint,
                     amountPaint,
                     linePaint);
-		}
+        }
 
         private int spToPx(int textSizeSp, float density) {
-            return (int)(0.5f+density*textSizeSp);
+            return (int) (0.5f + density * textSizeSp);
         }
 
     }
-	
+
 }

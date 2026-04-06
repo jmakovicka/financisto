@@ -18,7 +18,7 @@ public class TotalError {
     }
 
     public final Currency currency;
-	public final long datetime;
+    public final long datetime;
 
     private TotalError(Currency currency, long datetime) {
         this.currency = currency;

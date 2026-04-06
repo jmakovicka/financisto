@@ -12,7 +12,7 @@ import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
-public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<Payee,A> {
+public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<Payee, A> {
 
     public PayeeSelector(A activity, MyEntityManager em, ActivityLayout x) {
         this(activity, em, x, R.string.no_payee);

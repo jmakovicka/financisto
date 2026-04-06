@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -13,13 +13,13 @@ package ru.orangesoftware.orb;
 import java.util.List;
 
 public class Selection {
-	
-	public final String selection;
-	public final List<String> selectionArgs;
-	
-	public Selection(String selection, List<String> selectionArgs) {
-		this.selection = selection;
-		this.selectionArgs = selectionArgs;
-	}
+
+    public final String selection;
+    public final List<String> selectionArgs;
+
+    public Selection(String selection, List<String> selectionArgs) {
+        this.selection = selection;
+        this.selectionArgs = selectionArgs;
+    }
 
 }

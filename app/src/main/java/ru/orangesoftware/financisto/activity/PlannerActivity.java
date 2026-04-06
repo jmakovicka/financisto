@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.ScheduledListAdapter;
 import ru.orangesoftware.financisto.datetime.Period;

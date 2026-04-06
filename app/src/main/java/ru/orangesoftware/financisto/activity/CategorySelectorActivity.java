@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.BlotterListAdapter;
 import ru.orangesoftware.financisto.model.Category;
@@ -65,7 +66,7 @@ public class CategorySelectorActivity extends AbstractListActivity {
         });
         Button bSelect = findViewById(R.id.bSelect);
         bSelect.setOnClickListener(view -> confirmSelection());
-        
+
         Intent intent = getIntent();
         if (intent != null) {
             boolean includeSplit = intent.getBooleanExtra(INCLUDE_SPLIT_CATEGORY, false);
@@ -74,7 +75,7 @@ public class CategorySelectorActivity extends AbstractListActivity {
             }
             navigator.selectCategory(intent.getLongExtra(SELECTED_CATEGORY_ID, 0));
         }
-        
+
     }
 
     private void confirmSelection() {
@@ -162,11 +163,11 @@ public class CategorySelectorActivity extends AbstractListActivity {
                 v = new BlotterListAdapter.BlotterViewHolder(convertView);
                 convertView.setTag(v);
             } else {
-                v = (BlotterListAdapter.BlotterViewHolder)convertView.getTag();
+                v = (BlotterListAdapter.BlotterViewHolder) convertView.getTag();
             }
             Category c = getItem(position);
             if (c.id == CategoryTreeNavigator.INCOME_CATEGORY_ID) {
-                v.centerView.setText(getString(R.string.income));                
+                v.centerView.setText(getString(R.string.income));
             } else if (c.id == CategoryTreeNavigator.EXPENSE_CATEGORY_ID) {
                 v.centerView.setText(getString(R.string.expense));
             } else {
@@ -192,6 +193,6 @@ public class CategorySelectorActivity extends AbstractListActivity {
         }
 
     }
-    
+
 
 }

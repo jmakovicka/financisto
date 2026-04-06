@@ -76,11 +76,11 @@ public class PurgeAccountActivity extends AbstractActivity {
 
     private void deleteOldTransactions() {
         new AlertDialog.Builder(this)
-            .setTitle(R.string.purge_account_confirm_title)
-            .setMessage(getString(R.string.purge_account_confirm_message, new Object[]{account.title, getDateString()}))
-            .setPositiveButton(R.string.ok, (dialogInterface, i) -> new PurgeAccountTask().execute())
-            .setNegativeButton(R.string.cancel, null)
-            .show();
+                .setTitle(R.string.purge_account_confirm_title)
+                .setMessage(getString(R.string.purge_account_confirm_message, new Object[]{account.title, getDateString()}))
+                .setPositiveButton(R.string.ok, (dialogInterface, i) -> new PurgeAccountTask().execute())
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void loadAccount() {

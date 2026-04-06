@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.service;
 
 import android.util.Log;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -32,6 +33,7 @@ public class SmsTransactionProcessor {
 
     /**
      * Parses sms and adds new transaction if it matches any sms template
+     *
      * @return new transaction or null if not matched/parsed
      */
     public Transaction createTransactionBySms(String addr, String fullSmsBody, TransactionStatus status, boolean updateNote) {
@@ -67,9 +69,9 @@ public class SmsTransactionProcessor {
 
             String trimmed = value.trim();
             boolean negativeNumber =
-                ((trimmed.contains("(") && trimmed.contains(")"))
-                    || trimmed.endsWith("-")
-                    || trimmed.startsWith("-"));
+                    ((trimmed.contains("(") && trimmed.contains(")"))
+                            || trimmed.endsWith("-")
+                            || trimmed.startsWith("-"));
 
             String parsedValue = value.replaceAll("[^0-9,.]", EMPTY);
 
@@ -113,10 +115,10 @@ public class SmsTransactionProcessor {
     }
 
     private Transaction createNewTransaction(BigDecimal price,
-        String accountDigits,
-        SmsTemplate smsTemplate,
-        String note,
-        TransactionStatus status) {
+                                             String accountDigits,
+                                             SmsTemplate smsTemplate,
+                                             String note,
+                                             TransactionStatus status) {
         Transaction res = null;
         long accountId = findAccount(accountDigits, smsTemplate.accountId);
         if (price.compareTo(ZERO) != 0 && accountId > 0) {
@@ -252,7 +254,7 @@ public class SmsTransactionProcessor {
         public String regexp;
         public String[] synonyms;
 
-        Placeholder(String code, String regexp, String ... synonyms) {
+        Placeholder(String code, String regexp, String... synonyms) {
             this.code = code;
             this.regexp = regexp;
             this.synonyms = synonyms;

@@ -9,8 +9,10 @@
 package ru.orangesoftware.financisto.rates;
 
 import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import ru.orangesoftware.financisto.http.HttpClientWrapper;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.StringUtil;
@@ -76,7 +78,7 @@ public class OpenExchangeRatesDownloader extends AbstractMultipleRatesDownloader
     }
 
     private String getLatestUrl() {
-        return GET_LATEST+appId;
+        return GET_LATEST + appId;
     }
 
     private boolean hasError(JSONObject json) throws JSONException {
@@ -87,11 +89,11 @@ public class OpenExchangeRatesDownloader extends AbstractMultipleRatesDownloader
         String status = json.optString("status");
         String message = json.optString("message");
         String description = json.optString("description");
-        return status+" ("+message+"): "+description;
+        return status + " (" + message + "): " + description;
     }
 
     private String error(Exception e) {
-        return "Unable to get exchange rates: "+e.getMessage();
+        return "Unable to get exchange rates: " + e.getMessage();
     }
 
     private void updateRate(JSONObject json, ExchangeRate exchangeRate, Currency fromCurrency, Currency toCurrency) throws JSONException {
@@ -99,7 +101,7 @@ public class OpenExchangeRatesDownloader extends AbstractMultipleRatesDownloader
         double usdFrom = rates.getDouble(fromCurrency.name);
         double usdTo = rates.getDouble(toCurrency.name);
         exchangeRate.rate = usdTo * (1 / usdFrom);
-        exchangeRate.date = 1000*json.optLong("timestamp", System.currentTimeMillis());
+        exchangeRate.date = 1000 * json.optLong("timestamp", System.currentTimeMillis());
     }
 
     @Override

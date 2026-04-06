@@ -28,18 +28,18 @@ public class StringUtil {
     public static String generateQueryPlaceholders(int num) {
         return generateSeparated("?", ",", num);
     }
-        
-    
+
+
     public static String generateSeparated(String val, String delim, int num) {
-        final StringBuilder res = new StringBuilder(val); 
+        final StringBuilder res = new StringBuilder(val);
         if (num <= 1) return res.toString();
-        if (num == 2) return res.append(delim).append(val).toString(); 
+        if (num == 2) return res.append(delim).append(val).toString();
         if (num == 3) return res.append(delim).append(val).append(delim).append(val).toString();
-        
+
         for (int i = 1; i < num; i++) res.append(delim).append(val);
         return res.toString();
     }
-    
+
     private static int getTrimmedLength(CharSequence s) {
         int len = s.length();
 
@@ -73,10 +73,10 @@ public class StringUtil {
         String searchString = target.toLowerCase();
 
         int idx = 0;
-        while((idx = sbSourceLower.indexOf(searchString, idx)) != -1) {
+        while ((idx = sbSourceLower.indexOf(searchString, idx)) != -1) {
             sbSource.replace(idx, idx + searchString.length(), replacement);
             sbSourceLower.replace(idx, idx + searchString.length(), replacement);
-            idx+= replacement.length();
+            idx += replacement.length();
         }
         return sbSource.toString();
     }

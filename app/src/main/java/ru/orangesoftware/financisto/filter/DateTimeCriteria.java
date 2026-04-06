@@ -16,10 +16,10 @@ import ru.orangesoftware.financisto.datetime.PeriodType;
 import java.util.Calendar;
 
 /**
-* Created by IntelliJ IDEA.
-* User: denis.solonenko
-* Date: 12/17/12 9:06 PM
-*/
+ * Created by IntelliJ IDEA.
+ * User: denis.solonenko
+ * Date: 12/17/12 9:06 PM
+ */
 public class DateTimeCriteria extends Criteria {
 
     public static final long START_OF_ERA;

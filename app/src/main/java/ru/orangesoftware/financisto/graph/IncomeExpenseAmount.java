@@ -16,7 +16,7 @@ public class IncomeExpenseAmount {
 
     public void add(BigDecimal amount, boolean forceIncome) {
         if (forceIncome || amount.longValue() > 0) {
-            income  = income.add(amount);
+            income = income.add(amount);
         } else {
             expense = expense.add(amount);
         }
@@ -27,7 +27,7 @@ public class IncomeExpenseAmount {
     }
 
     public long balance() {
-        return income.longValue()+expense.longValue();
+        return income.longValue() + expense.longValue();
     }
 
     public void filter(IncomeExpense incomeExpense) {

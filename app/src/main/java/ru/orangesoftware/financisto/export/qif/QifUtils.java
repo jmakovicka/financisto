@@ -37,7 +37,7 @@ public class QifUtils {
 
     /**
      * Adopted from http://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
-     *
+     * <p>
      * Converts a string into a data object
      * <p>
      * <p/>
@@ -47,7 +47,7 @@ public class QifUtils {
      * <p/>
      * 21/2/07 -> 02/21/2007 UK, Quicken 2007 D15/2/07
      *
-     * @param sDate String QIF date to parse
+     * @param sDate  String QIF date to parse
      * @param format String identifier of format to parse
      * @return Returns parsed date and current date if an error occurs
      */

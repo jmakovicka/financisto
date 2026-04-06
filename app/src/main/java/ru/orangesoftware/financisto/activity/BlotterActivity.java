@@ -188,10 +188,12 @@ public class BlotterActivity extends AbstractListActivity {
 
             searchText.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
                 @Override
                 public void afterTextChanged(Editable editable) {
@@ -577,8 +579,7 @@ public class BlotterActivity extends AbstractListActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         FrameLayout searchLayout = findViewById(R.id.search_text_frame);
         if (searchLayout != null && searchLayout.getVisibility() == View.VISIBLE) {
             searchLayout.setVisibility(View.GONE);

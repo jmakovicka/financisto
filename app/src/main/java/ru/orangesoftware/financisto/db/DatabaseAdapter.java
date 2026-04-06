@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -656,7 +657,7 @@ public class DatabaseAdapter extends MyEntityManager {
     public Category getCategoryWithParent(long id) {
         SQLiteDatabase db = db();
         try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-            CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
+                CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
             if (c.moveToNext()) {
                 Category cat = Category.formCursor(c);
                 String s = String.valueOf(id);
@@ -684,11 +685,11 @@ public class DatabaseAdapter extends MyEntityManager {
         }
         return res;
     }
-    
+
     public Category getCategoryByLeft(long left) {
         SQLiteDatabase db = db();
         try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-            CategoryViewColumns.left + "=?", new String[]{String.valueOf(left)}, null, null, null)) {
+                CategoryViewColumns.left + "=?", new String[]{String.valueOf(left)}, null, null, null)) {
             if (c.moveToNext()) {
                 return Category.formCursor(c);
             } else {
@@ -699,7 +700,7 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public CategoryTree<Category> getCategoriesTreeWithoutSubTree(long excludingTreeId, boolean includeNoCategory) {
         try (Cursor c = excludingTreeId > 0
-            ? getCategoriesWithoutSubtree(excludingTreeId, includeNoCategory) : getCategories(includeNoCategory)) {
+                ? getCategoriesWithoutSubtree(excludingTreeId, includeNoCategory) : getCategories(includeNoCategory)) {
             return CategoryTree.createFromCursor(c, Category::formCursor);
         }
     }
@@ -751,18 +752,18 @@ public class DatabaseAdapter extends MyEntityManager {
     public Cursor filterCategories(CharSequence titleFilter) {
         return getCategories(false, titleFilter);
     }
-        
-    
+
+
     public Cursor getCategories(boolean includeNoCategory, CharSequence titleFilter) {
         String query = CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0");
         String[] args = null;
         if (titleFilter != null) {
             query += " and (" + CategoryViewColumns.title + " like ? or " + CategoryViewColumns.title + " like ? )";
             args = new String[]{
-                    "%" + titleFilter + "%", 
+                    "%" + titleFilter + "%",
                     "%" + StringUtil.capitalize(titleFilter.toString()) + "%"};
         }
-        return db().query(V_CATEGORY, 
+        return db().query(V_CATEGORY,
                 CategoryViewColumns.NORMAL_PROJECTION,
                 query,
                 args, null, null, null);
@@ -772,7 +773,7 @@ public class DatabaseAdapter extends MyEntityManager {
         SQLiteDatabase db = db();
         long left = 0, right = 0;
         try (Cursor c = db.query(CATEGORY_TABLE, new String[]{CategoryColumns.left.name(), CategoryColumns.right.name()},
-                CategoryColumns._id + "=?", new String[]{String.valueOf(id)},null,null,null)) {
+                CategoryColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
             if (c.moveToFirst()) {
                 left = c.getLong(0);
                 right = c.getLong(1);
@@ -780,7 +781,7 @@ public class DatabaseAdapter extends MyEntityManager {
         }
         return db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
                 "(NOT (" + CategoryViewColumns.left + ">=? AND " + CategoryColumns.right + "<=?)) AND "
-                    + CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0"),
+                        + CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0"),
                 new String[]{String.valueOf(left), String.valueOf(right)}, null, null, null);
     }
 
@@ -995,8 +996,8 @@ public class DatabaseAdapter extends MyEntityManager {
     public List<SmsTemplate> getSmsTemplatesByNumber(String smsNumber) {
         try (Cursor c = db().rawQuery(
                 String.format("select %s from %s where %s=? order by %s, length(%s) desc",
-                    DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null),
-                    SMS_TEMPLATES_TABLE, title, sort_order, template), new String[]{smsNumber})) {
+                        DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null),
+                        SMS_TEMPLATES_TABLE, title, sort_order, template), new String[]{smsNumber})) {
             List<SmsTemplate> res = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 SmsTemplate a = SmsTemplate.fromCursor(c);
@@ -1025,11 +1026,11 @@ public class DatabaseAdapter extends MyEntityManager {
     public Cursor getSmsTemplatesWithFullInfo() {
         return getSmsTemplatesWithFullInfo(null);
     }
-    
+
     public Cursor getSmsTemplatesWithFullInfo(final String filter) {
         String nativeQuery = String.format(
                 "select %s, c.%s as %s, c.%s as %s " +
-                "from %s t left outer join %s c on t.%s = c.%s ",
+                        "from %s t left outer join %s c on t.%s = c.%s ",
                 DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, "t"),
                 CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
                 SMS_TEMPLATES_TABLE,
@@ -1040,7 +1041,7 @@ public class DatabaseAdapter extends MyEntityManager {
                     CategoryViewColumns.title, filter, SmsTemplateColumns.template);
         }
         nativeQuery += "order by t." + sort_order;
-        
+
         return db().rawQuery(nativeQuery, new String[]{});
     }
 

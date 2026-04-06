@@ -18,7 +18,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
+
 import androidx.biometric.BiometricManager;
+
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -108,6 +110,7 @@ public class PreferencesActivity extends PreferenceActivity {
         enableOpenExchangeApp();
         selectAccount();
     }
+
     private String reasonWhyFingerprintUnavailable(int canAuth) {
         if (canAuth == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE) {
             return getString(R.string.fingerprint_unavailable_hardware);

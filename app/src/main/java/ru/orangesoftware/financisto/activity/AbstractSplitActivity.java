@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Currency;
@@ -54,7 +55,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         projectSelector = new ProjectSelector<>(this, db, x);
         projectSelector.fetchEntities();
 
-        utils  = new Utils(this);
+        utils = new Utils(this);
         split = Transaction.fromIntentAsSplit(getIntent());
         if (split.fromAccountId > 0) {
             fromAccount = db.getAccount(split.fromAccountId);
@@ -79,10 +80,10 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         projectSelector.createNode(layout);
 
         Button bSave = findViewById(R.id.bSave);
-		bSave.setOnClickListener(arg0 -> saveAndFinish());
+        bSave.setOnClickListener(arg0 -> saveAndFinish());
 
         Button bCancel = findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(arg0 -> {
+        bCancel.setOnClickListener(arg0 -> {
             setResult(RESULT_CANCELED);
             finish();
         });

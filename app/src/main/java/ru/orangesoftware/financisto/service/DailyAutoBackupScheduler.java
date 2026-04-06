@@ -34,12 +34,12 @@ public class DailyAutoBackupScheduler {
     public static void scheduleNextAutoBackup(Context context) {
         if (MyPreferences.isAutoBackupEnabled(context)) {
             int hhmm = MyPreferences.getAutoBackupTime(context);
-            int hh = hhmm/100;
-            int mm = hhmm - 100*hh;
+            int hh = hhmm / 100;
+            int mm = hhmm - 100 * hh;
             new DailyAutoBackupScheduler(hh, mm, System.currentTimeMillis()).scheduleBackup(context);
         }
     }
-    
+
     DailyAutoBackupScheduler(int hh, int mm, long now) {
         this.hh = hh;
         this.mm = mm;
@@ -47,11 +47,11 @@ public class DailyAutoBackupScheduler {
     }
 
     private void scheduleBackup(Context context) {
-        AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
         service.set(AlarmManager.RTC_WAKEUP, scheduledTime.getTime(), pendingIntent);
-        Log.i("Financisto", "Next auto-backup scheduled at "+scheduledTime);
+        Log.i("Financisto", "Next auto-backup scheduled at " + scheduledTime);
     }
 
     private PendingIntent createPendingIntent(Context context) {

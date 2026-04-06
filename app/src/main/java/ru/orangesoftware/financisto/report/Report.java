@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -39,31 +39,31 @@ import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public abstract class Report {
-	
-	public final GraphStyle style;
+
+    public final GraphStyle style;
     public final ReportType reportType;
-	
-	protected final Context context;
+
+    protected final Context context;
     protected final boolean skipTransfers;
     protected final Currency currency;
 
     protected IncomeExpense incomeExpense = IncomeExpense.BOTH;
-	
-	public Report(ReportType reportType, Context context, Currency currency) {
+
+    public Report(ReportType reportType, Context context, Currency currency) {
         this.reportType = reportType;
         this.context = context;
-		this.skipTransfers = !MyPreferences.isIncludeTransfersIntoReports(context);
+        this.skipTransfers = !MyPreferences.isIncludeTransfersIntoReports(context);
         this.style = new GraphStyle.Builder(context).build();
         this.currency = currency;
-	}
+    }
 
     public void setIncomeExpense(IncomeExpense incomeExpense) {
         this.incomeExpense = incomeExpense;
     }
 
     protected String alterName(long id, String name) {
-		return name;
-	}
+        return name;
+    }
 
     public abstract ReportData getReport(DatabaseAdapter db, WhereFilter filter);
 
@@ -71,23 +71,23 @@ public abstract class Report {
         return getReport(db, filter);
     }
 
-	protected ReportData queryReport(DatabaseAdapter db, String table, WhereFilter filter) {
-		filterTransfers(filter);
-		Cursor c = db.db().query(table, DatabaseHelper.ReportColumns.NORMAL_PROJECTION,
+    protected ReportData queryReport(DatabaseAdapter db, String table, WhereFilter filter) {
+        filterTransfers(filter);
+        Cursor c = db.db().query(table, DatabaseHelper.ReportColumns.NORMAL_PROJECTION,
                 filter.getSelection(), filter.getSelectionArgs(), null, null, "_id");
-		ArrayList<GraphUnit> units = getUnitsFromCursor(db, c);
+        ArrayList<GraphUnit> units = getUnitsFromCursor(db, c);
         Total total = calculateTotal(units);
         return new ReportData(units, total);
-	}
+    }
 
     protected void filterTransfers(WhereFilter filter) {
-		if (skipTransfers) {
-			filter.put(Criteria.eq(ReportColumns.IS_TRANSFER, "0"));
-		}
-	}
+        if (skipTransfers) {
+            filter.put(Criteria.eq(ReportColumns.IS_TRANSFER, "0"));
+        }
+    }
 
-	protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
-		try {
+    protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
+        try {
             ExchangeRateProvider rates = db.getHistoryRates();
             ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
             GraphUnit u = null;
@@ -110,21 +110,21 @@ public abstract class Report {
                     amount = BigDecimal.ZERO;
                     u.error = TotalError.atDateRateError(e.fromCurrency, e.datetime);
                 }
-				u.addAmount(amount, skipTransfers && isTransfer != 0);
-			}
-			if (u != null) {
-				units.add(u);
-			}
+                u.addAmount(amount, skipTransfers && isTransfer != 0);
+            }
+            if (u != null) {
+                units.add(u);
+            }
             for (GraphUnit unit : units) {
                 unit.flatten(incomeExpense);
             }
             removeEmptyUnits(units);
             Collections.sort(units);
-			return units;
-		} finally {
-			c.close();
-		}
-	}
+            return units;
+        } finally {
+            c.close();
+        }
+    }
 
     private void removeEmptyUnits(ArrayList<GraphUnit> units) {
         Iterator<GraphUnit> unit = units.iterator();
@@ -154,11 +154,11 @@ public abstract class Report {
         return total;
     }
 
-	protected long getId(Cursor c) {
-		return c.getLong(0);
-	}
+    protected long getId(Cursor c) {
+        return c.getLong(0);
+    }
 
-	public Intent createActivityIntent(Context context, DatabaseAdapter db, WhereFilter parentFilter, long id) {
+    public Intent createActivityIntent(Context context, DatabaseAdapter db, WhereFilter parentFilter, long id) {
         WhereFilter filter = WhereFilter.empty();
         Criteria c = parentFilter.get(BlotterFilter.DATETIME);
         if (c != null) {
@@ -181,10 +181,10 @@ public abstract class Report {
             filter.put(c);
         }
         filter.eq("from_account_is_include_into_totals", "1");
-		Intent intent = new Intent(context, getBlotterActivityClass());
-		filter.toIntent(intent);
-		return intent;
-	}
+        Intent intent = new Intent(context, getBlotterActivityClass());
+        filter.toIntent(intent);
+        return intent;
+    }
 
     protected abstract Criteria getCriteriaForId(DatabaseAdapter db, long id);
 

@@ -20,13 +20,17 @@ import ru.orangesoftware.financisto.model.Currency;
 public interface RateNodeOwner {
 
     void onBeforeRateDownload();
+
     void onAfterRateDownload();
+
     void onSuccessfulRateDownload();
+
     void onRateChanged();
 
     FragmentActivity getActivity();
 
     Currency getCurrencyFrom();
+
     Currency getCurrencyTo();
 
 }

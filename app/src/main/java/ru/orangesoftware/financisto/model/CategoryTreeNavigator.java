@@ -11,6 +11,7 @@ package ru.orangesoftware.financisto.model;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 /**
@@ -127,7 +128,7 @@ public class CategoryTreeNavigator {
     public boolean isSelected(long categoryId) {
         return selectedCategoryId == categoryId;
     }
-    
+
     public List<Category> getSelectedRoots() {
         return categories.getRoots();
     }

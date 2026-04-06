@@ -16,8 +16,9 @@ public abstract class SearchFilterTextWatcherListener implements TextWatcher {
     public SearchFilterTextWatcherListener(int delayMs) {
         this.delayMs = delayMs;
     }
-    
+
     public abstract void clearFilter(String oldFilter);
+
     public abstract void applyFilter(String filter);
 
     @Override

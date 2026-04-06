@@ -18,7 +18,7 @@ public interface ItemTouchHelperAdapter {
     /**
      * Called when an item has been dismissed by a swipe.
      *
-     * @param position The position of the item dismissed.
+     * @param position  The position of the item dismissed.
      * @param direction
      * @see RecyclerView#getAdapterPositionFor(RecyclerView.ViewHolder)
      * @see RecyclerView.ViewHolder#getAdapterPosition()

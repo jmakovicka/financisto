@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.export.csv.Csv;
@@ -73,7 +74,7 @@ public class CurrencySelector {
 
     public void addSelectedCurrency(int selectedCurrency) {
         if (selectedCurrency > 0 && selectedCurrency <= currencies.size()) {
-            List<String> c = currencies.get(selectedCurrency-1);
+            List<String> c = currencies.get(selectedCurrency - 1);
             addSelectedCurrency(c);
         } else {
             listener.onCreated(0);
@@ -135,11 +136,11 @@ public class CurrencySelector {
 
     private String[] createItemsList(List<List<String>> currencies) {
         int size = currencies.size();
-        String[] items = new String[size+1];
+        String[] items = new String[size + 1];
         items[0] = context.getString(R.string.new_currency);
-        for (int i=0; i<size; i++) {
+        for (int i = 0; i < size; i++) {
             List<String> c = currencies.get(i);
-            items[i+1] = c.get(0)+" ("+c.get(1)+")";
+            items[i + 1] = c.get(0) + " (" + c.get(1) + ")";
         }
         return items;
     }

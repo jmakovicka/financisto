@@ -34,7 +34,8 @@ public class CategoryInfo {
     public String name;
     public boolean isIncome;
 
-    public CategoryInfo() {}
+    public CategoryInfo() {
+    }
 
     public CategoryInfo(String name, boolean income) {
         this.name = name;
@@ -58,7 +59,7 @@ public class CategoryInfo {
 
     @Override
     public String toString() {
-        return "{"+name+"("+(isIncome?"I":"E")+"}";
+        return "{" + name + "(" + (isIncome ? "I" : "E") + "}";
     }
 
 }

@@ -16,14 +16,14 @@ public class SplitAdjuster {
             return;
         }
         int count = splits.size();
-        long amount = unsplitAmount/count;
+        long amount = unsplitAmount / count;
         for (Transaction split : splits) {
             split.fromAmount += amount;
         }
-        long extra = unsplitAmount - amount*count;
+        long extra = unsplitAmount - amount * count;
         if (extra != 0) {
             int sign = extra > 0 ? 1 : -1;
-            for (int i=count-1; i >= count-sign*extra; i--) {
+            for (int i = count - 1; i >= count - sign * extra; i--) {
                 splits.get(i).fromAmount += sign;
             }
         }
@@ -33,7 +33,7 @@ public class SplitAdjuster {
         if (noSplits(splits)) {
             return;
         }
-        adjustSplit(splits.get(splits.size()-1), unsplitAmount);
+        adjustSplit(splits.get(splits.size() - 1), unsplitAmount);
     }
 
     public static void adjustSplit(Transaction split, long unsplitAmount) {

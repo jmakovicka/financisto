@@ -35,7 +35,7 @@ public class DatePickerFragment extends DialogFragment
             year = args.getInt(YEAR, c.get(Calendar.YEAR));
             month = args.getInt(MONTH, c.get(Calendar.MONTH));
             day = args.getInt(DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
-        }  else {
+        } else {
             year = c.get(Calendar.YEAR);
             month = c.get(Calendar.MONTH);
             day = c.get(Calendar.DAY_OF_MONTH);

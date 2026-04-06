@@ -9,12 +9,13 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.*;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Total;
 
-public class BlotterTotalsDetailsActivity extends AbstractTotalsDetailsActivity  {
+public class BlotterTotalsDetailsActivity extends AbstractTotalsDetailsActivity {
 
     private volatile TotalCalculationTask totalCalculationTask;
 

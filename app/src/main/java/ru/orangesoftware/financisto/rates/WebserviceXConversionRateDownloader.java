@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.rates;
 
 import android.util.Log;
+
 import ru.orangesoftware.financisto.http.HttpClientWrapper;
 import ru.orangesoftware.financisto.model.Currency;
 
@@ -47,7 +48,7 @@ public class WebserviceXConversionRateDownloader extends AbstractMultipleRatesDo
             }
             return rate;
         } catch (Exception e) {
-            rate.error = "Unable to get exchange rates: "+e.getMessage();
+            rate.error = "Unable to get exchange rates: " + e.getMessage();
         }
         return rate;
     }
@@ -76,13 +77,13 @@ public class WebserviceXConversionRateDownloader extends AbstractMultipleRatesDo
         String[] x = s.split("\r\n");
         String error = "Service is not available, please try again later";
         if (x.length > 0) {
-            error = "Something wrong with the exchange rates provider. Response from the service - "+x[0];
+            error = "Something wrong with the exchange rates provider. Response from the service - " + x[0];
         }
         return error;
     }
 
     private String buildUrl(Currency fromCurrency, Currency toCurrency) {
-        return "http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency="+fromCurrency.name+"&ToCurrency="+toCurrency.name;
+        return "http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=" + fromCurrency.name + "&ToCurrency=" + toCurrency.name;
     }
 
     @Override

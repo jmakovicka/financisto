@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.report;
 
 import android.content.Context;
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.datetime.PeriodType;
@@ -31,26 +32,26 @@ import static ru.orangesoftware.financisto.datetime.PeriodType.*;
 public class PeriodReport extends Report {
 
     private final PeriodType[] periodTypes = new PeriodType[]{TODAY, YESTERDAY, THIS_WEEK, LAST_WEEK, THIS_AND_LAST_WEEK, THIS_MONTH, LAST_MONTH, THIS_AND_LAST_MONTH};
-	private final Period[] periods = new Period[periodTypes.length];
+    private final Period[] periods = new Period[periodTypes.length];
 
     private Period currentPeriod;
 
-	public PeriodReport(Context context, Currency currency) {
-		super(ReportType.BY_PERIOD, context, currency);
-        for (int i=0; i<periodTypes.length; i++) {
+    public PeriodReport(Context context, Currency currency) {
+        super(ReportType.BY_PERIOD, context, currency);
+        for (int i = 0; i < periodTypes.length; i++) {
             periods[i] = periodTypes[i].calculatePeriod();
         }
     }
 
-	@Override
-	public ReportData getReport(DatabaseAdapter db, WhereFilter filter) {
-		WhereFilter newFilter = WhereFilter.empty();
-		Criteria criteria = filter.get(ReportColumns.FROM_ACCOUNT_CURRENCY_ID);
-		if (criteria != null) {
-			newFilter.put(criteria);
-		}
-		filterTransfers(newFilter);
-		ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
+    @Override
+    public ReportData getReport(DatabaseAdapter db, WhereFilter filter) {
+        WhereFilter newFilter = WhereFilter.empty();
+        Criteria criteria = filter.get(ReportColumns.FROM_ACCOUNT_CURRENCY_ID);
+        if (criteria != null) {
+            newFilter.put(criteria);
+        }
+        filterTransfers(newFilter);
+        ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
         for (Period p : periods) {
             currentPeriod = p;
             newFilter.put(Criteria.btw(ReportColumns.DATETIME, String.valueOf(p.start), String.valueOf(p.end)));
@@ -62,8 +63,8 @@ public class PeriodReport extends Report {
             }
         }
         Total total = calculateTotal(units);
-		return new ReportData(units, total);
-	}
+        return new ReportData(units, total);
+    }
 
     @Override
     protected long getId(Cursor c) {
@@ -76,14 +77,14 @@ public class PeriodReport extends Report {
     }
 
     @Override
-	public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
+    public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
         for (Period period : periods) {
             if (period.type.ordinal() == id) {
                 return new DateTimeCriteria(period);
             }
         }
-		return null;
-	}
+        return null;
+    }
 
     @Override
     public boolean shouldDisplayTotal() {

@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -57,16 +57,16 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     protected static final int FILTER_REQUEST = 1;
 
     public static final String FILTER_INCOME_EXPENSE = "FILTER_INCOME_EXPENSE";
-    
-	private DatabaseAdapter db;
-	private ImageButton bFilter;
+
+    private DatabaseAdapter db;
+    private ImageButton bFilter;
     private ImageButton bToggle;
     private Report currentReport;
     private ReportAsyncTask reportTask;
-	
-	private WhereFilter filter = WhereFilter.empty();
+
+    private WhereFilter filter = WhereFilter.empty();
     private boolean saveFilter = false;
-    
+
     private IncomeExpense incomeExpenseState = IncomeExpense.BOTH;
 
     @Override
@@ -74,18 +74,18 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         super.attachBaseContext(MyPreferences.switchLocale(base));
     }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.report);
+        setContentView(R.layout.report);
 
         db = new DatabaseAdapter(this);
-		db.open();
+        db.open();
 
-		bFilter = findViewById(R.id.bFilter);
+        bFilter = findViewById(R.id.bFilter);
 
-		bFilter.setOnClickListener(v -> {
+        bFilter.setOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, ReportFilterActivity.class);
             filter.toIntent(intent);
             startActivityForResult(intent, FILTER_REQUEST);
@@ -97,8 +97,8 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         ImageButton bPieChart = findViewById(R.id.bPieChart);
         bPieChart.setOnClickListener(v -> showPieChart());
 
-		Intent intent = getIntent();
-		if (intent != null) {
+        Intent intent = getIntent();
+        if (intent != null) {
             currentReport = ReportsListActivity.createReport(this, db, intent.getExtras());
             filter = WhereFilter.fromIntent(intent);
             if (intent.hasExtra(FILTER_INCOME_EXPENSE)) {
@@ -107,16 +107,16 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
             if (filter.isEmpty()) {
                 loadPrefsFilter();
             }
-			selectReport();
-		}
+            selectReport();
+        }
 
         applyFilter();
         applyIncomeExpense();
         showOrRemoveTotals();
-	}
+    }
 
     private SharedPreferences getPreferencesForReport() {
-        return getSharedPreferences("ReportActivity_"+currentReport.reportType.name()+"_DEFAULT", 0);
+        return getSharedPreferences("ReportActivity_" + currentReport.reportType.name() + "_DEFAULT", 0);
     }
 
     private void toggleIncomeExpense() {
@@ -131,7 +131,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     private void applyIncomeExpense() {
         String reportTitle = getString(currentReport.reportType.titleId);
         String incomeExpenseTitle = getString(incomeExpenseState.getTitleId());
-        setTitle(reportTitle+" ("+incomeExpenseTitle+")");
+        setTitle(reportTitle + " (" + incomeExpenseTitle + ")");
         bToggle.setImageDrawable(getResources().getDrawable(incomeExpenseState.getIconId()));
     }
 
@@ -140,16 +140,16 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     }
 
     @Override
-	protected void onPause() {
-		super.onPause();
-		PinProtection.lock(this);
-	}
+    protected void onPause() {
+        super.onPause();
+        PinProtection.lock(this);
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		PinProtection.unlock(this);
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PinProtection.unlock(this);
+    }
 
     private void showOrRemoveTotals() {
         if (!currentReport.shouldDisplayTotal()) {
@@ -165,8 +165,8 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         set.addAnimation(animation);
 
         animation = new TranslateAnimation(
-            Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-            Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
         );
         animation.setDuration(100);
         set.addAnimation(animation);
@@ -177,18 +177,18 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     }
 
     @Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		if (currentReport != null) {
-			Intent intent = currentReport.createActivityIntent(this, db, WhereFilter.copyOf(filter), id);
-			startActivity(intent);
-		}
-	}
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        if (currentReport != null) {
+            Intent intent = currentReport.createActivityIntent(this, db, WhereFilter.copyOf(filter), id);
+            startActivity(intent);
+        }
+    }
 
-	private void selectReport() {
+    private void selectReport() {
         cancelCurrentReportTask();
         reportTask = new ReportAsyncTask(currentReport, incomeExpenseState);
         reportTask.execute();
-	}
+    }
 
     private void cancelCurrentReportTask() {
         if (reportTask != null) {
@@ -225,35 +225,35 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     }
 
     @Override
-	protected void onDestroy() {
+    protected void onDestroy() {
         cancelCurrentReportTask();
-		db.close();
-		super.onDestroy();
-	}
+        db.close();
+        super.onDestroy();
+    }
 
-	@Override
-	public void recreateCursor() {
-		selectReport();
-	}
+    @Override
+    public void recreateCursor() {
+        selectReport();
+    }
 
     @Override
     public void integrityCheck() {
     }
 
     @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == FILTER_REQUEST) {
-			if (resultCode == RESULT_FIRST_USER) {
-				filter.clear();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FILTER_REQUEST) {
+            if (resultCode == RESULT_FIRST_USER) {
+                filter.clear();
                 saveFilter();
                 selectReport();
-			} else if (resultCode == RESULT_OK) {
+            } else if (resultCode == RESULT_OK) {
                 filter = WhereFilter.fromIntent(data);
                 saveFilter();
                 selectReport();
-			}
-		}
-	}
+            }
+        }
+    }
 
     private void saveFilter() {
         if (saveFilter) {
@@ -294,11 +294,11 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         @Override
         protected void onPreExecute() {
             setProgressBarIndeterminateVisibility(true);
-            ((TextView)findViewById(android.R.id.empty)).setText(R.string.calculating);
+            ((TextView) findViewById(android.R.id.empty)).setText(R.string.calculating);
         }
 
         @Override
-        protected ReportData doInBackground(Void...voids) {
+        protected ReportData doInBackground(Void... voids) {
             report.setIncomeExpense(incomeExpense);
             return report.getReport(db, WhereFilter.copyOf(filter));
         }
@@ -331,11 +331,11 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
             DefaultRenderer renderer = new DefaultRenderer();
             renderer.setLabelsTextSize(getResources().getDimension(R.dimen.report_labels_text_size));
             renderer.setLegendTextSize(getResources().getDimension(R.dimen.report_legend_text_size));
-            renderer.setMargins(new int[] { 0, 0, 0, 0 });
+            renderer.setMargins(new int[]{0, 0, 0, 0});
             ReportData report = currentReport.getReportForChart(db, WhereFilter.copyOf(filter));
             CategorySeries series = new CategorySeries("AAA");
-            long total = Math.abs(report.total.amount)+Math.abs(report.total.balance);
-            int[] colors = generateColors(2*report.units.size());
+            long total = Math.abs(report.total.amount) + Math.abs(report.total.balance);
+            int[] colors = generateColors(2 * report.units.size());
             int i = 0;
             for (GraphUnit unit : report.units) {
                 addSeries(series, renderer, unit.name, unit.getIncomeExpense().income, total, colors[i++]);
@@ -350,7 +350,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         public int[] generateColors(int n) {
             int[] colors = new int[n];
             for (int i = 0; i < n; i++) {
-                colors[i] = Color.HSVToColor(new float[]{360*(float)i/(float)n, .75f, .85f});
+                colors[i] = Color.HSVToColor(new float[]{360 * (float) i / (float) n, .75f, .85f});
             }
             return colors;
         }
@@ -358,7 +358,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         private void addSeries(CategorySeries series, DefaultRenderer renderer, String name, BigDecimal expense, long total, int color) {
             long amount = expense.longValue();
             if (amount != 0 && total != 0) {
-                long percentage = 100*Math.abs(amount)/total;
+                long percentage = 100 * Math.abs(amount) / total;
                 series.add((amount > 0 ? "+" : "-") + name + "(" + percentage + "%)", percentage);
                 SimpleSeriesRenderer r = new SimpleSeriesRenderer();
                 r.setColor(color);
@@ -373,5 +373,5 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         }
 
     }
-    
+
 }

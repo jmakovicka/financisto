@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
@@ -74,7 +75,7 @@ public class SplitTransactionActivity extends AbstractSplitActivity {
         amountInput.setAmount(amount);
         Currency c = getCurrency();
         amountInput.setCurrency(c);
-        amountTitle.setText(getString(R.string.amount)+" ("+c.name+")");
+        amountTitle.setText(getString(R.string.amount) + " (" + c.name + ")");
     }
 
     @Override

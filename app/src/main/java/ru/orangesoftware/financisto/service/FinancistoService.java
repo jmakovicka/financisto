@@ -13,14 +13,20 @@ package ru.orangesoftware.financisto.service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
+
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 import androidx.core.app.NotificationCompat;
+
 import android.util.Log;
+
 import java.util.Date;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractTransactionActivity;
 import ru.orangesoftware.financisto.activity.AccountWidget;
@@ -39,7 +45,9 @@ import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
+
 import ru.orangesoftware.financisto.utils.MyPreferences;
+
 import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
 import static ru.orangesoftware.financisto.utils.MyPreferences.shouldSaveSmsToTransactionNote;
 
@@ -110,7 +118,7 @@ public class FinancistoService extends JobIntentService {
         String body = intent.getStringExtra(SMS_TRANSACTION_BODY);
         if (number != null && body != null) {
             Transaction t = smsProcessor.createTransactionBySms(number, body, getSmsTransactionStatus(this),
-                shouldSaveSmsToTransactionNote(this));
+                    shouldSaveSmsToTransactionNote(this));
             if (t != null) {
                 TransactionInfo transactionInfo = db.getTransactionInfo(t.id);
                 if (transactionInfo != null) {
@@ -118,7 +126,7 @@ public class FinancistoService extends JobIntentService {
                     notifyUser(notification, (int) t.id);
                     AccountWidget.updateWidgets(this);
                 } else {
-                    Log.e("Financisto", "Transaction info does not exist for "+t.id);
+                    Log.e("Financisto", "Transaction info does not exist for " + t.id);
                 }
             }
         }

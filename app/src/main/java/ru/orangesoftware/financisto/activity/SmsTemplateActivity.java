@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -69,7 +70,7 @@ public class SmsTemplateActivity extends AbstractActivity {
         bOK.setOnClickListener(arg0 -> {
             updateSmsTemplateFromUI();
             if (Utils.checkEditText(smsNumber, "sms number", true, 30)
-                && Utils.checkEditText(templateTxt, "sms template", true, 160)) {
+                    && Utils.checkEditText(templateTxt, "sms template", true, 160)) {
                 long id = db.saveOrUpdate(smsTemplate);
                 Intent intent = new Intent();
                 intent.putExtra(SmsTemplateColumns._id.name(), id);
@@ -94,7 +95,7 @@ public class SmsTemplateActivity extends AbstractActivity {
         TextView templateTitle = findViewById(R.id.sms_tpl_title);
         final TextView templateDesc = findViewById(R.id.sms_tpl_desc);
         templateDesc.setOnClickListener(v -> templateDesc.setVisibility(View.GONE));
-        templateTitle.setOnClickListener(v -> templateDesc.setVisibility( templateDesc.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
+        templateTitle.setOnClickListener(v -> templateDesc.setVisibility(templateDesc.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
     }
 
     private void initExampleField() {
@@ -102,7 +103,8 @@ public class SmsTemplateActivity extends AbstractActivity {
         exampleTxt.setOnFocusChangeListener((v, hasFocus) -> exampleTxt.setAlpha(1F));
         exampleTxt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -110,11 +112,13 @@ public class SmsTemplateActivity extends AbstractActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         templateTxt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -122,7 +126,8 @@ public class SmsTemplateActivity extends AbstractActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -133,7 +138,7 @@ public class SmsTemplateActivity extends AbstractActivity {
             categorySelector.doNotShowSplitCategory();
             categorySelector.fetchCategories(false);
             categorySelector.createNode(findViewById(R.id.list2), FILTER);
-            
+
             if (smsTemplate != null) {
                 categorySelector.selectCategory(smsTemplate.categoryId, false);
             }
@@ -188,7 +193,7 @@ public class SmsTemplateActivity extends AbstractActivity {
     }
 
     private void selectedAccount(long selectedAccountId) {
-        for (int i=0; i<accounts.size(); i++) {
+        for (int i = 0; i < accounts.size(); i++) {
             Account a = accounts.get(i);
             if (a.id == selectedAccountId) {
                 accountSpinner.setSelection(i);

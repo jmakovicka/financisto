@@ -3,6 +3,7 @@ package ru.orangesoftware.financisto.utils;
 import android.content.Context;
 import android.os.Environment;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
@@ -23,7 +24,7 @@ public class PicturesUtil {
 
     public static File pictureFile(String pictureFileName, boolean fallbackToLegacy) {
         if (!PICTURES_DIR.exists()) PICTURES_DIR.mkdirs();
-        
+
         File file = new File(PICTURES_DIR, pictureFileName);
         if (fallbackToLegacy && !file.exists()) {
             file = new File(LEGACY_PICTURES_DIR, pictureFileName);

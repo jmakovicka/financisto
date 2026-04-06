@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.rates;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 
 /**
@@ -56,7 +57,7 @@ public class ExchangeRate implements Comparable<ExchangeRate> {
         r.fromCurrencyId = toCurrencyId;
         r.toCurrencyId = fromCurrencyId;
         r.date = date;
-        r.rate = rate == 0 ? 0 : 1.0d/rate;
+        r.rate = rate == 0 ? 0 : 1.0d / rate;
         return r;
     }
 

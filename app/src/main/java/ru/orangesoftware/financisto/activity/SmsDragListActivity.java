@@ -3,6 +3,7 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuItemCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
@@ -44,7 +47,7 @@ public class SmsDragListActivity extends AppCompatActivity {
 
         db = new DatabaseAdapter(this);
         db.open();
-        
+
 //        Toolbar menu = findViewById(R.id.tool_bar);
 //        setSupportActionBar(menu);
 
@@ -54,8 +57,8 @@ public class SmsDragListActivity extends AppCompatActivity {
         cursorSource = createSource();
         createAdapter(true);
         ((TextView) findViewById(android.R.id.empty)).setVisibility(View.GONE); // todo.mb: handle later
-        
-        if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
+
+        if (state != null) listState = state.getParcelable(LIST_STATE_KEY);
     }
 
     @Override
@@ -81,7 +84,7 @@ public class SmsDragListActivity extends AppCompatActivity {
         adapter = new SmsTemplateListAsyncAdapter(LIST_CHUNK_SIZE, db, cursorSource, recyclerView, this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        
+
         if (dragnDrop) {
             ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
             ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
@@ -89,7 +92,7 @@ public class SmsDragListActivity extends AppCompatActivity {
         }
         adapter.onStart(recyclerView);
     }
-    
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -120,7 +123,7 @@ public class SmsDragListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 cursorSource.setConstraint(newText);
                 adapter.reloadAsyncSource();
-                
+
                 if (!StringUtil.isEmpty(newText)) {
                     Log.i(TAG, "filtered by `" + newText + "`");
 //                    Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
@@ -139,7 +142,7 @@ public class SmsDragListActivity extends AppCompatActivity {
         startActivityForResult(intent, NEW_REQUEST_CODE);
         return true;
     }
-    
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return true;
@@ -154,7 +157,7 @@ public class SmsDragListActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (db != null) db.close();
         adapter.onStop(recyclerView);
-        
+
         super.onDestroy();
     }
 }

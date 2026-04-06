@@ -15,6 +15,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.utils.Utils;
 
@@ -92,8 +93,8 @@ public class DatabaseExport extends Export {
     private void exportTable(BufferedWriter bw, String tableName) throws IOException {
         final boolean orderedTable = tableHasOrder(tableName);
         final boolean customOrdered = ACCOUNT_TABLE.equals(tableName);
-        String sql = "select * from " + tableName 
-                + (tableHasSystemIds(tableName) ? " WHERE _id > 0 " : " ") 
+        String sql = "select * from " + tableName
+                + (tableHasSystemIds(tableName) ? " WHERE _id > 0 " : " ")
                 + (orderedTable ? " order by " + DEF_SORT_COL + " asc" : "");
         long row = 0;
         try (Cursor c = db.rawQuery(sql, null)) {

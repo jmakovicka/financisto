@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.export.qif;
 
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -164,11 +165,11 @@ public class QifTransaction {
         String category = trimFirstChar(line);
         int i = category.indexOf('/');
         if (i != -1) {
-            t.categoryClass = category.substring(i+1);
+            t.categoryClass = category.substring(i + 1);
             category = category.substring(0, i);
         }
         if (isTransferCategory(category)) {
-            t.toAccount = category.substring(1, category.length()-1);
+            t.toAccount = category.substring(1, category.length() - 1);
         } else {
             t.category = category;
         }

@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.export;
 
 import android.database.sqlite.SQLiteDatabase;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.CategoryTree;
@@ -40,11 +41,11 @@ public class CategoryCache {
     private AtomicLong seq = new AtomicLong(1);
 
     private boolean freshStart = true;
-    
+
     public void loadExistingCategories(DatabaseAdapter db) {
         categoryTree = db.getCategoriesTree(false);
         long maxId = updateNameToCategoryMapping(categoryTree, 0);
-        seq = new AtomicLong(maxId+1);
+        seq = new AtomicLong(maxId + 1);
         freshStart = false;
     }
 
@@ -120,7 +121,7 @@ public class CategoryCache {
     private Category insertChildCategory(String name, boolean income) {
         int i = name.lastIndexOf(':');
         String parentCategoryName = name.substring(0, i);
-        String childCategoryName = name.substring(i+1);
+        String childCategoryName = name.substring(i + 1);
         Category parent = insertCategory(parentCategoryName, income);
         Category child = categoryNameToCategory.get(name);
         if (child == null) {

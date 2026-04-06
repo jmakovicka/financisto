@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.db.TransactionsTotalCalculator;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;

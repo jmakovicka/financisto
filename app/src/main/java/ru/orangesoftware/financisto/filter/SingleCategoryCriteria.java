@@ -11,10 +11,10 @@ package ru.orangesoftware.financisto.filter;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 
 /**
-* Created by IntelliJ IDEA.
-* User: denis.solonenko
-* Date: 12/17/12 9:06 PM
-*/
+ * Created by IntelliJ IDEA.
+ * User: denis.solonenko
+ * Date: 12/17/12 9:06 PM
+ */
 public class SingleCategoryCriteria extends Criteria {
 
     private final long categoryId;

@@ -23,11 +23,14 @@ public class GoogleDriveClientV3 {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void doBackup(DoDriveBackupEvent event) { }
+    public void doBackup(DoDriveBackupEvent event) {
+    }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void listFiles(DoDriveListFilesEvent event) { }
+    public void listFiles(DoDriveListFilesEvent event) {
+    }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void doRestore(DoDriveRestoreEvent event) { }
+    public void doRestore(DoDriveRestoreEvent event) {
+    }
 }

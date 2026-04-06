@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;

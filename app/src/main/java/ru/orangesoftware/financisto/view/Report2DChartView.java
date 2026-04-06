@@ -57,7 +57,7 @@ public class Report2DChartView extends View {
     private Paint valuesPaint;
 
     /*
-     * True if all the points are positive or negative. In this case, the 
+     * True if all the points are positive or negative. In this case, the
      * chart will reflect all data in modulus.
      * False if there are positive and negative points to be represented.
      */

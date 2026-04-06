@@ -29,16 +29,20 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Date;
 import java.util.HashMap;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
+
 import static ru.orangesoftware.financisto.model.Category.isSplit;
+
 import ru.orangesoftware.financisto.model.CategoryEntity;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.MyPreferences;
+
 import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
 
 import ru.orangesoftware.financisto.utils.StringUtil;
@@ -225,8 +229,8 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
     }
 
     protected void alternateColorIfNeeded(BlotterViewHolder v, Context context, Cursor cursor) {
-        if(MyPreferences.isBlotterAlternateColors(context)) {
-            if(cursor.getPosition() %2 == 1) {
+        if (MyPreferences.isBlotterAlternateColors(context)) {
+            if (cursor.getPosition() % 2 == 1) {
                 v.layout.setBackgroundColor(Color.argb(31, 127, 127, 127));
             } else {
                 v.layout.setBackgroundColor(Color.TRANSPARENT);

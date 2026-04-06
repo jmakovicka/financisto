@@ -12,8 +12,10 @@ package ru.orangesoftware.financisto.widget;
 
 import android.app.Dialog;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;

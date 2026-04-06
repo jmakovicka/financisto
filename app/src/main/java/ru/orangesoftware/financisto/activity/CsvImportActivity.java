@@ -133,7 +133,7 @@ public class CsvImportActivity extends AbstractImportActivity {
     }
 
     private void selectedAccount(long selectedAccountId) {
-        for (int i=0; i<accounts.size(); i++) {
+        for (int i = 0; i < accounts.size(); i++) {
             Account a = accounts.get(i);
             if (a.id == selectedAccountId) {
                 accountSpinner.setSelection(i);

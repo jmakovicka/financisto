@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -14,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.text.format.DateUtils;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
@@ -26,10 +27,10 @@ import ru.orangesoftware.financisto.utils.Utils;
 import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
 
 public class TransactionsListAdapter extends BlotterListAdapter {
-	
-	public TransactionsListAdapter(Context context, DatabaseAdapter db, Cursor c) {
-		super(context, db, c);
-	}
+
+    public TransactionsListAdapter(Context context, DatabaseAdapter db, Cursor c) {
+        super(context, db, c);
+    }
 
     @Override
     protected void bindView(BlotterViewHolder v, Context context, Cursor cursor) {
@@ -46,9 +47,9 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         if (toAccountId > 0) {
             v.topView.setText(R.string.transfer);
             if (fromAmount > 0) {
-                note = toAccount+" \u00BB";
+                note = toAccount + " \u00BB";
             } else {
-                note = "\u00AB "+toAccount;
+                note = "\u00AB " + toAccount;
             }
         } else {
             String title = cursor.getString(BlotterColumns.from_account_title.ordinal());
@@ -83,7 +84,7 @@ public class TransactionsListAdapter extends BlotterListAdapter {
 
         long date = cursor.getLong(BlotterColumns.datetime.ordinal());
         v.bottomView.setText(StringUtil.capitalize(DateUtils.formatDateTime(context, date,
-                DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_MONTH|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_WEEKDAY)));
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY)));
         if (date > System.currentTimeMillis()) {
             u.setFutureTextColor(v.bottomView);
         } else {

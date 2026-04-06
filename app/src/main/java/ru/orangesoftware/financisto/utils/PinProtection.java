@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.content.Intent;
+
 import ru.orangesoftware.financisto.activity.PinActivity;
 
 public class PinProtection {
@@ -20,6 +21,7 @@ public class PinProtection {
 
     private static interface LockState {
         LockState lock(Context c);
+
         LockState unlock(Context c);
     }
 
@@ -28,6 +30,7 @@ public class PinProtection {
         public LockState lock(Context c) {
             return this;
         }
+
         @Override
         public LockState unlock(Context c) {
             if (MyPreferences.isPinProtected(c)) {

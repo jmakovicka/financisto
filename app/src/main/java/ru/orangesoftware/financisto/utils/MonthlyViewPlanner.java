@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
@@ -94,7 +95,7 @@ public class MonthlyViewPlanner extends AbstractPlanner {
     public TransactionList getCreditCardStatement() {
         TransactionList withTotals = getPlannedTransactionsWithTotals();
         List<TransactionInfo> transactions = withTotals.transactions;
-        List<TransactionInfo> statement = new ArrayList<TransactionInfo>(transactions.size()+3);
+        List<TransactionInfo> statement = new ArrayList<TransactionInfo>(transactions.size() + 3);
         // add payments
         statement.add(PAYMENTS_HEADER);
         for (TransactionInfo transaction : transactions) {

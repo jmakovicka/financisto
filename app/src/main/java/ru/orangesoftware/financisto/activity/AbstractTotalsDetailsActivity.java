@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.Total;
@@ -54,10 +55,10 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
         setContentView(R.layout.totals_details);
 
         u = new Utils(this);
-        layout = (LinearLayout)findViewById(R.id.list);
+        layout = (LinearLayout) findViewById(R.id.list);
         calculatingNode = x.addTitleNodeNoDivider(layout, R.string.calculating);
 
-        Button bOk = (Button)findViewById(R.id.bOK);
+        Button bOk = (Button) findViewById(R.id.bOK);
         bOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +70,8 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
         calculateTotals();
     }
 
-    protected void internalOnCreate() {}
+    protected void internalOnCreate() {
+    }
 
     private void calculateTotals() {
         CalculateAccountsTotalsTask task = new CalculateAccountsTotalsTask();
@@ -79,7 +81,7 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
     @Override
     protected void onClick(View v, int id) {
     }
-    
+
     private class CalculateAccountsTotalsTask extends AsyncTask<Void, Void, TotalsInfo> {
 
         @Override
@@ -150,7 +152,8 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
 
     protected abstract Total[] getTotals();
 
-    protected void prepareInBackground() { }
+    protected void prepareInBackground() {
+    }
 
     private static class TotalInfo {
 
@@ -162,9 +165,9 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
             this.rate = rate;
         }
     }
-    
+
     private static class TotalsInfo {
-        
+
         public final List<TotalInfo> totals;
         public final Total totalInHomeCurrency;
 
@@ -174,6 +177,6 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
         }
 
     }
-    
+
 
 }

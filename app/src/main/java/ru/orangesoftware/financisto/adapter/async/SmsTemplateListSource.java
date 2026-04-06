@@ -1,14 +1,15 @@
 package ru.orangesoftware.financisto.adapter.async;
 
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 
 public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
-    
+
     private final DatabaseAdapter db;
     private volatile String filter;
-    
+
     public SmsTemplateListSource(DatabaseAdapter db, boolean prepareCursor) {
         this.db = db;
 

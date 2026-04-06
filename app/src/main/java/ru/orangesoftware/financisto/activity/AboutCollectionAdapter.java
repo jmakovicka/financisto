@@ -30,5 +30,7 @@ public class AboutCollectionAdapter extends FragmentStateAdapter {
     }
 
     @Override
-    public int getItemCount() { return tabNames.length; }
+    public int getItemCount() {
+        return tabNames.length;
+    }
 }

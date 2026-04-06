@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.view.View;
 import android.widget.*;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
@@ -37,7 +38,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         db = new DatabaseAdapter(this);
         db.open();
 
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
+        Spinner currencySpinner = (Spinner) findViewById(R.id.spinnerCurrency);
         Cursor currencyCursor = db.getAllCurrencies("name");
         startManagingCursor(currencyCursor);
         SimpleCursorAdapter currencyAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, currencyCursor,
@@ -92,8 +93,8 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
 
     @Override
     protected void updateResultIntentFromUi(Intent data) {
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
-        Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
+        Spinner currencySpinner = (Spinner) findViewById(R.id.spinnerCurrency);
+        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
         data.putExtra(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
         data.putExtra(QIF_IMPORT_URI, fileUri.toString());
         data.putExtra(QIF_IMPORT_FILENAME, edFilename.getText().toString());
@@ -101,29 +102,29 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
     }
 
     @Override
-	protected void savePreferences() {
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+    protected void savePreferences() {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
+        Spinner currencySpinner = (Spinner) findViewById(R.id.spinnerCurrency);
         editor.putInt(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
         editor.putLong(QIF_IMPORT_CURRENCY, currencySpinner.getSelectedItemId());
-		editor.apply();
-	}
+        editor.apply();
+    }
 
     @Override
     protected void restorePreferences() {
-		SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
         dateFormats.setSelection(preferences.getInt(QIF_IMPORT_DATE_FORMAT, 0));
         long currencyId = preferences.getLong(QIF_IMPORT_CURRENCY, 0);
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
+        Spinner currencySpinner = (Spinner) findViewById(R.id.spinnerCurrency);
         int count = currencySpinner.getCount();
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             if (currencyId == currencySpinner.getItemIdAtPosition(i)) {
                 currencySpinner.setSelection(i);
                 break;
             }
         }
-	}
+    }
 
 }

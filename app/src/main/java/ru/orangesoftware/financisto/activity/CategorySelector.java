@@ -270,6 +270,7 @@ public class CategorySelector<A extends AbstractActivity> {
     public Category getSelectedCategory() {
         return selectedCategory;
     }
+
     public boolean getSelectLast() {
         return selectLast;
     }

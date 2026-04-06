@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AccountActivity;
 import ru.orangesoftware.financisto.activity.AccountListActivity;
@@ -100,7 +101,7 @@ public class AccountInfoDialog {
     }
 
     private String issuerTitle(Account a) {
-        return (isNotEmpty(a.issuer) ? a.issuer : "")+" "+(isNotEmpty(a.number) ? "#"+a.number : "");
+        return (isNotEmpty(a.issuer) ? a.issuer : "") + " " + (isNotEmpty(a.number) ? "#" + a.number : "");
     }
 
     private void showDialog(final View v, View titleView) {
@@ -140,7 +141,7 @@ public class AccountInfoDialog {
     private TextView add(LinearLayout layout, int labelId, String data) {
         View v = inflater.new Builder(layout, R.layout.select_entry_simple).withLabel(labelId)
                 .withData(data).create();
-        return (TextView)v.findViewById(R.id.data);
+        return (TextView) v.findViewById(R.id.data);
     }
 
     private LinearLayout add(LinearLayout layout, String label, String data) {

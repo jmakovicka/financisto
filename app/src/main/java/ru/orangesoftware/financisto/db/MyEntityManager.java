@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.filter.Criteria;
@@ -320,7 +321,7 @@ public abstract class MyEntityManager extends EntityManager {
 
     private <T extends MyEntity> void addZeroEntity(ArrayList<T> list, T zeroEntity) {
         int zeroPos = -1;
-        for (int i=0; i<list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (list.get(i).id == 0) {
                 zeroPos = i;
                 break;

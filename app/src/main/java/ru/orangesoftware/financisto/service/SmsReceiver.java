@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
+
 import static java.lang.String.format;
+
 import java.util.Set;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+
 import static ru.orangesoftware.financisto.service.FinancistoService.ACTION_NEW_TRANSACTION_SMS;
 
 public class SmsReceiver extends BroadcastReceiver {
@@ -21,7 +25,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if(!SMS_RECEIVED_ACTION.equals(intent.getAction())) return;
+        if (!SMS_RECEIVED_ACTION.equals(intent.getAction())) return;
 
         Bundle pdusObj = intent.getExtras();
         final DatabaseAdapter db = new DatabaseAdapter(context);
@@ -36,7 +40,7 @@ public class SmsReceiver extends BroadcastReceiver {
             String addr = null;
             String taddr = null;
             String hitaddr = null;
-            int  hitlen  = 0;
+            int hitlen = 0;
             final StringBuilder body = new StringBuilder();
 
             for (final Object one : msgs) {
@@ -46,14 +50,14 @@ public class SmsReceiver extends BroadcastReceiver {
                     body.append(msg.getDisplayMessageBody());
                 }*/
                 hitlen = 0;
-                 for( Object two : smsNumbers) {
-                   taddr = two.toString();
-                   if(addr.startsWith(taddr)  && taddr.length() > hitlen){
-                       hitlen = taddr.length();
-                       hitaddr = taddr;
-                       body.append(msg.getDisplayMessageBody());
-                   }
-            }
+                for (Object two : smsNumbers) {
+                    taddr = two.toString();
+                    if (addr.startsWith(taddr) && taddr.length() > hitlen) {
+                        hitlen = taddr.length();
+                        hitaddr = taddr;
+                        body.append(msg.getDisplayMessageBody());
+                    }
+                }
             }
 
             final String fullSmsBody = body.toString();
@@ -65,8 +69,8 @@ public class SmsReceiver extends BroadcastReceiver {
                 serviceIntent.putExtra(SMS_TRANSACTION_BODY, fullSmsBody);
                 FinancistoService.enqueueWork(context, serviceIntent);
             }
-                // Display SMS message
-                //                Toast.makeText(context, String.format("%s:%s", addr, body), Toast.LENGTH_SHORT).show();
+            // Display SMS message
+            //                Toast.makeText(context, String.format("%s:%s", addr, body), Toast.LENGTH_SHORT).show();
         }
 
         // WARNING!!!

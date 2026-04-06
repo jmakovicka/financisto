@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -13,6 +13,7 @@ package ru.orangesoftware.financisto.model;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.TransactionActivity;
 import ru.orangesoftware.financisto.activity.TransferActivity;
@@ -24,26 +25,27 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
 public class TransactionInfo extends TransactionBase {
-	
-	@JoinColumn(name = "from_account_id")
-	public Account fromAccount;
 
-	@JoinColumn(name = "to_account_id", required = false)
-	public Account toAccount;
+    @JoinColumn(name = "from_account_id")
+    public Account fromAccount;
 
-	@JoinColumn(name = "category_id")
-	public Category category;
+    @JoinColumn(name = "to_account_id", required = false)
+    public Account toAccount;
 
-	@JoinColumn(name = "project_id", required = false)
-	public Project project;
+    @JoinColumn(name = "category_id")
+    public Category category;
 
-	@JoinColumn(name = "location_id", required = false)
-	public MyLocation location;
+    @JoinColumn(name = "project_id", required = false)
+    public Project project;
+
+    @JoinColumn(name = "location_id", required = false)
+    public MyLocation location;
 
     @JoinColumn(name = "original_currency_id", required = false)
     public Currency originalCurrency;
@@ -52,55 +54,55 @@ public class TransactionInfo extends TransactionBase {
     public Payee payee;
 
     @Transient
-	public Date nextDateTime;
-	
-	public boolean isTransfer() {
-		return toAccount != null;
-	}
+    public Date nextDateTime;
 
-	public Class<? extends Activity> getActivity() {
-		return isTransfer() ? TransferActivity.class : TransactionActivity.class;
-	}
-	
-	public int getNotificationIcon() {
-		return isTransfer() ?
-            R.drawable.notification_icon_transfer :
-            fromAmount > 0 ?
-                R.drawable.notification_icon_transaction : R.drawable.ic_btn_round_minus;
-	}
-	
-	public String getNotificationTickerText(Context context) {
-		return context.getString(isTransfer() ? R.string.new_scheduled_transfer_text : R.string.new_scheduled_transaction_text);
-	}
+    public boolean isTransfer() {
+        return toAccount != null;
+    }
 
-	public String getNotificationContentTitle(Context context) {
-		return context.getString(isTransfer() ? R.string.new_scheduled_transfer_title : R.string.new_scheduled_transaction_title);
-	}
-	
-	public String getNotificationContentText(Context context) {
-		if (toAccount != null) {
-			if (fromAccount.currency.id == toAccount.currency.id) {
-				return context.getString(R.string.new_scheduled_transfer_notification_same_currency, 
-						Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
-						fromAccount.title, toAccount.title);				
-			} else {
-				return context.getString(R.string.new_scheduled_transfer_notification_differ_currency, 
-						Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
-						Utils.amountToString(toAccount.currency, Math.abs(toAmount)),
-						fromAccount.title, toAccount.title);								
-			}
-		} else {
-			return context.getString(R.string.new_scheduled_transaction_notification,
-					Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
-					context.getString(fromAmount > 0 ? R.string.new_scheduled_transaction_debit : R.string.new_scheduled_transaction_credit),
-					fromAccount.title);
-		}		
-	}
+    public Class<? extends Activity> getActivity() {
+        return isTransfer() ? TransferActivity.class : TransactionActivity.class;
+    }
+
+    public int getNotificationIcon() {
+        return isTransfer() ?
+                R.drawable.notification_icon_transfer :
+                fromAmount > 0 ?
+                        R.drawable.notification_icon_transaction : R.drawable.ic_btn_round_minus;
+    }
+
+    public String getNotificationTickerText(Context context) {
+        return context.getString(isTransfer() ? R.string.new_scheduled_transfer_text : R.string.new_scheduled_transaction_text);
+    }
+
+    public String getNotificationContentTitle(Context context) {
+        return context.getString(isTransfer() ? R.string.new_scheduled_transfer_title : R.string.new_scheduled_transaction_title);
+    }
+
+    public String getNotificationContentText(Context context) {
+        if (toAccount != null) {
+            if (fromAccount.currency.id == toAccount.currency.id) {
+                return context.getString(R.string.new_scheduled_transfer_notification_same_currency,
+                        Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
+                        fromAccount.title, toAccount.title);
+            } else {
+                return context.getString(R.string.new_scheduled_transfer_notification_differ_currency,
+                        Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
+                        Utils.amountToString(toAccount.currency, Math.abs(toAmount)),
+                        fromAccount.title, toAccount.title);
+            }
+        } else {
+            return context.getString(R.string.new_scheduled_transaction_notification,
+                    Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
+                    context.getString(fromAmount > 0 ? R.string.new_scheduled_transaction_debit : R.string.new_scheduled_transaction_credit),
+                    fromAccount.title);
+        }
+    }
 
     @Override
     public TransactionInfo clone() {
         try {
-            return (TransactionInfo)super.clone();
+            return (TransactionInfo) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }

@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * Not thread safe
- *
+ * <p>
  * Created by IntelliJ IDEA.
  * User: denis.solonenko
  * Date: 1/30/12 7:54 PM
@@ -22,7 +22,7 @@ import java.util.*;
 public class HistoryExchangeRates implements ExchangeRateProvider, ExchangeRatesCollection {
 
     private static final ExchangeRate r = new ExchangeRate();
-    
+
     private final HashMap<Long, HashMap<Long, SortedSet<ExchangeRate>>> rates = new HashMap<Long, HashMap<Long, SortedSet<ExchangeRate>>>();
 
     @Override
@@ -69,7 +69,7 @@ public class HistoryExchangeRates implements ExchangeRateProvider, ExchangeRates
         }
         return m;
     }
-    
+
     private SortedSet<ExchangeRate> getSetFor(HashMap<Long, SortedSet<ExchangeRate>> rates, long date) {
         SortedSet<ExchangeRate> s = rates.get(date);
         if (s == null) {

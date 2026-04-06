@@ -15,7 +15,7 @@ package ru.orangesoftware.financisto.utils;
  * Time: 11:14 PM
  */
 public interface ExecutableEntityEnum<V> extends EntityEnum {
-    
+
     public void execute(V value);
-    
+
 }

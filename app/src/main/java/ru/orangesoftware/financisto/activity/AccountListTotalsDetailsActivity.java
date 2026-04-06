@@ -16,7 +16,7 @@ import ru.orangesoftware.financisto.model.Total;
  * User: denis.solonenko
  * Date: 3/15/12 16:40 PM
  */
-public class AccountListTotalsDetailsActivity extends AbstractTotalsDetailsActivity  {
+public class AccountListTotalsDetailsActivity extends AbstractTotalsDetailsActivity {
 
     public AccountListTotalsDetailsActivity() {
         super(R.string.account_total_in_currency);

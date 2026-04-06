@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.*;
@@ -90,6 +91,7 @@ public abstract class AbstractPlanner {
     protected abstract TransactionInfo prepareScheduledTransaction(TransactionInfo scheduledTransaction);
 
     protected abstract boolean includeScheduledTransaction(TransactionInfo transaction);
+
     protected abstract boolean includeScheduledSplitTransaction(TransactionInfo split);
 
     private List<Date> calculatePlannedDates(TransactionInfo scheduledTransaction) {

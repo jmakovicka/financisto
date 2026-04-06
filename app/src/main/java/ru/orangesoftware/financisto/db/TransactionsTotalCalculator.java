@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
 import android.util.Log;
+
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.Currency;
@@ -36,8 +37,8 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FOR_ACCOU
 public class TransactionsTotalCalculator {
 
     public static final String[] BALANCE_PROJECTION = {
-        "from_account_currency_id",
-        "SUM(from_amount)"};
+            "from_account_currency_id",
+            "SUM(from_amount)"};
 
     public static final String BALANCE_GROUPBY = "from_account_currency_id";
 
@@ -108,7 +109,7 @@ public class TransactionsTotalCalculator {
     }
 
     private Total getBalanceInHomeCurrency(String view, Currency toCurrency, WhereFilter filter) {
-        Log.d("Financisto", "Query balance: "+filter.getSelection()+" => "+ Arrays.toString(filter.getSelectionArgs()));
+        Log.d("Financisto", "Query balance: " + filter.getSelection() + " => " + Arrays.toString(filter.getSelectionArgs()));
         Cursor c = db.db().query(view, HOME_CURRENCY_PROJECTION,
                 filter.getSelection(), filter.getSelectionArgs(),
                 null, null, null);
@@ -157,7 +158,7 @@ public class TransactionsTotalCalculator {
                 expenses = expenses.add(amount);
             }
         }
-        return new long[]{income.longValue(),expenses.longValue()};
+        return new long[]{income.longValue(), expenses.longValue()};
     }
 
     public static BigDecimal getAmountFromCursor(MyEntityManager em, Cursor c, Currency toCurrency, ExchangeRateProvider rates, int index) throws UnableToCalculateRateException {

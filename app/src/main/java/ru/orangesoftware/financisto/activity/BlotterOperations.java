@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -20,7 +21,7 @@ import ru.orangesoftware.financisto.model.TransactionStatus;
 public class BlotterOperations {
 
     private static final int EDIT_TRANSACTION_REQUEST = 2;
-	private static final int EDIT_TRANSFER_REQUEST = 4;
+    private static final int EDIT_TRANSFER_REQUEST = 4;
 
     private final BlotterActivity activity;
     private final DatabaseAdapter db;
@@ -80,11 +81,11 @@ public class BlotterOperations {
 
     public long duplicateTransaction(int multiplier) {
         long newId;
-		if (multiplier > 1) {
-			newId = db.duplicateTransactionWithMultiplier(targetTransaction.id, multiplier);
-		} else {
-			newId = db.duplicateTransaction(targetTransaction.id);
-		}
+        if (multiplier > 1) {
+            newId = db.duplicateTransactionWithMultiplier(targetTransaction.id, multiplier);
+        } else {
+            newId = db.duplicateTransaction(targetTransaction.id);
+        }
         return newId;
     }
 

@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import static android.Manifest.permission.RECEIVE_SMS;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -12,7 +13,9 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import ru.orangesoftware.financisto.R;
+
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.BackupExportTask;
 import ru.orangesoftware.financisto.export.Export;
@@ -26,7 +29,9 @@ import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportTask;
 import ru.orangesoftware.financisto.utils.EntityEnum;
 import ru.orangesoftware.financisto.utils.EnumUtils;
+
 import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
+
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
 import ru.orangesoftware.financisto.utils.SummaryEntityEnum;
@@ -72,7 +77,8 @@ public enum MenuListItem implements SummaryEntityEnum {
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("*/*");
 
-            activity.startActivityForResult(intent, ACTIVITY_DB_IMPORT);}
+            activity.startActivityForResult(intent, ACTIVITY_DB_IMPORT);
+        }
     },
     /*
     GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.string.backup_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {

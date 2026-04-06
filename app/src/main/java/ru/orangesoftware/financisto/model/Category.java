@@ -11,12 +11,14 @@
 package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import java.util.List;
 
 @Entity

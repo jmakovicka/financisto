@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.app;
 
 import android.content.Context;
 import android.content.res.Configuration;
+
 import androidx.multidex.MultiDexApplication;
 
 import ru.orangesoftware.financisto.utils.MyPreferences;

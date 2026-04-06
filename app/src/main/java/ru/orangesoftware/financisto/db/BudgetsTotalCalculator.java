@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.db;
 
 import android.os.Handler;
 import android.util.Log;
+
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.rates.ExchangeRate;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
@@ -63,7 +64,7 @@ public class BudgetsTotalCalculator {
             Log.d("BUDGET UPDATE", (t1 - t0) + "ms");
         }
     }
-    
+
     public Total[] calculateTotals() {
         Map<Currency, Total> totals = new HashMap<Currency, Total>();
         for (Budget b : budgets) {
@@ -74,7 +75,7 @@ public class BudgetsTotalCalculator {
                 totals.put(c, total);
             }
             total.amount += b.spent;
-            total.balance += b.amount+b.spent;
+            total.balance += b.amount + b.spent;
         }
         Collection<Total> values = totals.values();
         return values.toArray(new Total[values.size()]);
@@ -94,7 +95,7 @@ public class BudgetsTotalCalculator {
                     return new Total(homeCurrency, TotalError.lastRateError(currency));
                 } else {
                     amount = amount.add(convert(r, b.spent));
-                    balance = balance.add(convert(r, b.amount+b.spent));
+                    balance = balance.add(convert(r, b.amount + b.spent));
                 }
             }
             Total total = new Total(homeCurrency, true);
@@ -108,7 +109,7 @@ public class BudgetsTotalCalculator {
     }
 
     private BigDecimal convert(ExchangeRate r, long spent) {
-        return BigDecimal.valueOf(r.rate*spent);
+        return BigDecimal.valueOf(r.rate * spent);
     }
 
     private <T extends MyEntity> String getChecked(Map<Long, T> entities, String s) {

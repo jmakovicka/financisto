@@ -29,66 +29,66 @@ import ru.orangesoftware.financisto.view.NodeInflater;
 
 public abstract class AbstractActivity extends FragmentActivity implements ActivityLayoutListener {
 
-	protected DatabaseAdapter db;
+    protected DatabaseAdapter db;
 
-	protected ActivityLayout x;
+    protected ActivityLayout x;
 
-	@Override
-	protected void attachBaseContext(Context base) {
-		super.attachBaseContext(MyPreferences.switchLocale(base));
-	}
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		NodeInflater nodeInflater = new NodeInflater(layoutInflater);
-		x = new ActivityLayout(nodeInflater, this);
-		db = new DatabaseAdapter(this);
-		db.open();
-	}
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        NodeInflater nodeInflater = new NodeInflater(layoutInflater);
+        x = new ActivityLayout(nodeInflater, this);
+        db = new DatabaseAdapter(this);
+        db.open();
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
+    @Override
+    protected void onPause() {
+        super.onPause();
         if (shouldLock()) {
-		    PinProtection.lock(this);
+            PinProtection.lock(this);
         }
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (shouldLock()) {
-		    PinProtection.unlock(this);
+            PinProtection.unlock(this);
         }
-	}
+    }
 
     protected boolean shouldLock() {
         return true;
     }
 
-	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-		onClick(v, id);
-	}
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        onClick(v, id);
+    }
 
-	protected abstract void onClick(View v, int id);
+    protected abstract void onClick(View v, int id);
 
 
-	@Override
-	public void onSelected(int id, List<? extends MultiChoiceItem> items) {
-	}
+    @Override
+    public void onSelected(int id, List<? extends MultiChoiceItem> items) {
+    }
 
-	@Override
-	public void onSelectedId(final int id, final long selectedId) {
-	}
+    @Override
+    public void onSelectedId(final int id, final long selectedId) {
+    }
 
-	@Override
-	public void onSelectedPos(int id, int selectedPos) {
-	}
+    @Override
+    public void onSelectedPos(int id, int selectedPos) {
+    }
 
     protected boolean checkSelected(Object value, int messageResId) {
         if (value == null) {
@@ -99,26 +99,26 @@ public abstract class AbstractActivity extends FragmentActivity implements Activ
     }
 
     protected boolean checkSelectedId(long value, int messageResId) {
-		if (value <= 0) {
-			Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-			return false;
-		}
-		return true;
-	}
+        if (value <= 0) {
+            Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 
-	public static void setVisibility(View v, int visibility) {
-		if (v == null) return;
-		v.setVisibility(visibility);
-		Object o = v.getTag();
-		if (o instanceof View) {
-			((View)o).setVisibility(visibility);
-		}
-	}
+    public static void setVisibility(View v, int visibility) {
+        if (v == null) return;
+        v.setVisibility(visibility);
+        Object o = v.getTag();
+        if (o instanceof View) {
+            ((View) o).setVisibility(visibility);
+        }
+    }
 
-	@Override
-	protected void onDestroy() {
-		db.close();
-		super.onDestroy();
-	}
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
 
 }

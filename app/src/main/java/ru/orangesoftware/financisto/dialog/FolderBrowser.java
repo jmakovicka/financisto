@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
 import ru.orangesoftware.financisto.R;
 
 import java.io.File;
@@ -34,7 +35,7 @@ import static ru.orangesoftware.financisto.utils.Utils.text;
 public class FolderBrowser extends ListActivity {
 
     public static final String PATH = "PATH";
-    
+
     private final List<FileItem> files = new ArrayList<FileItem>();
 
     private Button selectButton;
@@ -47,7 +48,7 @@ public class FolderBrowser extends ListActivity {
 
         setContentView(R.layout.folder_browser);
 
-        selectButton = (Button)findViewById(R.id.selectButton);
+        selectButton = (Button) findViewById(R.id.selectButton);
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,14 +59,14 @@ public class FolderBrowser extends ListActivity {
             }
         });
 
-        createButton = (Button)findViewById(R.id.createButton);
+        createButton = (Button) findViewById(R.id.createButton);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createNewFolder();
             }
         });
-        
+
         if (!browseToCurrentFolder()) {
             browseToRoot();
         }
@@ -104,7 +105,7 @@ public class FolderBrowser extends ListActivity {
                 .create();
         d.show();
     }
-    
+
     private void createNewFolder(String name) {
         boolean result = false;
         try {
@@ -173,7 +174,7 @@ public class FolderBrowser extends ListActivity {
         FileItem selected = files.get(position);
         browseTo(selected.file);
     }
-    
+
     private static class FileItem {
         private final File file;
 

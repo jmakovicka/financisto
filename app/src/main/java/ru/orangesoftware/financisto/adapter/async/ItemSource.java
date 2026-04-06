@@ -9,6 +9,6 @@ public interface ItemSource<T> {
     T getItem(int position);
 
     void close();
-    
+
     void setConstraint(CharSequence constraint);
 }

@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionInfo;
@@ -131,12 +132,12 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
         boolean future = date > Calendar.getInstance().getTimeInMillis();
 
         /*
-               * Set description:
-               * a) if location is set, format description considering location
-               *    - "Location (Note)"
-               * b) otherwise, show description as note
-               *    - "Note"
-               */
+         * Set description:
+         * a) if location is set, format description considering location
+         *    - "Location (Note)"
+         * b) otherwise, show description as note
+         *    - "Note"
+         */
         if (t.location != null && t.location.id > 0) {
             if (note != null && note.length() > 0) {
                 desc = t.location.title + " (" + note + ")";

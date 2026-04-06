@@ -40,7 +40,7 @@ public class AboutActivity extends AbstractActivity {
     public static String getAppVersion(Context context) {
         try {
             PackageInfo info = Utils.getPackageInfo(context);
-            return "v. "+info.versionName;
+            return "v. " + info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             return "";
         }

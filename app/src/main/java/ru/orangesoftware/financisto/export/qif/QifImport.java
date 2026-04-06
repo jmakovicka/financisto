@@ -76,10 +76,10 @@ public class QifImport extends FullDatabaseImport {
         QifParser parser = new QifParser(r, options.dateFormat);
         parser.parse();
         long t1 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Parsing done in "+ TimeUnit.MILLISECONDS.toSeconds(t1-t0)+"s");
+        Log.i("Financisto", "QIF Import: Parsing done in " + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
         doImport(parser);
         long t2 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Importing done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
+        Log.i("Financisto", "QIF Import: Importing done in " + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
     }
 
     public void doImport(QifParser parser) {
@@ -89,16 +89,16 @@ public class QifImport extends FullDatabaseImport {
         Log.i("Financisto", "QIF Import: Inserting payees done in " + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
         insertProjects(parser.classes);
         long t2 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Inserting projects done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
+        Log.i("Financisto", "QIF Import: Inserting projects done in " + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
         categoryCache.insertCategories(dbAdapter, parser.categories);
         long t3 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Inserting categories done in "+ TimeUnit.MILLISECONDS.toSeconds(t3-t2)+"s");
+        Log.i("Financisto", "QIF Import: Inserting categories done in " + TimeUnit.MILLISECONDS.toSeconds(t3 - t2) + "s");
         insertAccounts(parser.accounts);
         long t4 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Inserting accounts done in "+ TimeUnit.MILLISECONDS.toSeconds(t4-t3)+"s");
+        Log.i("Financisto", "QIF Import: Inserting accounts done in " + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
         insertTransactions(parser.accounts);
         long t5 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Inserting transactions done in "+ TimeUnit.MILLISECONDS.toSeconds(t5-t4)+"s");
+        Log.i("Financisto", "QIF Import: Inserting transactions done in " + TimeUnit.MILLISECONDS.toSeconds(t5 - t4) + "s");
     }
 
     private void insertPayees(Set<String> payees) {
@@ -128,12 +128,12 @@ public class QifImport extends FullDatabaseImport {
         long t0 = System.currentTimeMillis();
         reduceTransfers(accounts);
         long t1 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Reducing transfers done in "+ TimeUnit.MILLISECONDS.toSeconds(t1-t0)+"s");
+        Log.i("Financisto", "QIF Import: Reducing transfers done in " + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
         convertUnknownTransfers(accounts);
         long t2 = System.currentTimeMillis();
-        Log.i("Financisto", "QIF Import: Converting transfers done in "+ TimeUnit.MILLISECONDS.toSeconds(t2-t1)+"s");
+        Log.i("Financisto", "QIF Import: Converting transfers done in " + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
         int count = accounts.size();
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             long t3 = System.currentTimeMillis();
             QifAccount account = accounts.get(i);
             Account a = account.dbAccount;
@@ -141,7 +141,7 @@ public class QifImport extends FullDatabaseImport {
             // this might help GC
             account.transactions.clear();
             long t4 = System.currentTimeMillis();
-            Log.i("Financisto", "QIF Import: Inserting transactions for account "+i+"/"+count+" done in "+ TimeUnit.MILLISECONDS.toSeconds(t4-t3)+"s");
+            Log.i("Financisto", "QIF Import: Inserting transactions for account " + i + "/" + count + " done in " + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
         }
     }
 

@@ -117,8 +117,8 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
     }
 
     protected void alternateColorIfNeeded(AccountListItemHolder v, Context context, Cursor cursor) {
-        if(MyPreferences.isAccountAlternateColors(context)) {
-            if(cursor.getPosition() %2 == 1) {
+        if (MyPreferences.isAccountAlternateColors(context)) {
+            if (cursor.getPosition() % 2 == 1) {
                 v.layout.setBackgroundColor(Color.argb(31, 127, 127, 127));
             } else {
                 v.layout.setBackgroundColor(Color.TRANSPARENT);

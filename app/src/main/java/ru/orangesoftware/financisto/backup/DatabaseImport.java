@@ -195,7 +195,7 @@ public class DatabaseImport extends FullDatabaseImport {
         for (String key : keys) {
             if (!possibleKeys.contains(key)) {
                 values.remove(key);
-                Log.i("Financisto", "Removing "+key+" from backup values for "+tableName);
+                Log.i("Financisto", "Removing " + key + " from backup values for " + tableName);
             }
         }
     }
