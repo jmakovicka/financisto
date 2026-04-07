@@ -24,8 +24,6 @@ allprojects {
     }
 }
 
-project.ext.preDexLibs = !project.hasProperty('disablePreDex')
-
 tasks.matching {it instanceof Test}.configureEach {
     testLogging.events = ["failed", "passed", "skipped"]
 }
