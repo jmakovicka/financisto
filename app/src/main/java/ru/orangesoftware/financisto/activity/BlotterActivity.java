@@ -140,10 +140,10 @@ public class BlotterActivity extends AbstractListActivity {
             saveFilter = intent.getBooleanExtra(SAVE_FILTER, false);
             isAccountBlotter = intent.getBooleanExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER, false);
         }
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && savedInstanceState.getString(WhereFilter.TITLE_EXTRA) == blotterFilter.getTitle()) {
             blotterFilter = WhereFilter.fromBundle(savedInstanceState);
         }
-        if (saveFilter && blotterFilter.isEmpty()) {
+        if (saveFilter && blotterFilter.isEmpty() && getPreferences(0).getString(WhereFilter.FILTER_TITLE_PREF, "") == blotterFilter.getTitle()) {
             blotterFilter = WhereFilter.fromSharedPreferences(getPreferences(0));
         }
 
