@@ -75,8 +75,7 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'com.google.android.material:material:1.14.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0"
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
@@ -86,7 +85,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
     implementation 'com.squareup.okio:okio:3.17.0'
     implementation 'org.greenrobot:eventbus:3.3.1'
-    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation 'com.github.bumptech.glide:glide:5.0.7'
 
 //    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 //    implementation 'com.google.http-client:google-http-client-gson:1.43.3'
