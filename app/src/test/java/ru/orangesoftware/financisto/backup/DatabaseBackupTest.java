@@ -36,7 +36,6 @@ import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.financisto.utils.Utils;
 
-import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.*;
 
 public class DatabaseBackupTest extends AbstractImportExportTest {
@@ -58,7 +57,7 @@ public class DatabaseBackupTest extends AbstractImportExportTest {
         String backupFile = backupDatabase(false);
         String backupContent = fileAsString(backupFile);
         long expectedTotalAmount = db.getAccount(a1.id).totalAmount;
-        assertThat(backupContent, containsString("total_amount:" + expectedTotalAmount));
+        assertTrue(backupContent.contains("total_amount:" + expectedTotalAmount));
         // when
         restoreDatabase(backupFile);
         // then

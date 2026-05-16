@@ -31,7 +31,6 @@ import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.utils.FileUtils;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class LegacyDatabaseRestoreTest extends AbstractDbTest {
@@ -231,7 +230,7 @@ public class LegacyDatabaseRestoreTest extends AbstractDbTest {
         restoreDatabase(backupFileContent);
         // then
         Account account = getAccount();
-        assertThat(account.totalAmount, is(375L));
+        assertEquals(375L, account.totalAmount);
     }
 
     @Test
@@ -243,11 +242,11 @@ public class LegacyDatabaseRestoreTest extends AbstractDbTest {
         // then
         Attribute attribute = db.getAttribute(1);
         assertNotNull(attribute);
-        assertThat(attribute.title, is("Кол-во поездок"));
+        assertEquals("Кол-во поездок", attribute.title);
         // and
         List<MyLocation> locations = db.getAllLocationsList(false);
-        assertThat(locations.size(), is(1));
-        assertThat(locations.get(0).title, is("Starbucks"));
+        assertEquals(1, locations.size());
+        assertEquals("Starbucks", locations.get(0).title);
     }
 
     protected Account getAccount() {
