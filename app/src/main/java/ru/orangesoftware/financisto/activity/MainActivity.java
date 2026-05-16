@@ -24,11 +24,10 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import androidx.lifecycle.Observer;
 
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.bus.MainBus;
 import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
 import ru.orangesoftware.financisto.bus.SwitchToMenuTabEvent;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -40,8 +39,6 @@ import ru.orangesoftware.financisto.utils.PinProtection;
 
 public class MainActivity extends TabActivity implements TabHost.OnTabChangeListener {
 
-    private EventBus eventBus;
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(MyPreferences.switchLocale(base));
@@ -50,8 +47,6 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        eventBus = EventBus.getDefault();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -70,34 +65,32 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         tabHost.setOnTabChangedListener(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSwitchToMenuTab(SwitchToMenuTabEvent event) {
-        getTabHost().setCurrentTabByTag("menu");
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshCurrentTab(RefreshCurrentTab e) {
-        refreshCurrentTab();
-    }
+    private final Observer<Object> eventObserver = event -> {
+        if (event == null) return;
+        if (event instanceof SwitchToMenuTabEvent) {
+            getTabHost().setCurrentTabByTag("menu");
+            MainBus.eventBus.setValue(null);
+        } else if (event instanceof RefreshCurrentTab) {
+            refreshCurrentTab();
+            MainBus.eventBus.setValue(null);
+        }
+    };
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        MainBus.eventBus.observeForever(eventObserver);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+        MainBus.eventBus.removeObserver(eventObserver);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!eventBus.isRegistered(this)) {
-            eventBus.register(this);
-        }
         PinProtection.unlock(this);
         if (PinProtection.isUnlocked()) {
             WebViewDialog.checkVersionAndShowWhatsNewIfNeeded(this);
@@ -107,7 +100,6 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     @Override
     protected void onPause() {
         super.onPause();
-        eventBus.unregister(this);
         PinProtection.lock(this);
     }
 

@@ -84,7 +84,6 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
     implementation 'com.squareup.okio:okio:3.17.0'
-    implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.bumptech.glide:glide:5.0.7'
 
 //    implementation 'com.google.android.gms:play-services-auth:20.7.0'

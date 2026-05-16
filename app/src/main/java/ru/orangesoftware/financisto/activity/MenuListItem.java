@@ -80,14 +80,6 @@ public enum MenuListItem implements SummaryEntityEnum {
             activity.startActivityForResult(intent, ACTIVITY_DB_IMPORT);
         }
     },
-    /*
-    GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.string.backup_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
-        @Override
-        public void call(Activity activity) {
-            EventBus.getDefault().post(new MenuListActivity.StartDriveBackup());
-        }
-    },
-    */
     MENU_BACKUP_TO(R.string.backup_database_to, R.string.backup_database_to_summary, R.drawable.actionbar_share) {
         @Override
         public void call(final Activity activity) {

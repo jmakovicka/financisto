@@ -18,9 +18,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.bus.MainBus;
 import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.MyPreferences;
@@ -124,7 +123,7 @@ public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Ob
     }
 
     private void refreshMainActivity() {
-        EventBus.getDefault().post(new RefreshCurrentTab());
+        MainBus.post(new RefreshCurrentTab());
     }
 
 }
